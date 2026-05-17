@@ -4,353 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Routine Plan: 18 May - 24 May 2026</title>
-    <style>
-      :root {
-        color-scheme: light;
-        --ink: #172126;
-        --muted: #63717b;
-        --line: #d8e0e5;
-        --paper: #ffffff;
-        --soft: #f2f6f6;
-        --accent: #0f766e;
-        --accent-dark: #0b5550;
-        --accent-soft: #d9f1ed;
-        --work: #9a5b13;
-        --work-soft: #fff1d5;
-        --recovery: #365f91;
-        --recovery-soft: #e3edf9;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        margin: 0;
-        background: var(--soft);
-        color: var(--ink);
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
-        line-height: 1.5;
-      }
-
-      main {
-        width: min(1120px, calc(100% - 28px));
-        margin: 0 auto;
-        padding: 24px 0 36px;
-      }
-
-      header,
-      section,
-      article {
-        border-radius: 8px;
-      }
-
-      header {
-        background: var(--paper);
-        border: 1px solid var(--line);
-        border-top: 6px solid var(--accent);
-        padding: 24px;
-      }
-
-      h1,
-      h2,
-      h3,
-      p {
-        margin: 0;
-      }
-
-      h1 {
-        font-size: clamp(2rem, 5vw, 3.2rem);
-        line-height: 1.08;
-      }
-
-      h2 {
-        font-size: 1.35rem;
-        line-height: 1.2;
-      }
-
-      h3 {
-        font-size: 1.1rem;
-        line-height: 1.25;
-      }
-
-      .lede {
-        max-width: 790px;
-        margin-top: 10px;
-        color: var(--muted);
-        font-size: 1.04rem;
-      }
-
-      .topline {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 12px;
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        min-height: 28px;
-        padding: 4px 10px;
-        background: var(--accent-soft);
-        color: var(--accent-dark);
-        font-size: 0.82rem;
-        font-weight: 750;
-      }
-
-      .pill.work {
-        background: var(--work-soft);
-        color: var(--work);
-      }
-
-      .pill.recovery {
-        background: var(--recovery-soft);
-        color: var(--recovery);
-      }
-
-      .summary {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        margin: 16px 0;
-      }
-
-      .summary-card {
-        background: var(--paper);
-        border: 1px solid var(--line);
-        padding: 16px;
-      }
-
-      .summary-card strong {
-        display: block;
-        margin-bottom: 5px;
-        color: var(--accent-dark);
-      }
-
-      .section-title {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 12px;
-        margin: 24px 0 10px;
-      }
-
-      .section-title p {
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      .anchor-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .anchor {
-        background: var(--paper);
-        border: 1px solid var(--line);
-        padding: 16px;
-      }
-
-      .anchor .time {
-        display: block;
-        margin-top: 6px;
-        color: var(--muted);
-      }
-
-      .days {
-        display: grid;
-        gap: 14px;
-      }
-
-      .day {
-        overflow: hidden;
-        background: var(--paper);
-        border: 1px solid var(--line);
-      }
-
-      .day-head {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 12px;
-        align-items: start;
-        border-bottom: 1px solid var(--line);
-        padding: 18px;
-      }
-
-      .date {
-        color: var(--accent-dark);
-        font-weight: 800;
-      }
-
-      .commitments {
-        margin-top: 4px;
-        color: var(--muted);
-      }
-
-      .day-body {
-        display: grid;
-        grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.8fr);
-        gap: 16px;
-        padding: 18px;
-      }
-
-      .timeline {
-        display: grid;
-        gap: 8px;
-      }
-
-      .slot {
-        display: grid;
-        grid-template-columns: 112px minmax(0, 1fr);
-        gap: 12px;
-        align-items: start;
-        border: 1px solid var(--line);
-        background: #fbfcfd;
-        padding: 10px 12px;
-      }
-
-      .slot-time {
-        color: var(--accent-dark);
-        font-size: 0.92rem;
-        font-weight: 800;
-      }
-
-      .slot strong {
-        display: block;
-        margin-bottom: 2px;
-      }
-
-      .slot p {
-        color: var(--muted);
-        font-size: 0.94rem;
-      }
-
-      .side {
-        display: grid;
-        align-content: start;
-        gap: 10px;
-      }
-
-      .note {
-        border-left: 4px solid var(--accent);
-        background: #fbfcfd;
-        padding: 12px;
-      }
-
-      .note.warn {
-        border-left-color: var(--work);
-      }
-
-      .note.recovery {
-        border-left-color: var(--recovery);
-      }
-
-      .label {
-        display: block;
-        margin-bottom: 4px;
-        color: var(--muted);
-        font-size: 0.76rem;
-        font-weight: 850;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-
-      .review {
-        margin-top: 18px;
-        background: var(--paper);
-        border: 1px solid var(--line);
-        border-left: 6px solid var(--accent);
-        padding: 18px;
-      }
-
-      ul {
-        margin: 0;
-        padding-left: 18px;
-      }
-
-      li + li {
-        margin-top: 4px;
-      }
-
-      @media (max-width: 860px) {
-        main {
-          width: min(100% - 20px, 720px);
-          padding-top: 12px;
-        }
-
-        header {
-          padding: 20px;
-        }
-
-        .summary,
-        .anchor-grid,
-        .day-body {
-          grid-template-columns: 1fr;
-        }
-
-        .section-title {
-          display: block;
-        }
-
-        .section-title p {
-          margin-top: 4px;
-        }
-
-        .day-head {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      @media (max-width: 520px) {
-        main {
-          width: 100%;
-          padding: 0 0 20px;
-        }
-
-        header,
-        .summary-card,
-        .anchor,
-        .day,
-        .review {
-          border-radius: 0;
-          border-left-width: 0;
-          border-right-width: 0;
-        }
-
-        header {
-          padding: 18px 16px;
-        }
-
-        .summary,
-        .anchor-grid,
-        .days {
-          gap: 10px;
-        }
-
-        .day-head,
-        .day-body {
-          padding: 15px;
-        }
-
-        .slot {
-          grid-template-columns: 1fr;
-          gap: 4px;
-          padding: 11px;
-        }
-
-        .slot-time {
-          font-size: 0.88rem;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="assets/styles.css">
   </head>
   <body>
     <main>
@@ -362,470 +16,117 @@
         </div>
         <h1>Routine Plan</h1>
         <p class="lede">
-          Keep classes clean, protect energy, and move the dissertation forward
-          with one visible corpus or proposal output.
+          Tap a day to open the full routine: timeline, topics, resources,
+          outputs, guardrails, and the minimum version for low energy.
         </p>
       </header>
 
-      <section class="summary" aria-label="Weekly priorities">
-        <article class="summary-card">
+      <section class="grid-3" aria-label="Weekly priorities">
+        <article class="panel">
           <strong>Primary Priority</strong>
           <p>Dissertation proposal and corpus selection.</p>
         </article>
-        <article class="summary-card">
+        <article class="panel">
           <strong>Energy Rule</strong>
           <p>Deep work on class days. Maintenance only on Six by Nico days.</p>
         </article>
-        <article class="summary-card">
+        <article class="panel">
           <strong>Best Outcome</strong>
           <p>Corpus QA moved forward and one proposal artifact exists.</p>
         </article>
       </section>
 
       <div class="section-title">
-        <h2>Weekly Anchors</h2>
-        <p>These are the fixed academic moves that make the week successful.</p>
+        <h2>Clickable Days</h2>
+        <p>Each card opens a detailed daily plan.</p>
       </div>
 
-      <section class="anchor-grid" aria-label="Weekly anchors">
-        <article class="anchor">
-          <h3>Dissertation</h3>
-          <span class="time">Wednesday 16:30-18:30</span>
-          <p>Corpus parsing QA or a proposal methodology skeleton.</p>
-        </article>
-        <article class="anchor">
-          <h3>Applied Research Methods</h3>
-          <span class="time">Thursday 15:30-17:00</span>
-          <p>Clean Lecture 1 notes and extract proposal requirements.</p>
-        </article>
-        <article class="anchor">
-          <h3>Recovery</h3>
-          <span class="time">Friday after 14:00</span>
-          <p>No heavy study. Use the afternoon to recover properly.</p>
-        </article>
+      <section class="day-grid" aria-label="Daily links">
+        <a class="day-link" href="day.html?day=monday">
+          <div>
+            <div class="pill-row">
+              <span class="pill">Class day</span>
+            </div>
+            <h3>Monday 18 May</h3>
+            <p class="meta">Deep Learning 10:00-12:00. Recommender Systems 13:00-16:00.</p>
+          </div>
+          <span class="cta">Open full day plan</span>
+        </a>
+
+        <a class="day-link" href="day.html?day=tuesday">
+          <div>
+            <div class="pill-row">
+              <span class="pill work">Work day</span>
+            </div>
+            <h3>Tuesday 19 May</h3>
+            <p class="meta">Six by Nico 10:00-00:00. Maintenance only.</p>
+          </div>
+          <span class="cta">Open full day plan</span>
+        </a>
+
+        <a class="day-link" href="day.html?day=wednesday">
+          <div>
+            <div class="pill-row">
+              <span class="pill">Class + deep work</span>
+            </div>
+            <h3>Wednesday 20 May</h3>
+            <p class="meta">ARM 10:00-12:00. RL 13:00-15:00. Dissertation 16:30-18:30.</p>
+          </div>
+          <span class="cta">Open full day plan</span>
+        </a>
+
+        <a class="day-link" href="day.html?day=thursday">
+          <div>
+            <div class="pill-row">
+              <span class="pill">Class day</span>
+            </div>
+            <h3>Thursday 21 May</h3>
+            <p class="meta">DL 10:00-11:00. NLP 12:00-14:00. ARM block 15:30-17:00.</p>
+          </div>
+          <span class="cta">Open full day plan</span>
+        </a>
+
+        <a class="day-link" href="day.html?day=friday">
+          <div>
+            <div class="pill-row">
+              <span class="pill recovery">Recovery day</span>
+            </div>
+            <h3>Friday 22 May</h3>
+            <p class="meta">Online DL 10:00-12:00. Online RS 12:00-14:00. Recovery after class.</p>
+          </div>
+          <span class="cta">Open full day plan</span>
+        </a>
+
+        <a class="day-link" href="day.html?day=saturday">
+          <div>
+            <div class="pill-row">
+              <span class="pill work">Work day</span>
+            </div>
+            <h3>Saturday 23 May</h3>
+            <p class="meta">Six by Nico 10:00-00:00. Maintenance only.</p>
+          </div>
+          <span class="cta">Open full day plan</span>
+        </a>
+
+        <a class="day-link" href="day.html?day=sunday">
+          <div>
+            <div class="pill-row">
+              <span class="pill work">Work day</span>
+            </div>
+            <h3>Sunday 24 May</h3>
+            <p class="meta">Six by Nico 10:00-00:00. Weekly check only if energy allows.</p>
+          </div>
+          <span class="cta">Open full day plan</span>
+        </a>
       </section>
 
-      <div class="section-title">
-        <h2>Detailed Day Plan</h2>
-        <p>Use the timeline, then stop when the output is done.</p>
-      </div>
-
-      <section class="days" aria-label="Detailed daily routine">
-        <article class="day">
-          <div class="day-head">
-            <div>
-              <h3>Monday 18 May</h3>
-              <p class="commitments">Deep Learning 10:00-12:00. Recommender Systems 13:00-16:00.</p>
-            </div>
-            <span class="pill">Class day</span>
-          </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="slot">
-                <span class="slot-time">08:30-09:30</span>
-                <div>
-                  <strong>Morning setup</strong>
-                  <p>Food, bag, laptop, charger, and a quick look at today's class notes.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">10:00-12:00</span>
-                <div>
-                  <strong>Deep Learning</strong>
-                  <p>Capture questions, formulas, examples, and anything tied to CA01.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">12:00-13:00</span>
-                <div>
-                  <strong>Reset</strong>
-                  <p>Lunch, water, and transition. Do not fill this with extra study.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">13:00-16:00</span>
-                <div>
-                  <strong>Recommender Systems</strong>
-                  <p>Track taxonomy, evaluation metrics, and CA1 project hints.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">17:00-18:00</span>
-                <div>
-                  <strong>Consolidation</strong>
-                  <p>Review only the highest-value DL/RS notes. Keep it to one hour.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">Evening</span>
-                <div>
-                  <strong>Recovery</strong>
-                  <p>Food, shower, light admin, and sleep setup. Gym only if energy is genuinely good.</p>
-                </div>
-              </div>
-            </div>
-            <aside class="side">
-              <div class="note">
-                <span class="label">Output</span>
-                <p>Write 5 bullets: understood, unclear, or likely assignment-relevant.</p>
-              </div>
-              <div class="note warn">
-                <span class="label">Guardrail</span>
-                <p>No dissertation block unless energy is unusually good.</p>
-              </div>
-            </aside>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-head">
-            <div>
-              <h3>Tuesday 19 May</h3>
-              <p class="commitments">Six by Nico 10:00-00:00.</p>
-            </div>
-            <span class="pill work">Work day</span>
-          </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="slot">
-                <span class="slot-time">08:30-09:30</span>
-                <div>
-                  <strong>Pre-shift setup</strong>
-                  <p>Breakfast, water, uniform, commute buffer, and choose one tiny maintenance task.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">10:00-00:00</span>
-                <div>
-                  <strong>Six by Nico</strong>
-                  <p>Full work day. Academic ambition stays deliberately low.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">After shift</span>
-                <div>
-                  <strong>Shutdown</strong>
-                  <p>Food, shower, and sleep. No difficult coursework after midnight.</p>
-                </div>
-              </div>
-            </div>
-            <aside class="side">
-              <div class="note">
-                <span class="label">Output</span>
-                <p>15-25 minutes max: flashcards, one paper section, or Wednesday plan check.</p>
-              </div>
-              <div class="note warn">
-                <span class="label">Guardrail</span>
-                <p>No coding, no dissertation writing, no "quick" hard study.</p>
-              </div>
-            </aside>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-head">
-            <div>
-              <h3>Wednesday 20 May</h3>
-              <p class="commitments">Applied Research Methods 10:00-12:00. Reinforcement Learning 13:00-15:00.</p>
-            </div>
-            <span class="pill">Class + deep work</span>
-          </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="slot">
-                <span class="slot-time">08:45-09:30</span>
-                <div>
-                  <strong>ARM prep</strong>
-                  <p>Read the previous ARM notes and keep dissertation proposal questions visible.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">10:00-12:00</span>
-                <div>
-                  <strong>Applied Research Methods</strong>
-                  <p>Listen for proposal structure, research aims, ethics, and methodology requirements.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">12:00-13:00</span>
-                <div>
-                  <strong>Lunch reset</strong>
-                  <p>Eat properly and avoid turning the break into scrolling.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">13:00-15:00</span>
-                <div>
-                  <strong>Reinforcement Learning</strong>
-                  <p>Track MDPs, Q-learning, and any assessment hints.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">15:00-16:30</span>
-                <div>
-                  <strong>Decompress</strong>
-                  <p>Food, walk, quiet reset. Protect the dissertation block.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">16:30-18:30</span>
-                <div>
-                  <strong>Dissertation block</strong>
-                  <p>Run corpus parsing QA, or draft the methodology skeleton if QA is blocked.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">Evening</span>
-                <div>
-                  <strong>Light close</strong>
-                  <p>Save the output, write the next action, then stop. Light gym is acceptable.</p>
-                </div>
-              </div>
-            </div>
-            <aside class="side">
-              <div class="note">
-                <span class="label">Output</span>
-                <p>Best: yes/no/replace decisions for candidate papers. Minimum: 5 papers fully checked.</p>
-              </div>
-              <div class="note warn">
-                <span class="label">Guardrail</span>
-                <p>Do not expand the dissertation scope. The task is corpus QA or proposal structure only.</p>
-              </div>
-            </aside>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-head">
-            <div>
-              <h3>Thursday 21 May</h3>
-              <p class="commitments">Deep Learning 10:00-11:00. NLP 12:00-14:00.</p>
-            </div>
-            <span class="pill">Class day</span>
-          </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="slot">
-                <span class="slot-time">09:15-09:45</span>
-                <div>
-                  <strong>Setup</strong>
-                  <p>Check DL and NLP materials. Bring one question into each class.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">10:00-11:00</span>
-                <div>
-                  <strong>Deep Learning</strong>
-                  <p>Focus on concepts likely to support CA01 model design.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">12:00-14:00</span>
-                <div>
-                  <strong>Natural Language Processing</strong>
-                  <p>Connect preprocessing, classification, or RAG ideas back to the dissertation.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">14:00-15:30</span>
-                <div>
-                  <strong>Lunch and reset</strong>
-                  <p>Step away before the Applied Research Methods block.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">15:30-17:00</span>
-                <div>
-                  <strong>ARM block</strong>
-                  <p>Clean Lecture 1 notes and extract exactly what the proposal must include.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">Evening</span>
-                <div>
-                  <strong>Optional consolidation</strong>
-                  <p>45 minutes of DL or NLP only if sleep and energy are stable.</p>
-                </div>
-              </div>
-            </div>
-            <aside class="side">
-              <div class="note">
-                <span class="label">Output</span>
-                <p>One clean ARM note or a proposal requirement checklist.</p>
-              </div>
-              <div class="note warn">
-                <span class="label">Guardrail</span>
-                <p>Gym only if the ARM block is complete and you are not sleep-deprived.</p>
-              </div>
-            </aside>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-head">
-            <div>
-              <h3>Friday 22 May</h3>
-              <p class="commitments">Online DL 10:00-12:00. Online RS 12:00-14:00.</p>
-            </div>
-            <span class="pill recovery">Recovery day</span>
-          </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="slot">
-                <span class="slot-time">09:15-09:55</span>
-                <div>
-                  <strong>Online setup</strong>
-                  <p>Laptop, charger, water, notes, and a quiet class space.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">10:00-12:00</span>
-                <div>
-                  <strong>Online Deep Learning</strong>
-                  <p>Capture only the points that affect CA01 or next week's study.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">12:00-14:00</span>
-                <div>
-                  <strong>Online Recommender Systems</strong>
-                  <p>Track assessment, model, or evaluation hints.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">14:00-14:45</span>
-                <div>
-                  <strong>Food and shutdown</strong>
-                  <p>Eat, close class tabs, and note anything urgent.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">14:45-15:30</span>
-                <div>
-                  <strong>Optional light review</strong>
-                  <p>Only if needed: 30-45 minutes to avoid losing class notes.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">After 15:30</span>
-                <div>
-                  <strong>Protected recovery</strong>
-                  <p>No heavy study. Food, laundry, walk, light gym, sleep, or quiet reset.</p>
-                </div>
-              </div>
-            </div>
-            <aside class="side">
-              <div class="note recovery">
-                <span class="label">Output</span>
-                <p>At most: one short list of urgent follow-ups from DL/RS.</p>
-              </div>
-              <div class="note warn">
-                <span class="label">Guardrail</span>
-                <p>Do not turn recovery into a hidden study block.</p>
-              </div>
-            </aside>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-head">
-            <div>
-              <h3>Saturday 23 May</h3>
-              <p class="commitments">Six by Nico 10:00-00:00.</p>
-            </div>
-            <span class="pill work">Work day</span>
-          </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="slot">
-                <span class="slot-time">08:30-09:30</span>
-                <div>
-                  <strong>Pre-shift setup</strong>
-                  <p>Food, water, uniform, commute buffer, and one tiny review if calm.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">10:00-00:00</span>
-                <div>
-                  <strong>Six by Nico</strong>
-                  <p>Full work day. The academic goal is simply to protect momentum.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">After shift</span>
-                <div>
-                  <strong>Shutdown</strong>
-                  <p>Food, shower, and sleep. Do not negotiate with midnight ambition.</p>
-                </div>
-              </div>
-            </div>
-            <aside class="side">
-              <div class="note">
-                <span class="label">Output</span>
-                <p>15-25 minutes maximum: flashcards or tomorrow check.</p>
-              </div>
-              <div class="note warn">
-                <span class="label">Guardrail</span>
-                <p>No serious study after the shift.</p>
-              </div>
-            </aside>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-head">
-            <div>
-              <h3>Sunday 24 May</h3>
-              <p class="commitments">Six by Nico 10:00-00:00.</p>
-            </div>
-            <span class="pill work">Work day</span>
-          </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="slot">
-                <span class="slot-time">08:30-09:30</span>
-                <div>
-                  <strong>Pre-shift setup</strong>
-                  <p>Food, water, uniform, commute buffer, and choose the lowest-effort maintenance task.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">10:00-00:00</span>
-                <div>
-                  <strong>Six by Nico</strong>
-                  <p>Full work day. Keep the academic target deliberately small.</p>
-                </div>
-              </div>
-              <div class="slot">
-                <span class="slot-time">After shift</span>
-                <div>
-                  <strong>Weekly check</strong>
-                  <p>If alert, choose next week's top 3 in 10 minutes. If tired, move it to Monday morning.</p>
-                </div>
-              </div>
-            </div>
-            <aside class="side">
-              <div class="note">
-                <span class="label">Output</span>
-                <p>Minimum: tomorrow check. Optional: next week's top 3 priorities.</p>
-              </div>
-              <div class="note warn">
-                <span class="label">Guardrail</span>
-                <p>If you are tired, sleep wins. Planning can move to Monday.</p>
-              </div>
-            </aside>
-          </div>
-        </article>
-      </section>
-
-      <section class="review" aria-label="End of week review">
-        <h2>End-of-week Review</h2>
-        <ul>
-          <li>What moved forward?</li>
-          <li>What slipped?</li>
-          <li>What caused friction?</li>
-          <li>What are next week's top 3 priorities?</li>
-        </ul>
+      <section class="footer-review" aria-label="End of week target">
+        <h2>End-of-week Target</h2>
+        <p>
+          Corpus QA should be moved forward and one dissertation or proposal
+          artifact should exist. That matters more than trying to catch up on
+          everything.
+        </p>
       </section>
     </main>
   </body>
