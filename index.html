@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weekly Plan: 18 May - 24 May 2026</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1f2933;
+        --muted: #5f6f7e;
+        --line: #d8dee6;
+        --paper: #ffffff;
+        --soft: #f4f7f9;
+        --accent: #0f766e;
+        --accent-soft: #d9f1ed;
+        --warn: #9a5b13;
+        --warn-soft: #fff2d8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--soft);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      main {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0;
+      }
+
+      header {
+        border-bottom: 3px solid var(--accent);
+        background: var(--paper);
+        padding: 28px;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        line-height: 1.15;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 4vw, 3.25rem);
+      }
+
+      h2 {
+        font-size: 1.2rem;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .lede {
+        max-width: 780px;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 20px 0;
+      }
+
+      .summary-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        padding: 16px;
+      }
+
+      .summary-card strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--accent);
+      }
+
+      .plan {
+        display: grid;
+        gap: 12px;
+      }
+
+      .day {
+        display: grid;
+        grid-template-columns: 170px 1fr;
+        gap: 16px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        padding: 18px;
+      }
+
+      .day-meta {
+        border-right: 1px solid var(--line);
+        padding-right: 16px;
+      }
+
+      .date {
+        display: block;
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .type {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 4px 8px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .type.work {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+
+      .day-body {
+        display: grid;
+        grid-template-columns: 1fr 1.25fr 1fr;
+        gap: 16px;
+      }
+
+      .block-title {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      li + li {
+        margin-top: 4px;
+      }
+
+      .outcome {
+        margin-top: 20px;
+        border-left: 6px solid var(--accent);
+        background: var(--paper);
+        padding: 18px 22px;
+      }
+
+      @media (max-width: 880px) {
+        .summary,
+        .day-body {
+          grid-template-columns: 1fr;
+        }
+
+        .day {
+          grid-template-columns: 1fr;
+        }
+
+        .day-meta {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          padding-right: 0;
+          padding-bottom: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Weekly Plan</h1>
+        <p class="lede">
+          18 May - 24 May 2026. Keep classes clean, protect energy, and move the
+          dissertation forward with one concrete corpus or proposal output.
+        </p>
+      </header>
+
+      <section class="summary" aria-label="Weekly priorities">
+        <article class="summary-card">
+          <strong>Primary Priority</strong>
+          <p>Dissertation proposal and corpus selection.</p>
+        </article>
+        <article class="summary-card">
+          <strong>Energy Rule</strong>
+          <p>Deep work on class days. Maintenance only after Six by Nico shifts.</p>
+        </article>
+        <article class="summary-card">
+          <strong>Best Outcome</strong>
+          <p>Corpus QA moved forward and one proposal artifact exists.</p>
+        </article>
+      </section>
+
+      <section class="plan" aria-label="Daily plan">
+        <article class="day">
+          <div class="day-meta">
+            <span class="date">Sunday 17 May</span>
+            <span class="type">Preparation</span>
+          </div>
+          <div class="day-body">
+            <div>
+              <span class="block-title">Commitments</span>
+              <p>Evening preparation for Monday.</p>
+            </div>
+            <div>
+              <span class="block-title">Plan</span>
+              <ul>
+                <li>Prepare Monday bag, laptop, and charger.</li>
+                <li>Preview Deep Learning for 10-20 minutes.</li>
+                <li>Preview Recommender Systems for 10-20 minutes.</li>
+              </ul>
+            </div>
+            <div>
+              <span class="block-title">Stop Condition</span>
+              <p>No academic work after 21:15.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="day">
+          <div class="day-meta">
+            <span class="date">Monday 18 May</span>
+            <span class="type">Class Day</span>
+          </div>
+          <div class="day-body">
+            <div>
+              <span class="block-title">Commitments</span>
+              <p>Deep Learning 10:00-12:00. Recommender Systems 13:00-16:00.</p>
+            </div>
+            <div>
+              <span class="block-title">Plan</span>
+              <p>Do 60 minutes maximum of Deep Learning and Recommender Systems consolidation after class.</p>
+            </div>
+            <div>
+              <span class="block-title">Stop Condition</span>
+              <p>Write 5 bullets you understood or need clarified.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="day">
+          <div class="day-meta">
+            <span class="date">Tuesday 19 May</span>
+            <span class="type work">Work Day</span>
+          </div>
+          <div class="day-body">
+            <div>
+              <span class="block-title">Commitments</span>
+              <p>Six by Nico 10:00-00:00.</p>
+            </div>
+            <div>
+              <span class="block-title">Plan</span>
+              <p>Maintenance only: 15-25 minutes of flashcards, one paper section, or tomorrow check.</p>
+            </div>
+            <div>
+              <span class="block-title">Stop Condition</span>
+              <p>No coding or dissertation writing.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="day">
+          <div class="day-meta">
+            <span class="date">Wednesday 20 May</span>
+            <span class="type">Class Day</span>
+          </div>
+          <div class="day-body">
+            <div>
+              <span class="block-title">Commitments</span>
+              <p>Applied Research Methods 10:00-12:00. Reinforcement Learning 13:00-15:00.</p>
+            </div>
+            <div>
+              <span class="block-title">Plan</span>
+              <p>Recommended dissertation block 16:30-18:30. Run corpus parsing QA for candidate papers.</p>
+            </div>
+            <div>
+              <span class="block-title">Stop Condition</span>
+              <p>Finish yes/no/replace decisions, or fully check at least 5 papers.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="day">
+          <div class="day-meta">
+            <span class="date">Thursday 21 May</span>
+            <span class="type">Class Day</span>
+          </div>
+          <div class="day-body">
+            <div>
+              <span class="block-title">Commitments</span>
+              <p>Deep Learning 10:00-11:00. NLP 12:00-14:00.</p>
+            </div>
+            <div>
+              <span class="block-title">Plan</span>
+              <p>15:30-17:00 Applied Research Methods. Clean Lecture 1 notes and extract proposal requirements.</p>
+            </div>
+            <div>
+              <span class="block-title">Stop Condition</span>
+              <p>One clean ARM note or proposal requirement list.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="day">
+          <div class="day-meta">
+            <span class="date">Friday 22 May</span>
+            <span class="type">Recovery</span>
+          </div>
+          <div class="day-body">
+            <div>
+              <span class="block-title">Commitments</span>
+              <p>Online Deep Learning 10:00-12:00. Online Recommender Systems 12:00-14:00.</p>
+            </div>
+            <div>
+              <span class="block-title">Plan</span>
+              <p>Protected recovery after class. Optional 30-45 minutes light consolidation only.</p>
+            </div>
+            <div>
+              <span class="block-title">Stop Condition</span>
+              <p>No heavy study after 14:00.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="day">
+          <div class="day-meta">
+            <span class="date">Saturday 23 May</span>
+            <span class="type work">Work Day</span>
+          </div>
+          <div class="day-body">
+            <div>
+              <span class="block-title">Commitments</span>
+              <p>Six by Nico 10:00-00:00.</p>
+            </div>
+            <div>
+              <span class="block-title">Plan</span>
+              <p>Maintenance only: flashcards, tomorrow check, or one short review.</p>
+            </div>
+            <div>
+              <span class="block-title">Stop Condition</span>
+              <p>15-25 minutes maximum.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="day">
+          <div class="day-meta">
+            <span class="date">Sunday 24 May</span>
+            <span class="type work">Work Day</span>
+          </div>
+          <div class="day-body">
+            <div>
+              <span class="block-title">Commitments</span>
+              <p>Six by Nico 10:00-00:00.</p>
+            </div>
+            <div>
+              <span class="block-title">Plan</span>
+              <p>Maintenance only. If energy allows, choose next week's top 3 priorities.</p>
+            </div>
+            <div>
+              <span class="block-title">Stop Condition</span>
+              <p>Move planning to Monday if tired.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="outcome" aria-label="End of week target">
+        <h2>End-of-week target</h2>
+        <p>
+          Corpus QA should be moved forward and one dissertation or proposal
+          artifact should exist. That matters more than trying to catch up on
+          everything.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
