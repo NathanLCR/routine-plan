@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DL — Week 3: Feedforward Networks, Activation Functions, and Backpropagation</title><style>
+:root{--bg:#101114;--surface:#181a20;--surface2:#21242d;--border:#343946;--text:#f1f2f4;--muted:#a5acb8;--dim:#7f8794;--accent:#8fb7ff;--good:#77c78d;--warn:#f1b96b;--bad:#ef7a7a;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.65}main{width:min(980px,calc(100% - 28px));margin:0 auto;padding:28px 0 44px}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}header{border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:16px}.crumbs,.meta{color:var(--dim);font-size:12px}h1{font-size:28px;line-height:1.15;margin:10px 0 8px}h2{border-top:1px solid var(--border);color:var(--text);font-size:20px;margin:28px 0 10px;padding-top:20px}h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em}p{margin:0 0 12px}ul,ol{padding-left:24px}li{margin:6px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}code{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:1px 5px}pre{background:#0b0c10;border:1px solid var(--border);border-radius:14px;overflow:auto;padding:14px}pre code{background:none;border:0;padding:0}.card{background:linear-gradient(180deg,var(--surface),#15171c);border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.note-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px}.pill{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 5px 4px 0;padding:3px 8px}.button{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:10px;background:rgba(143,183,255,.14);border:1px solid rgba(143,183,255,.35);color:var(--accent);font-weight:700}input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:8px 0 14px}footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:32px;padding-top:16px}
+</style></head><body><main><header><div class="crumbs"><a href="../../index.html">Dashboard</a> · <a href="../index.html">Study Notes</a></div><h1>DL — Week 3: Feedforward Networks, Activation Functions, and Backpropagation</h1><p class="meta">Deep Learning · msc-coursework/outputs/class-notes/DL-W3-FeedforwardBackpropagation.md</p></header><div class="card"><span class="pill">DL</span><span class="pill">Week 3</span><span class="pill">msc-coursework/outputs/class-notes/DL-W3-FeedforwardBackpropagation.md</span><p class="meta">Modified 2026-05-22T13:26:45+01:00</p></div><h1>DL — Week 3: Feedforward Networks, Activation Functions, and Backpropagation</h1>
+<h2>Focus</h2>
+<p>This class is the missing bridge between “ANN as a diagram” and “ANN as executable training code”. The lecturer reviewed nodes/layers/architectures, then drilled into transfer values, activation functions, forward propagation, loss, optimisers, learning rate, epochs, and manual backpropagation. The sharp warning: activation/loss/metric choices are not cosmetic; they must match the target variable and task type, otherwise the network can produce invalid outputs such as negative prices or unusable class scores.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Artificial neuron / node — computes a transfer value from weighted inputs plus bias, then applies an activation function.</li>
+<li>Layer — a group of nodes; basic ANN structure is input layer → hidden layer(s) → output layer.</li>
+<li>Hidden layer — intermediate representation layer; CNNs add convolution layers, RNNs add recurrence inside hidden layers, transformers keep the layer idea but change the mathematical mechanism.</li>
+<li>Transfer value — weighted sum plus bias: <code>T = Σ(w_i x_i) + b</code>.</li>
+<li>Activation function — maps the transfer value into a node value; its range determines whether the output is suitable for regression/classification.</li>
+<li>Feedforward / forward propagation — computes hidden/output node values from inputs and current weights.</li>
+<li>Loss function — objective measuring mismatch between actual and computed outputs; MSE for regression, cross-entropy for classification.</li>
+<li>Backpropagation — updates weights by propagating error/gradients from output layer back through hidden layers.</li>
+<li>Optimiser — algorithm used to update weights; SGD and Adam were mentioned, with Adam used in the Keras example.</li>
+<li>Learning rate — hyperparameter controlling update step size; examples discussed: <code>0.001</code> and <code>0.01</code>.</li>
+<li>Epoch — repeated pass/training iteration; the scratch example used <code>500</code> epochs.</li>
+<li>MLP / FFNN / BPNN — in this lecture, MLP is treated as feed-forward network plus backpropagation mechanics.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Deep learning as a subfield of machine learning:</strong></p>
+<ul>
+<li>Lecturer frames neural networks/deep learning as a subfield of ML: add hidden layers to a GLM-like weighted-input structure and you move toward neural networks.</li>
+<li>Deep learning is useful for complex/unstructured data: image classification, text mining, audio processing, and time-series analysis.</li>
+<li>GPU matters for real-world-sized datasets; for coursework exercises, dataset size can be reduced so normal compute is enough.</li>
+<li>The course sequence is moving from relational/tabular data to images and more advanced architectures.</li>
+</ul>
+<p><strong>Network structure:</strong></p>
+<ul>
+<li>Core ANN: input layer, one or more hidden layers, output layer.</li>
+<li>Multiple hidden layers still remain “hidden layers”; depth increases parameters and representational capacity.</li>
+<li>Bias must be included when computing nodes; in scratch code this often appears as an extra weight (<code>number_of_inputs + 1</code>).</li>
+<li>CNN: adds convolutional layers to the neural-network idea.</li>
+<li>RNN: keeps input/hidden/output layers but adds recurrence/closed loop in hidden state; hidden value depends on current input plus previous hidden value.</li>
+<li>Transformers: still layered networks, but with different mathematical formulation.</li>
+</ul>
+<p><strong>Transfer and activation:</strong></p>
+<ul>
+<li>For each node, compute the transfer value first: weighted inputs + bias.</li>
+<li>Then apply activation: node value = <code>f(T)</code>.</li>
+<li>Transfer function is basically fixed as weighted summation; the variable design choice is the activation function.</li>
+<li>Activation choice must reflect task and target range:</li>
+<li>Positive-only target → ReLU-style output can be appropriate.</li>
+<li>Target can be negative, e.g. temperature → ReLU output is biased/invalid because it cannot predict below zero.</li>
+<li>Classification → output should behave like probabilities, so sigmoid/softmax are the usual output-layer choices.</li>
+</ul>
+<p><strong>Activation functions discussed:</strong></p>
+<ul>
+<li>Linear: <code>f(T) = T</code>. Weak default because it can produce negative outputs and stacked linear layers do not add useful non-linearity.</li>
+<li>Sigmoid: <code>1 / (1 + e^-T)</code>, range <code>(0, 1)</code>. Used for probability-like outputs, especially binary classification.</li>
+<li>Binary threshold: converts probability-like output to 1/0, e.g. <code>&gt; 0.5 → 1</code>, otherwise <code>0</code>. This is decision logic, not a real activation family to over-focus on.</li>
+<li>Tanh: range <code>(-1, 1)</code>. Useful when values can be negative; can be used in hidden layers or regression-style output after scaling/inverse scaling.</li>
+<li>ReLU: <code>max(0, T)</code>. Popular for hidden nodes; suitable for positive regression outputs, but invalid if target can be negative.</li>
+<li>Leaky ReLU: keeps positive <code>T</code> unchanged; for <code>T &lt;= 0</code>, returns <code>aT</code>, so negative values are reduced rather than zeroed.</li>
+<li>Softplus: <code>log(1 + e^T)</code>. Smooth positive alternative to ReLU.</li>
+<li>Softsign: <code>T / (1 + |T|)</code>, range approximately <code>(-1, 1)</code>.</li>
+<li>Softmax: <code>e^{T_i} / Σ_j e^{T_j}</code> across output nodes. Used for multi-class classification; prediction is class with highest probability.</li>
+</ul>
+<p><strong>Backpropagation theory:</strong></p>
+<ul>
+<li>Start from actual output <code>y</code> and computed output <code>ŷ</code> from feedforward.</li>
+<li>Loss function compares them. For regression, lecturer used MSE-style objective.</li>
+<li>Since <code>ŷ</code> depends on weights, loss is a function of weights.</li>
+<li>Take derivative/gradient of loss with respect to each weight.</li>
+<li>Update each weight in each epoch using the gradient-descent pattern:</li>
+<li><code>new_weight = old_weight - learning_rate * gradient</code></li>
+<li>The lecturer emphasised the update happens for all connections/layers, moving backward from output layer toward earlier hidden layers.</li>
+</ul>
+<p><strong>Keras/TensorFlow implementation example:</strong></p>
+<ul>
+<li>Model definition uses <code>Sequential</code>.</li>
+<li>First dense hidden layer needs <code>input_shape</code> equal to number of input variables; example discussed <code>10</code> input variables.</li>
+<li>Hidden layer example: <code>Dense(64, activation=&#x27;relu&#x27;)</code>.</li>
+<li>Regression output example: <code>Dense(1)</code> for one continuous target.</li>
+<li>Compile step defines backprop/training configuration:</li>
+<li>optimiser: Adam;</li>
+<li>learning rate: e.g. <code>0.001</code>;</li>
+<li>loss: MSE for continuous prediction;</li>
+<li>metrics: MAE or other evaluation metric.</li>
+<li>For classification, output nodes equal number of classes, output activation becomes softmax, loss becomes cross-entropy, and metrics can include accuracy/recall.</li>
+<li>Loss optimises training; metrics evaluate behaviour. Do not confuse the two.</li>
+</ul>
+<p><strong>Scratch implementation / MLP notebook:</strong></p>
+<ul>
+<li>Lecturer treated MLP and ANN as essentially the same for this class.</li>
+<li>Notebook avoids TensorFlow/Keras to force understanding of ANN mechanics.</li>
+<li>Manual network initialisation requires:</li>
+<li>number of input nodes;</li>
+<li>number of hidden nodes;</li>
+<li>number of output nodes.</li>
+<li>Network is represented as a list of layers; each layer contains neurons/nodes with their weights.</li>
+<li>First hidden layer weight count: <code>(number_of_input_nodes + 1) × number_of_hidden_nodes</code>; the <code>+1</code> is bias.</li>
+<li>Output layer weight count: <code>(number_of_hidden_nodes + 1) × number_of_output_nodes</code>.</li>
+<li>Example: <code>2</code> inputs, <code>7</code> hidden nodes, <code>3</code> outputs:</li>
+<li>hidden layer has 7 neurons, each with 3 weights (<code>2 + bias</code>);</li>
+<li>output layer has 3 neurons, each with 8 weights (<code>7 + bias</code>).</li>
+<li>Random initialisation used standard uniform random values between 0 and 1.</li>
+</ul>
+<p><strong>Manual forward propagation:</strong></p>
+<ul>
+<li>Define transfer function from weights and inputs.</li>
+<li>“Inputs” means the previous layer’s outputs — raw features for first hidden layer, hidden-node values for output layer.</li>
+<li>For each layer:</li>
+<li>compute each neuron’s transfer value;</li>
+<li>apply activation;</li>
+<li>append computed node output;</li>
+<li>feed those outputs into the next layer.</li>
+<li>Final output layer node values are the computed prediction values.</li>
+</ul>
+<p><strong>Manual backpropagation / training:</strong></p>
+<ul>
+<li>Required pieces in order:</li>
+</ul>
+<ol>
+<li>transfer function;</li>
+<li>activation function;</li>
+<li>derivative of activation function;</li>
+<li>forward propagation;</li>
+<li>backpropagation;</li>
+<li>update weights;</li>
+<li>train network;</li>
+<li>initialise network.</li>
+</ol>
+<ul>
+<li>Backpropagation iterates backward through the network using reverse layer order.</li>
+<li>It computes errors/deltas for output and hidden neurons.</li>
+<li>Weight update uses learning rate, neuron delta, and input value from previous layer.</li>
+<li>Training loop repeats forward propagation → backpropagation → update weights over epochs.</li>
+</ul>
+<p><strong>Boston housing / MedV exercise:</strong></p>
+<ul>
+<li>Lecturer asked students to adapt the previous procedure to Boston House Price data and predict <code>MedV</code>.</li>
+<li>External specification: use <code>5</code> hidden nodes.</li>
+<li>Target <code>MedV</code> is continuous, so the task is regression.</li>
+<li>Data preparation includes MinMax scaling.</li>
+<li>Example training configuration mentioned:</li>
+<li>learning rate <code>0.01</code>;</li>
+<li><code>500</code> epochs;</li>
+<li>predicted value needs inverse transform to return to the original price scale.</li>
+<li>Example interpretation: actual value around <code>24</code>, prediction around <code>27</code> based on the defined ANN with 5 hidden nodes.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># Core transfer value: weighted sum + bias.
+def transfer(weights, inputs):
+    z = weights[-1]  # bias term
+    for i in range(len(weights) - 1):
+        z += weights[i] * inputs[i]
+    return z
+
+# Activations from the lecture.
+from math import exp, log
+
+def linear(t):
+    return t
+
+def sigmoid(t):
+    return 1.0 / (1.0 + exp(-t))
+
+def tanh_like(t):
+    # use math.tanh in real code; shown conceptually as range (-1, 1)
+    import math
+    return math.tanh(t)
+
+def relu(t):
+    return max(0.0, t)
+
+def leaky_relu(t, a=0.01):
+    return t if t &gt; 0 else a * t
+
+def softplus(t):
+    return log(1 + exp(t))
+
+def softsign(t):
+    return t / (1 + abs(t))
+
+def softmax(ts):
+    exps = [exp(t) for t in ts]
+    denom = sum(exps)
+    return [v / denom for v in exps]</code></pre>
+<pre><code># Gradient-descent update pattern from the lecture.
+new_weight = old_weight - learning_rate * gradient</code></pre>
+<pre><code># Keras-style regression skeleton discussed in class.
+import tensorflow as tf
+from tensorflow.keras import layers, models
+
+model = models.Sequential([
+    layers.Dense(64, activation=&quot;relu&quot;, input_shape=(10,)),
+    layers.Dense(1)  # one continuous target
+])
+
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+    loss=&quot;mse&quot;,
+    metrics=[&quot;mae&quot;]
+)</code></pre>
+<pre><code># Keras-style multi-class classification variant.
+model = models.Sequential([
+    layers.Dense(64, activation=&quot;relu&quot;, input_shape=(n_features,)),
+    layers.Dense(n_classes, activation=&quot;softmax&quot;)
+])
+
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+    loss=&quot;categorical_crossentropy&quot;,  # or sparse_categorical_crossentropy for integer labels
+    metrics=[&quot;accuracy&quot;]
+)</code></pre>
+<pre><code>Parameter-count sanity check:
+
+Input → hidden weights  = (n_inputs + 1 bias) × n_hidden
+Hidden → output weights = (n_hidden + 1 bias) × n_outputs
+
+Example from lecture:
+n_inputs = 2, n_hidden = 7, n_outputs = 3
+hidden weights = (2 + 1) × 7 = 21
+output weights = (7 + 1) × 3 = 24</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>Dissertation</strong> — this lecture helps Nathan read evaluator/model behaviour, but the dissertation contribution remains evaluator reliability, not building a neural network. Do not let DL coursework pull the dissertation into model-building scope creep.</li>
+<li>Connects to <strong>Dissertation / RAG evaluation</strong> — sigmoid/softmax outputs are probability-shaped, but that does not automatically mean calibrated probabilities. If a grounding evaluator outputs “faithfulness” scores, Nathan must distinguish probability, score, and ranking signal.</li>
+<li>Connects to <strong>NLP</strong> — transformers were flagged as same broad neural-network layering idea with different math. This is foundation before attention/LLMs/RAG evaluators.</li>
+<li>Connects to <strong>RS CA1</strong> — neural models can be tempting, but baseline-first still wins: popularity/item-based/matrix-factorisation baselines must be clean before trying dense/neural additions.</li>
+<li>Risk flag — the scratch notebook is good for understanding, bad as a production template. For CA01, use Keras/PyTorch with clean splits, reproducible seeds, validation metrics, early stopping, and deployment packaging.</li>
+<li>Risk flag — lecturer’s wording occasionally mixes “expected”, “computed”, and “predicted” output. For Nathan’s notes: use <code>ŷ</code> = model output during forward pass; “prediction” = final model output after training/inference.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>Confirm on Moodle whether this is officially Week 3 or another DL session label. I filed it as Week 3 because it extends <code>DL-W2-ANNStructureAndForwardPass.md</code> into activation functions/backpropagation.</li>
+<li>Confirm whether the Boston/MedV scratch implementation is a formal assessed task or only class practice.</li>
+<li>For DL CA01, confirm exact “3 architectures + dataset + deployment + presentation/demo” requirements on Moodle before picking project scope.</li>
+<li>Check whether DBS expects TensorFlow/Keras, PyTorch, or either for final DL submission. Recommendation: use PyTorch/Keras for assessed code; keep scratch ANN only as study scaffolding.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: What is the transfer value in a neuron?</li>
+<p>A: The weighted sum of inputs plus bias: <code>T = Σ(w_i x_i) + b</code>.</p>
+<li>Q: What is the role of an activation function?</li>
+<p>A: It transforms the transfer value into a node output and introduces non-linearity/range control.</p>
+<li>Q: Why is linear activation weak in hidden layers?</li>
+<p>A: Stacked linear transformations collapse into one linear transformation, so depth adds little expressive power.</p>
+<li>Q: When is sigmoid appropriate?</li>
+<p>A: Probability-like binary output or binary classification output layer.</p>
+<li>Q: When is softmax appropriate?</li>
+<p>A: Multi-class classification output layer, where probabilities across classes should sum to 1.</p>
+<li>Q: Why can ReLU be wrong for temperature prediction?</li>
+<p>A: ReLU cannot output negative values, but temperature can be negative.</p>
+<li>Q: What is leaky ReLU?</li>
+<p>A: ReLU variant that keeps a small negative slope for <code>T &lt;= 0</code> instead of forcing negatives to zero.</p>
+<li>Q: What is the standard gradient descent update?</li>
+<p>A: <code>new_weight = old_weight - learning_rate * gradient</code>.</p>
+<li>Q: What does backpropagation compute?</li>
+<p>A: Gradients/errors for weights by moving backward from output layer through hidden layers.</p>
+<li>Q: What is the difference between loss and metric?</li>
+<p>A: Loss drives optimisation; metrics report/evaluate model performance.</p>
+<li>Q: How many weights connect 2 inputs to 7 hidden nodes with bias?</li>
+<p>A: <code>(2 + 1) × 7 = 21</code>.</p>
+<li>Q: How many weights connect 7 hidden nodes to 3 output nodes with bias?</li>
+<p>A: <code>(7 + 1) × 3 = 24</code>.</p>
+<li>Q: What does <code>input_shape=(10,)</code> mean in the Keras example?</li>
+<p>A: The model expects 10 input features/nodes.</p>
+<li>Q: Why use inverse transform after MinMax scaling?</li>
+<p>A: To convert predicted values back from scaled space to the original target scale.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Transcript/PDF: <code>/root/.hermes/cache/documents/doc_17cd242802c2_Documento sem título (2).pdf</code>; extracted with PyMuPDF on 2026-05-22.</li>
+<li>Temporary extraction used during note rewrite: <code>/tmp/dl_w3_transcript_extracted.txt</code>.</li>
+<li>Dissertation context: <code>memory/dissertation/status.md</code>.</li>
+<li>Assessment context: <code>memory/msc-coursework/assessments.md</code>.</li>
+<li>Prior note overwritten: <code>msc-coursework/outputs/class-notes/DL-W3-FeedforwardBackpropagation.md</code>.</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Build a one-page activation-function decision sheet: output range, best use, danger case.</li>
+<li>[ ] Recreate the parameter-count examples by hand until the bias <code>+1</code> is automatic.</li>
+<li>[ ] Run the scratch MLP notebook once and annotate each function with tensor/list shapes.</li>
+<li>[ ] Implement the same regression example in Keras/PyTorch using train/validation split, seed, MAE/MSE, and early stopping.</li>
+<li>[ ] For CA01, shortlist datasets where 3 architectures are realistic without GPU-heavy training.</li>
+</ul><footer>Generated from nathan-os notes · 2026-05-22 15:08 IST</footer></main></body></html>

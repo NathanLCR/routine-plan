@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RL - Week 1: Introduction to Reinforcement Learning</title><style>
+:root{--bg:#101114;--surface:#181a20;--surface2:#21242d;--border:#343946;--text:#f1f2f4;--muted:#a5acb8;--dim:#7f8794;--accent:#8fb7ff;--good:#77c78d;--warn:#f1b96b;--bad:#ef7a7a;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.65}main{width:min(980px,calc(100% - 28px));margin:0 auto;padding:28px 0 44px}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}header{border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:16px}.crumbs,.meta{color:var(--dim);font-size:12px}h1{font-size:28px;line-height:1.15;margin:10px 0 8px}h2{border-top:1px solid var(--border);color:var(--text);font-size:20px;margin:28px 0 10px;padding-top:20px}h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em}p{margin:0 0 12px}ul,ol{padding-left:24px}li{margin:6px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}code{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:1px 5px}pre{background:#0b0c10;border:1px solid var(--border);border-radius:14px;overflow:auto;padding:14px}pre code{background:none;border:0;padding:0}.card{background:linear-gradient(180deg,var(--surface),#15171c);border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.note-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px}.pill{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 5px 4px 0;padding:3px 8px}.button{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:10px;background:rgba(143,183,255,.14);border:1px solid rgba(143,183,255,.35);color:var(--accent);font-weight:700}input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:8px 0 14px}footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:32px;padding-top:16px}
+</style></head><body><main><header><div class="crumbs"><a href="../../index.html">Dashboard</a> · <a href="../index.html">Study Notes</a></div><h1>RL - Week 1: Introduction to Reinforcement Learning</h1><p class="meta">Reinforcement Learning · msc-coursework/outputs/class-notes/RL-W1-Introduction.md</p></header><div class="card"><span class="pill">RL</span><span class="pill">Week 1</span><span class="pill">msc-coursework/outputs/class-notes/RL-W1-Introduction.md</span><p class="meta">Modified 2026-05-22T11:13:55+01:00</p></div><h1>RL - Week 1: Introduction to Reinforcement Learning</h1>
+<h2>Focus</h2>
+<p>Reinforcement learning studies how an agent learns a strategy by taking actions in an environment, observing what changes, and receiving rewards or penalties. Week 1 introduced the intuition before the formal mathematics: RL is less like static supervised learning over a fixed table of features and more like learning what to do next in a changing situation.</p>
+<h2>Key Concepts</h2>
+<ul>
+<li>Reinforcement learning - learning through trial, feedback, and reward</li>
+<li>Agent - the decision maker, such as a robot, game player, or software system</li>
+<li>Environment - the world the agent acts in and receives feedback from</li>
+<li>Action - a move the agent can choose</li>
+<li>Observation - feedback about the environment after an action</li>
+<li>Reward - numerical signal saying whether the action/outcome was useful</li>
+<li>Strategy / policy - the learned pattern of actions that tends to maximise reward</li>
+<li>Delayed consequences - an action can be good because of future states, not only immediate gain</li>
+<li>State/action space - the set of possible situations and possible actions</li>
+<li>Business feasibility - an AI solution can be technically possible but too expensive to justify</li>
+</ul>
+<h2>Notes</h2>
+<p><strong>Why RL is different from static ML:</strong></p>
+<ul>
+<li>Classical machine learning often starts with a fixed table: columns, features, labels, and a model</li>
+<p>that learns relationships from those examples.</p>
+<li>CNNs work with static image data by learning graphical filters over pixels, then combining detected</li>
+<p>patterns through layers.</p>
+<li>Reinforcement learning deals with changing situations: games, robotics, movement, and strategy.</li>
+<li>The key question becomes: what action should the agent take now so that later outcomes are better?</li>
+</ul>
+<p><strong>Agent-environment loop:</strong></p>
+<ul>
+<li>The agent chooses an action.</li>
+<li>The environment changes because of that action.</li>
+<li>The agent receives an observation about what happened.</li>
+<li>The agent receives a reward or penalty.</li>
+<li>The agent updates its behaviour so future actions are more likely to produce high reward.</li>
+</ul>
+<p><strong>Game examples:</strong></p>
+<ul>
+<li>Chess is a useful RL-style intuition because the board changes after every move.</li>
+<li>A move such as <code>E2-E4</code> is not only about immediate points; it can be good because it creates better</li>
+<p>future positions.</p>
+<li>A simple point-counting algorithm can fail strategically: it may capture a valuable piece while</li>
+<p>moving into a worse board position.</p>
+<li>RL is therefore connected to strategy, sequences of actions, and delayed reward.</li>
+</ul>
+<p><strong>Robotics example:</strong></p>
+<ul>
+<li>A robot on a production line can learn which hand movements catch or move parts successfully.</li>
+<li>Some attempted positions or movements fail, receiving low reward.</li>
+<li>Successful movements receive higher reward.</li>
+<li>Over repeated trials, the robot learns the useful region and movement sequence.</li>
+</ul>
+<p><strong>Computer vision and industrial AI example:</strong></p>
+<ul>
+<li>The lecturer contrasted technical possibility with business reality.</li>
+<li>An industrial camera could detect malformed rubber/medical parts and stop a production line.</li>
+<li>This could replace or support manual quality control, but the business must still decide whether</li>
+<p>the implementation cost is justified.</p>
+<li>Another example involved camera detection in bank offices: the prototype might work, but if the</li>
+<p>total deployment cost is far higher than the annual loss, the AI project is not worthwhile.</p>
+</ul>
+<p><strong>Limits and risks introduced:</strong></p>
+<ul>
+<li>The number of possible states and actions can become very large.</li>
+<li>A reward function that overvalues immediate gain can produce bad strategy.</li>
+<li>RL can be computationally expensive because it needs many trials.</li>
+<li>The environment must be constrained enough that learning is practical.</li>
+<li>Technical feasibility is not the same as useful deployment.</li>
+</ul>
+<h2>Math / Code</h2>
+<p>No formal equations were introduced in this lecture. The useful mental model is the loop:</p>
+<pre><code>agent observes state
+agent chooses action
+environment changes
+agent receives observation and reward
+agent updates future action choice
+repeat</code></pre>
+<p>Formal topics expected next:</p>
+<ul>
+<li>Markov decision processes</li>
+<li>states, actions, rewards, transition probabilities</li>
+<li>return and discount factor</li>
+<li>value functions</li>
+<li>Q-learning</li>
+</ul>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>machine learning foundations</strong> because RL is introduced by contrast with fixed</li>
+<p>supervised-learning datasets and CNN image models.</p>
+<li>Connects to <strong>operations/business AI</strong> because AI projects must be evaluated by cost, value, and</li>
+<p>practical deployment constraints.</p>
+<li>Connects to <strong>Deep Learning</strong> because later topics include deep reinforcement learning, where neural</li>
+<p>networks approximate policies or value functions.</p>
+<li>Connects to <strong>Atenas planning</strong> because RL&#x27;s core idea is sequential decision-making under constraints,</li>
+<p>which is close to scheduling, prioritisation, and workload planning.</p>
+</ul>
+<h2>Open Questions</h2>
+<ul>
+<li>What exact assessment structure and due dates apply to RL CA1 and CA2? The assessment context is still ambiguous.</li>
+<li>Will the first Python lab use Gymnasium, Stable Baselines3, or a simpler hand-built environment?</li>
+<li>How much mathematical detail will be required for MDPs, Bellman equations, and Q-learning?</li>
+<li>How will the lecturer distinguish standard RL from deep RL and AI agents later in the module?</li>
+</ul>
+<h2>Flashcards</h2>
+<ul>
+<li>Q: What is the agent in reinforcement learning?</li>
+<p>A: The decision maker that chooses actions, such as a game player, robot, or software system.</p>
+</ul>
+<ul>
+<li>Q: What is the environment?</li>
+<p>A: The external system or world that changes in response to the agent&#x27;s actions.</p>
+</ul>
+<ul>
+<li>Q: What is a reward?</li>
+<p>A: A feedback signal that tells the agent whether the outcome of an action was good or bad.</p>
+</ul>
+<ul>
+<li>Q: Why is RL different from supervised learning?</li>
+<p>A: Supervised learning learns from fixed labelled examples; RL learns through actions, feedback, and changing future states.</p>
+</ul>
+<ul>
+<li>Q: Why can an immediate high-value move be bad in chess?</li>
+<p>A: Because it may create a worse future board position even if it gains points immediately.</p>
+</ul>
+<ul>
+<li>Q: What does the robot production-line example show?</li>
+<p>A: RL can learn action sequences through repeated trials where successful movements receive higher reward.</p>
+</ul>
+<ul>
+<li>Q: Why might a technically successful AI prototype still fail as a business project?</li>
+<p>A: Deployment cost can exceed the value of the loss or problem it solves.</p>
+</ul>
+<ul>
+<li>Q: What should Nathan read first after this lecture?</li>
+<p>A: The beginning of Sutton and Barto&#x27;s <em>Reinforcement Learning: An Introduction</em>.</p>
+</ul>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>docs/course-materials/reinforcement-learning-week-1.pdf</code></li>
+<li>Related existing slides: <code>docs/course-materials/reinforcement-learning-lecture-1a.pdf</code></li>
+<li>Sutton and Barto, <em>Reinforcement Learning: An Introduction</em>: http://incompleteideas.net/book/the-book-2nd.html</li>
+<li>OpenAI Spinning Up: https://spinningup.openai.com/</li>
+<li>Stable Baselines3: https://stable-baselines3.readthedocs.io/</li>
+<li>Google Dopamine: https://github.com/google/dopamine</li>
+<li>Awesome RL: https://github.com/aikorea/awesome-rl</li>
+<li>Hugging Face Deep RL course: https://huggingface.co/learn/deep-rl-course</li>
+<li>NVIDIA Isaac Gym: https://developer.nvidia.com/isaac-gym</li>
+</ul>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Read Sutton and Barto Chapter 1 introduction for 20-30 minutes</li>
+<li>[ ] Make a glossary: agent, environment, action, state, observation, reward, policy</li>
+<li>[ ] Draw the agent-environment loop from memory</li>
+<li>[ ] Prepare for the first Python lab or simple RL example</li>
+<li>[ ] Confirm RL assessment dates and weights from Moodle</li>
+</ul><footer>Generated from nathan-os notes · 2026-05-22 15:08 IST</footer></main></body></html>

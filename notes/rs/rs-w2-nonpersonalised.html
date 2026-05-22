@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RS — Week 2: Non-Personalised Recommenders</title><style>
+:root{--bg:#101114;--surface:#181a20;--surface2:#21242d;--border:#343946;--text:#f1f2f4;--muted:#a5acb8;--dim:#7f8794;--accent:#8fb7ff;--good:#77c78d;--warn:#f1b96b;--bad:#ef7a7a;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.65}main{width:min(980px,calc(100% - 28px));margin:0 auto;padding:28px 0 44px}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}header{border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:16px}.crumbs,.meta{color:var(--dim);font-size:12px}h1{font-size:28px;line-height:1.15;margin:10px 0 8px}h2{border-top:1px solid var(--border);color:var(--text);font-size:20px;margin:28px 0 10px;padding-top:20px}h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em}p{margin:0 0 12px}ul,ol{padding-left:24px}li{margin:6px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}code{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:1px 5px}pre{background:#0b0c10;border:1px solid var(--border);border-radius:14px;overflow:auto;padding:14px}pre code{background:none;border:0;padding:0}.card{background:linear-gradient(180deg,var(--surface),#15171c);border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.note-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px}.pill{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 5px 4px 0;padding:3px 8px}.button{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:10px;background:rgba(143,183,255,.14);border:1px solid rgba(143,183,255,.35);color:var(--accent);font-weight:700}input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:8px 0 14px}footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:32px;padding-top:16px}
+</style></head><body><main><header><div class="crumbs"><a href="../../index.html">Dashboard</a> · <a href="../index.html">Study Notes</a></div><h1>RS — Week 2: Non-Personalised Recommenders</h1><p class="meta">Recommender Systems · msc-coursework/outputs/class-notes/RS-W2-NonPersonalised.md</p></header><div class="card"><span class="pill">RS</span><span class="pill">Week 2</span><span class="pill">msc-coursework/outputs/class-notes/RS-W2-NonPersonalised.md</span><p class="meta">Modified 2026-05-22T11:13:55+01:00</p></div><h1>RS — Week 2: Non-Personalised Recommenders</h1>
+<h2>Focus</h2>
+<p>Non-personalised recommenders use collective signals — aggregate opinion, product association, and item content — instead of individual user history. They are the primary tool for cold start and the foundation for understanding ranking trade-offs (popularity, freshness, controversy).</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Non-personalised recommenders — same recommendations for all users, based on group signals</li>
+<li>Aggregate opinion recommenders — based on preferences from all users</li>
+<li>Product association recommenders — &quot;people who bought X also bought Y&quot;</li>
+<li>Popularity models — wisdom of the crowd; useful for cold start</li>
+<li>Matthew effect — popular items accumulate more recommendations, compounding popularity</li>
+<li>Wilson score lower bound — balances positive proportion with sample-size uncertainty</li>
+<li>Ranking trade-offs — relevance, freshness, controversy, business objectives</li>
+<li>HackerNews / Reddit / IMDb / TripAdvisor ranking formulas — real-world popularity ranking</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Personalised vs non-personalised:</strong></p>
+<ul>
+<li>Personalised — different recommendations per user, based on individual history/behaviour</li>
+<li>Non-personalised — same output for all users; uses general item, group, or popularity signals</li>
+</ul>
+<p><strong>Three non-personalised types:</strong></p>
+<ul>
+<li>Aggregate opinion — based on ratings/preferences from the full user base</li>
+<li>Product association — item-to-item co-occurrence (&quot;frequently bought together&quot;)</li>
+<li>Content-based (non-personalised variant) — based on item attributes, no user model needed</li>
+</ul>
+<p><strong>Why popularity models work:</strong></p>
+<ul>
+<li>Wisdom-of-the-crowd effect</li>
+<li>People often follow group trends (social, regional, platform-level)</li>
+<li>Useful for cold start because no individual history needed</li>
+</ul>
+<p><strong>Popularity model drawbacks:</strong></p>
+<ul>
+<li>Matthew effect: popular → more popular, new/niche items cannot surface</li>
+<li>Region/language mismatch for new users or travellers</li>
+<li>Can be gamed or manipulated</li>
+<li>Political/ideological/controversial content can exploit engagement signals</li>
+<li>Systems must be designed with abuse and user-harm risks in mind</li>
+</ul>
+<p><strong>Why single metrics fail:</strong></p>
+<ul>
+<li>Mean rating hides polarised distributions</li>
+<li>Positive percentage over-credits small sample sizes (5 ratings at 100% beats 5,000 at 99%?)</li>
+<li>Raw total score over-credits high-volume but mediocre items</li>
+<li>Number of views/likes hides dislikes</li>
+</ul>
+<p><strong>Ranking considerations:</strong></p>
+<ul>
+<li>Relevance — is it close to what the user/group expects?</li>
+<li>Conservative vs risky recommendations — safe personalisation vs novel/sponsored/business-driven</li>
+<li>Freshness — critical in news; stale content should decay</li>
+<li>Controversy — drives engagement but can mislead ranking signal</li>
+</ul>
+<p><strong>Wilson score:</strong></p>
+<ul>
+<li>Asks: given the observed ratings, what lower-bound positive proportion can we be confident about?</li>
+<li>Balances proportion with uncertainty from limited sample size</li>
+<li>Example: Item A 600 pos / 400 neg (60%); Item B 5,500 pos / 4,500 neg (55%)</li>
+<li>Raw score → Item B wins; Wilson lower bound → Item A wins (more confidence per observation)</li>
+</ul>
+<p><strong>Other ranking formulas (conceptual):</strong></p>
+<ul>
+<li>HackerNews — upvotes + downvotes + age + gravity/decay factor</li>
+<li>Reddit — upvotes, downvotes, log scaling, time; high upvotes + high downvotes = controversial</li>
+<li>IMDb Top 250 — weighted rating: average rating, vote count, minimum-vote threshold, global mean</li>
+<li>TripAdvisor — review quality, quantity, and recency</li>
+<li>Google PageRank — mentioned as a later algorithmic reference</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code>import math
+
+def wilson_lower_bound(pos: int, total: int, confidence: float = 0.95) -&gt; float:
+    &quot;&quot;&quot;
+    Wilson score lower bound for a Bernoulli parameter.
+    pos   = number of positive ratings
+    total = total number of ratings
+    Returns the lower bound of the confidence interval.
+    &quot;&quot;&quot;
+    if total == 0:
+        return 0.0
+    z = 1.96  # 95% confidence; use 1.645 for 90%
+    p_hat = pos / total
+    numerator = p_hat + z**2 / (2 * total) - z * math.sqrt(
+        (p_hat * (1 - p_hat) + z**2 / (4 * total)) / total
+    )
+    denominator = 1 + z**2 / total
+    return numerator / denominator
+
+# Example from lecture
+item_a = wilson_lower_bound(600, 1000)   # 60% positive, n=1000
+item_b = wilson_lower_bound(5500, 10000) # 55% positive, n=10000
+print(f&quot;Item A: {item_a:.4f}, Item B: {item_b:.4f}&quot;)
+# Item A wins on Wilson lower bound despite lower raw proportion</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>RS Week 1</strong> because non-personalised is the contrast to personalised and the</li>
+<p>cold-start solution when no individual history exists</p>
+<li>Connects to <strong>CA1</strong> directly — the group project must include at least two recommender types;</li>
+<p>a popularity/non-personalised baseline is the natural first model before a personalised approach</p>
+<li>Connects to <strong>Ethics/Fairness (CA2)</strong> because ranking trade-offs (controversy, sponsored content,</li>
+<p>Matthew effect) are exactly the fairness and bias issues CA2 asks about</p>
+<li>Contrasts with <strong>collaborative filtering</strong> in that CF needs a user-item interaction matrix;</li>
+<p>non-personalised works with item-level aggregate signals only</p>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>What is the correct Wilson score z-value to use: 1.96 (95%) or something else? Confirm with lecturer.</li>
+<li>How do we handle bimodal rating distributions (love-it-or-hate-it items) in ranking?</li>
+<li>For CA1, does a popularity baseline count as one of the &quot;two distinct recommender types&quot;?</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: What are the three non-personalised recommender types?</li>
+<p>A: Aggregate opinion (based on all users&#x27; preferences), product association (item co-occurrence), and content-based (based on item attributes with no user model).</p>
+</ul>
+<ul>
+<li>Q: Why can a 100% positive rating be less trustworthy than a 99% positive rating?</li>
+<p>A: Sample size matters — 100% from 3 ratings is statistically weak; 99% from 10,000 ratings is far more reliable. Wilson score lower bound accounts for this.</p>
+</ul>
+<ul>
+<li>Q: What does the Wilson score lower bound fix compared to raw positive percentage?</li>
+<p>A: It balances the observed positive proportion with uncertainty from limited sample size — asking what positive proportion we can be confidently sure of, not just what we observed.</p>
+</ul>
+<ul>
+<li>Q: Why does cold start make popularity models useful?</li>
+<p>A: Cold start means no individual history exists; popularity models use group/collective signals that do not require individual data.</p>
+</ul>
+<ul>
+<li>Q: What is the Matthew effect in recommender systems?</li>
+<p>A: Popular items get recommended more → more interactions → more popular. New or niche items cannot compete, reinforcing existing popularity.</p>
+</ul>
+<ul>
+<li>Q: Why might a business intentionally include risky or sponsored recommendations?</li>
+<p>A: Revenue objectives, partnerships, or promotional contracts may override pure user-preference optimisation — business context shapes ranking decisions.</p>
+</ul>
+<ul>
+<li>Q: What is the difference between a conservative and a risky recommendation?</li>
+<p>A: Conservative = close to what the user or similar group is expected to like. Risky = diverse, novel, controversial, or business-driven, with higher uncertainty about reception.</p>
+</ul>
+<ul>
+<li>Q: Name three real-world ranking systems and the key signal each uses.</li>
+<p>A: IMDb — weighted rating with minimum vote threshold; HackerNews — upvotes + time decay; TripAdvisor — review quality, quantity, and recency.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>docs/course-materials/recommender-systems-week-2-non-personalized.pdf</code></li>
+<li>Source notes: <code>docs/RECOMMENDER_SYSTEMS_WEEK1_WEEK2_NOTES.md</code></li>
+<li>Assessment guide: <code>docs/course-materials/recommender-systems-module-assessment-guide-2026.pdf</code></li>
+<li>MovieLens datasets: https://grouplens.org/datasets/movielens/</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Implement Wilson score on a toy dataset and verify it matches lecture example</li>
+<li>[ ] Shortlist 2–3 CA1 dataset/topic options using the checklist in RS notes</li>
+<li>[ ] Submit CA1 group/topic/dataset link for lecturer approval — deadline 2026-05-25</li>
+<li>[ ] Review CA1 requirements: two distinct recommender types, baseline + improved model, evaluation</li>
+</ul><footer>Generated from nathan-os notes · 2026-05-22 15:08 IST</footer></main></body></html>

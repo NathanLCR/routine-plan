@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RL — Week 2: Value Functions, Q-Values &amp; MDPs</title><style>
+:root{--bg:#101114;--surface:#181a20;--surface2:#21242d;--border:#343946;--text:#f1f2f4;--muted:#a5acb8;--dim:#7f8794;--accent:#8fb7ff;--good:#77c78d;--warn:#f1b96b;--bad:#ef7a7a;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.65}main{width:min(980px,calc(100% - 28px));margin:0 auto;padding:28px 0 44px}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}header{border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:16px}.crumbs,.meta{color:var(--dim);font-size:12px}h1{font-size:28px;line-height:1.15;margin:10px 0 8px}h2{border-top:1px solid var(--border);color:var(--text);font-size:20px;margin:28px 0 10px;padding-top:20px}h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em}p{margin:0 0 12px}ul,ol{padding-left:24px}li{margin:6px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}code{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:1px 5px}pre{background:#0b0c10;border:1px solid var(--border);border-radius:14px;overflow:auto;padding:14px}pre code{background:none;border:0;padding:0}.card{background:linear-gradient(180deg,var(--surface),#15171c);border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.note-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px}.pill{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 5px 4px 0;padding:3px 8px}.button{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:10px;background:rgba(143,183,255,.14);border:1px solid rgba(143,183,255,.35);color:var(--accent);font-weight:700}input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:8px 0 14px}footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:32px;padding-top:16px}
+</style></head><body><main><header><div class="crumbs"><a href="../../index.html">Dashboard</a> · <a href="../index.html">Study Notes</a></div><h1>RL — Week 2: Value Functions, Q-Values &amp; MDPs</h1><p class="meta">Reinforcement Learning · msc-coursework/outputs/class-notes/RL-W2-ValueAndQFunctions.md</p></header><div class="card"><span class="pill">RL</span><span class="pill">Week 2</span><span class="pill">msc-coursework/outputs/class-notes/RL-W2-ValueAndQFunctions.md</span><p class="meta">Modified 2026-05-22T11:13:55+01:00</p></div><h1>RL — Week 2: Value Functions, Q-Values &amp; MDPs</h1>
+<h2>Focus</h2>
+<p>Week 2 moves from Week 1&#x27;s intuition to the formal <strong>Markov Decision Process</strong> description and the two functions you&#x27;ll actually compute: the <strong>value function V(s)</strong> and the <strong>action-value Q(s,a)</strong>. Rewards are <em>engineered</em> (e.g. −1 per step), a <strong>discount/&quot;forgetting&quot; factor</strong> penalises longer paths, and the goal is an <strong>optimal policy π\</strong>* that maximises expected discounted cumulative reward. Two recurring lecturer themes: <strong>identify the real problem before reaching for models</strong> (the AI-in-healthcare startup stories), and <strong>RL only works while the environment stays fixed</strong>.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Markov Decision Process (MDP) — formal RL description, the tuple (S, A, R, P, γ): states, actions, reward distribution, transition probability, discount factor</li>
+<li>Markov property — the current state completely characterises the state of the world (no need for history)</li>
+<li>State (S) — a snapshot of the environment (a photo of the board / a game frame)</li>
+<li>Action (A) — a move available in a state (up/down/left/right; chess moves)</li>
+<li>Reward (R) — scalar feedback after an action; can be negative (e.g. −1 per step)</li>
+<li>Policy (π) — mapping from state to action (the strategy)</li>
+<li>Optimal policy (π\*) — the policy that maximises expected discounted cumulative reward</li>
+<li>Discount / &quot;forgetting&quot; factor (γ) — γᵗ weighting that makes shorter paths preferable</li>
+<li>Value function V(s) — expected cumulative reward from state s following π; <strong>no action dependence</strong> (&quot;how many steps to reward&quot;)</li>
+<li>Q-value function Q(s,a) — expected cumulative reward from taking action a in state s, then following π; <strong>action-dependent</strong> — <em>this is the CA requirement</em></li>
+<li>Transition / next state (Sₜ₊₁) — the environment after an action</li>
+<li>Supervised vs unsupervised vs RL — labels vs clustering vs reward-driven sequences</li>
+<li>Fixed-environment constraint — a model trained on one environment breaks if the environment changes</li>
+<li>Frame stacking — several frames are needed to infer velocity/acceleration (Atari ball)</li>
+<li>Q-learning → Deep Q-learning — learn Q via a table first, then via a neural network</li>
+<li>Tooling — TensorFlow vs PyTorch, Stable-Baselines3 (PyTorch, production), Hugging Face hosts pretrained RL models</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>AI starts with the problem, not the model (healthcare startup stories):</strong></p>
+<ul>
+<li>Equipment-tracking startup: staff waste ~1.5 h/shift finding mobile equipment; the SOP (sign-in/out) existed but the <em>human factor</em> defeated it (last board entry 6 months old). Built AI + IoT cameras to track beds/chairs. Took 4 years; key blockers were hospital IT security (&quot;don&#x27;t want to be your pilot&quot;) and non-standardised hospital systems</li>
+<li>3D-reconstruction startup: fuse ~5 ultrasound/X-ray/CT images into a 3D view for surgeons (13–15 yrs on market; started with <em>no</em> AI)</li>
+<li>COVID data → trained models → published results → <strong>nobody used them</strong> (&quot;the wall&quot; = the relevance gap; staff are too busy). Lesson echoes ARM: a result isn&#x27;t value until it&#x27;s adopted</li>
+<li>Process they followed: 350 candidate problems → rank by impact → <strong>travel to other hospitals to confirm the problem is widespread</strong>, not local → only then build</li>
+</ul>
+<p><strong>Tooling / practicalities:</strong></p>
+<ul>
+<li>TensorFlow vs PyTorch are functionally similar; PyTorch favoured in research, Stable-Baselines3 (PyTorch) used in production; syntax differs between libraries but the underlying math is the same</li>
+<li>Hugging Face hosts pretrained RL models — load and apply (optionally retrain the last layer) instead of training from scratch</li>
+<li>Real training runs on cloud/GPU/HPC, not a laptop (a student&#x27;s 3D model ran ~1 week locally)</li>
+<li>Data labelling aside: human labellers are cheap (~$18–20/day quoted); the Zoom-minutes startup used humans behind the scenes first, then automated, then got acquired (wizard-of-oz pattern)</li>
+</ul>
+<p><strong>The RL data shape:</strong></p>
+<ul>
+<li>Rows of <strong>(state, action, reward, next state)</strong> — not the 2-feature distance/mean math of clustering</li>
+<li>State = photo of the environment; action changes it; reward scores the outcome; record the sequence</li>
+<li>Following a policy produces sample trajectories/paths: s₀, a₀, r₀, s₁, a₁, r₁, …</li>
+</ul>
+<p><strong>Canonical environments (exact slide State / Action / Reward):</strong></p>
+<ul>
+<li>Cart-pole — State: angle, angular speed, position, horizontal velocity · Action: horizontal force on the cart · Reward: +1 each timestep the pole is upright</li>
+<li>Robot movement — State: angle &amp; position of the joints · Action: torques on joints · Reward: +1 each timestep upright + forward movement</li>
+<li>Atari games — State: raw pixel inputs · Action: game controls (left/right/up/down) · Reward: score increase/decrease each timestep</li>
+<li>Go — State: position of all pieces · Action: where to place the next piece · Reward: +1 if you win at the end, 0 otherwise (sparse/terminal reward)</li>
+<li>Grid World — Actions {right, left, up, down}; r = −1 per transition; objective: reach a terminal state in the fewest actions</li>
+</ul>
+<p><strong>Reward engineering:</strong></p>
+<ul>
+<li>Chess: assign piece values, reward = (sum of my pieces) − (sum of opponent&#x27;s)</li>
+<li>Navigation: −1 per step ⇒ fewer steps = higher (less negative) total reward ⇒ shortest path wins</li>
+<li>Balance task (cart-pole): reward for keeping the pole upright; 0/no reward when it falls</li>
+<li>Robot dog: think <strong>joints/motors</strong>, not left/right — 8+ motors × speeds, brute-force combinations until it &quot;learns to walk&quot;; reward = balanced <strong>and</strong> moving toward the goal (multi-term reward)</li>
+</ul>
+<p><strong>Value vs Q (the core distinction):</strong></p>
+<ul>
+<li><strong>V(s)</strong> = value of <em>being in</em> a state under the policy → in the fire-exit gridworld, V(s) = −(steps to nearest exit). No action choice involved</li>
+<li><strong>Q(s,a)</strong> = value of <em>taking a specific action</em> in a state, then following the policy. Many actions per state ⇒ a Q-value per (state, action) pair; the optimal policy picks argmax over actions</li>
+<li>The CA needs the <strong>Q-value</strong> version, not just V</li>
+</ul>
+<p><strong>Fixed-environment constraint (kept stressing this):</strong></p>
+<ul>
+<li>Change the board size (8×8 → 9×9), add a second ball, or change the cart&#x27;s mass → the trained model fails because the physics/coordinates it learned no longer hold</li>
+<li>Autonomous-car analogy: a closed-environment demo doesn&#x27;t transfer to the open world. RL requires the environment to stay the same (or you retrain)</li>
+</ul>
+<p><strong>Maths framing (kept light):</strong></p>
+<ul>
+<li>Markov chains underlie this (telecom, supply chains, logistics)</li>
+<li>Goal stated as maximising the <strong>expected</strong> discounted sum of rewards — the expectation handles the randomness in initial state and transitions</li>
+<li>Note: these slides stop at the V/Q <em>definitions</em>; the <strong>Bellman equation</strong> and a Q-function worked example were promised verbally but are <strong>not in this deck</strong> — expect them next lecture</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code>MDP = (S, A, R, P, γ)
+  S: states   A: actions   R: reward dist. given (s,a)
+  P: transition prob. over next state given (s,a)   γ: discount factor
+Markov property: the current state completely characterises the world.
+
+Dynamics:  s_0 ~ p(s_0);   then for t = 0 until done:
+  agent picks a_t ;  r_t ~ R(·|s_t,a_t) ;  s_{t+1} ~ P(·|s_t,a_t)
+A policy π: S → A maps each state to an action.
+
+Optimal policy (exact slide form):
+  π* = argmax_π  E[ Σ_{t≥0} γ^t r_t | π ]
+       with  s_0~p(s_0),  a_t~π(·|s_t),  s_{t+1}~p(·|s_t,a_t)
+
+Value function — &quot;how good is a state?&quot;:
+  V^π(s)   = E[ Σ_{t≥0} γ^t r_t | s_0 = s, π ]
+Q-value function — &quot;how good is a state-action pair?&quot;:
+  Q^π(s,a) = E[ Σ_{t≥0} γ^t r_t | s_0 = s, a_0 = a, π ]
+
+Grid World (slide): 4×4 grid, two terminal states, r = -1 per transition
+  ⇒ V(s) ≈ -(min steps to a terminal state); e.g. 2 steps away ⇒ V ≈ -2.
+γ &lt; 1 makes a 5-step path (γ^5·R) score higher than a 20-step path (γ^20·R).</code></pre>
+<pre><code># Tabular Q intuition (what the CA&#x27;s &quot;build a Q-value&quot; likely means):
+# Q[state, action] table, updated from observed (s, a, r, s&#x27;) transitions.
+# import numpy as np
+# Q = np.zeros((n_states, n_actions))
+# Q[s, a] += alpha * (r + gamma * Q[s_next].max() - Q[s, a])   # Q-learning update
+# Deep Q-learning = replace this table with a neural net approximating Q(s, a).</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to the <strong>RL CA</strong> — the lecturer stated the CA requires <strong>building a Q-function / Q-value for the data</strong>; this lecture defines exactly that. Make sure you can compute and explain Q(s,a), not just V(s)</li>
+<li><strong>Risk flag — fixed environment:</strong> any RL CA must use an environment that doesn&#x27;t change mid-task, or the trained policy won&#x27;t transfer. Scope the CA environment accordingly</li>
+<li><strong>Open assessment risk:</strong> RL CA1/CA2 weighting and dates are still ambiguous (slides say 40%/60% in unclear order — see <code>context/ASSESSMENTS.md</code>). Confirm on Moodle before scheduling blocks</li>
+<li>Connects to <strong>RL Week 1</strong> — formalises Week 1&#x27;s agent/environment/action/reward/policy intuition into the MDP + V/Q machinery</li>
+<li>Connects to <strong>Deep Learning</strong> — Deep Q-learning is just Q(s,a) approximated by a neural net; the attention/transformer aside ties to the DL module</li>
+<li>Connects to <strong>ARM Week 2</strong> — &quot;define the real problem first, confirm it&#x27;s widespread, value = adoption not publication&quot; is the same lesson, here told through the hospital startups</li>
+<li>Dissertation tie-in is weak (dissertation is Portuguese RAG, not RL); the only transferable discipline is reward/metric design and problem-first framing</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>What dataset/environment is expected for the CA&#x27;s &quot;build a Q-value&quot; requirement? (time-sensitive — shapes the CA topic)</li>
+<li>RL CA1 vs CA2 exact weighting, issue dates, and due dates (Moodle) — currently ambiguous</li>
+<li>Bellman equation + full Q-function worked example deferred to next lecture</li>
+<li>Which library for the CA — Stable-Baselines3 vs a hand-rolled tabular Q? (affects how much is &quot;your own code&quot; for the defence)</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: What is a Markov Decision Process?</li>
+<p>A: The formal description of an RL problem — a set of states, actions, rewards, transitions to next states, and a discount factor.</p>
+</ul>
+<ul>
+<li>Q: Difference between the value function V(s) and the Q-value function Q(s,a)?</li>
+<p>A: V(s) is the expected cumulative reward of being in state s under the policy (no action choice); Q(s,a) is the expected cumulative reward of taking action a in state s, then following the policy. Q is action-dependent.</p>
+</ul>
+<ul>
+<li>Q: What does the discount/&quot;forgetting&quot; factor γ do?</li>
+<p>A: It weights future rewards by γᵗ so that shorter paths to the same reward score higher, making the optimal policy prefer fewer steps.</p>
+</ul>
+<ul>
+<li>Q: Why does a −1-per-step reward produce shortest-path behaviour?</li>
+<p>A: Every step subtracts 1, so fewer steps means a higher (less negative) total reward; the policy maximising reward minimises steps.</p>
+</ul>
+<ul>
+<li>Q: Why must the RL environment stay fixed?</li>
+<p>A: A policy/model trained on one environment encodes its specific coordinates/physics; changing board size, object count, or mass breaks it and requires retraining.</p>
+</ul>
+<ul>
+<li>Q: How is reinforcement learning different from supervised and unsupervised learning?</li>
+<p>A: Supervised uses human labels; unsupervised finds clusters/patterns without labels; RL learns from reward feedback over sequences of states and actions — you can&#x27;t simply label &quot;is this move good?&quot;.</p>
+</ul>
+<ul>
+<li>Q: What is the optimal policy π\*?</li>
+<p>A: The policy that maximises expected discounted cumulative reward; for a known Q<em>, π</em>(s) = argmax_a Q*(s,a).</p>
+</ul>
+<ul>
+<li>Q: What is deep Q-learning?</li>
+<p>A: Q-learning where the Q-table is replaced by a neural network approximating Q(s,a); still reinforcement learning.</p>
+</ul>
+<ul>
+<li>Q: Why are several stacked frames needed in games like Atari?</li>
+<p>A: A single frame can&#x27;t reveal motion; multiple frames are needed to infer the ball&#x27;s velocity and acceleration.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>docs/course-materials/reinforcement-learning-week-2-value-q-functions.pdf</code>; transcript pasted into Codex 2026-05-20</li>
+<li>Week 1 study notes: <code>docs/class-notes/RL-W1-Introduction.md</code></li>
+<li>Assessment context: <code>context/ASSESSMENTS.md</code></li>
+<li>Book (free PDF): Sutton &amp; Barto, <em>Reinforcement Learning: An Introduction</em></li>
+<li>Hugging Face Deep RL course + Stable-Baselines3 (pretrained RL models / production library)</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Confirm RL CA1/CA2 weighting + due dates on Moodle (ambiguous in slides)</li>
+<li>[ ] Clarify what data/environment the CA&#x27;s &quot;build a Q-value&quot; requirement expects</li>
+<li>[ ] Implement a tabular Q-learning gridworld to internalise V(s) vs Q(s,a) before the Bellman lecture</li>
+<li>[ ] Browse Hugging Face Deep RL models for a CA-suitable, fixed environment</li>
+<li>[ ] Pre-read the Bellman equation section so next lecture&#x27;s formulas land easily</li>
+</ul>
+<pre><code></code></pre><footer>Generated from nathan-os notes · 2026-05-22 15:08 IST</footer></main></body></html>

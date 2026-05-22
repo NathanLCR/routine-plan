@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DL — Week 2: ANN Structure &amp; Forward Pass</title><style>
+:root{--bg:#101114;--surface:#181a20;--surface2:#21242d;--border:#343946;--text:#f1f2f4;--muted:#a5acb8;--dim:#7f8794;--accent:#8fb7ff;--good:#77c78d;--warn:#f1b96b;--bad:#ef7a7a;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.65}main{width:min(980px,calc(100% - 28px));margin:0 auto;padding:28px 0 44px}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}header{border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:16px}.crumbs,.meta{color:var(--dim);font-size:12px}h1{font-size:28px;line-height:1.15;margin:10px 0 8px}h2{border-top:1px solid var(--border);color:var(--text);font-size:20px;margin:28px 0 10px;padding-top:20px}h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em}p{margin:0 0 12px}ul,ol{padding-left:24px}li{margin:6px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}code{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:1px 5px}pre{background:#0b0c10;border:1px solid var(--border);border-radius:14px;overflow:auto;padding:14px}pre code{background:none;border:0;padding:0}.card{background:linear-gradient(180deg,var(--surface),#15171c);border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.note-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px}.pill{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 5px 4px 0;padding:3px 8px}.button{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:10px;background:rgba(143,183,255,.14);border:1px solid rgba(143,183,255,.35);color:var(--accent);font-weight:700}input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:8px 0 14px}footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:32px;padding-top:16px}
+</style></head><body><main><header><div class="crumbs"><a href="../../index.html">Dashboard</a> · <a href="../index.html">Study Notes</a></div><h1>DL — Week 2: ANN Structure &amp; Forward Pass</h1><p class="meta">Deep Learning · msc-coursework/outputs/class-notes/DL-W2-ANNStructureAndForwardPass.md</p></header><div class="card"><span class="pill">DL</span><span class="pill">Week 2</span><span class="pill">msc-coursework/outputs/class-notes/DL-W2-ANNStructureAndForwardPass.md</span><p class="meta">Modified 2026-05-22T11:13:55+01:00</p></div><h1>DL — Week 2: ANN Structure &amp; Forward Pass</h1>
+<h2>Focus</h2>
+<p>Building the ANN forward pass node-by-node: the distinction between the <strong>transfer function</strong> (weighted sum / pre-activation <code>T</code>) and the <strong>activation function</strong> (<code>A(T)</code>), why hidden layers use ReLU but classification outputs must use sigmoid/softmax, and how weights are initialised before training. Feed-forward only today; loss, optimiser, learning rate and backpropagation are deferred to the next class. Lecturer&#x27;s sharpest warning: students keep wiring ReLU into the output layer of a classifier — its <code>[0, ∞)</code> range gives values like <code>5</code> that cannot be read as a class probability, so predictions are inconsistent. Use sigmoid/softmax at the output.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Transfer function <code>T</code> — the pre-activation: weighted sum of inputs incl. bias, <code>T = Σ wᵢxᵢ</code>. One formula, always the same.</li>
+<li>Activation function <code>A</code> — non-linearity applied to <code>T</code>; node value = <code>A(T)</code>. Choice depends on layer/task (ReLU, sigmoid, softmax, tanh).</li>
+<li>Fully connected layer — every node in one layer connects to every node in the next; each connection carries one weight.</li>
+<li>Bias node — <code>x₀ = 1</code> always; contributes <code>w₀·1 = w₀</code>. Kept (not dropped) because backprop must differentiate w.r.t. it.</li>
+<li>Weight — a real-valued parameter, unconstrained (negative, zero, positive all valid). Notation <code>w^(layer)_{i,j}</code>: superscript = layer, first index = source/input node, second index = destination node.</li>
+<li>ReLU — <code>max(0, T)</code>; hidden-layer default. Doesn&#x27;t bound hidden activations to <code>[0,1]</code>; range <code>[0, ∞)</code>.</li>
+<li>Sigmoid / softmax — output activations for classification; squash to <code>[0,1]</code> so outputs read as probabilities → <code>argmax</code> gives the predicted class.</li>
+<li>Epoch — one full forward+backward pass over the training data; the lecturer&#x27;s stated &quot;important hyperparameter&quot; (see flag below for the precise definition).</li>
+<li>Weight initialisation kernels — Normal (<code>np.random.randn</code>, ties to StandardScaler) or Uniform (<code>np.random.rand</code>, ties to MinMaxScaler).</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Network topology (worked example):</strong></p>
+<ul>
+<li>Input: <code>x₀</code> (bias = 1), <code>x₁ … x_K</code>. Each <code>x_k</code> is a feature = column <code>k</code> of the CSV; one sample = one row processed at a time.</li>
+<li>Hidden layer: <code>H1</code>, <code>H2</code>. Output layer: <code>O1</code>, <code>O2</code> → binary classification (Class 1 vs Class 2).</li>
+<li>Fully connected throughout; bias added at every layer, not just the input.</li>
+</ul>
+<p><strong>Transfer vs activation:</strong></p>
+<ul>
+<li>For each node: first compute <code>T</code> (transfer = weighted sum incl. <code>w₀</code>), then apply <code>A(T)</code> (activation).</li>
+<li><code>H_j = A( Σ_{i=0}^{K} w^1_{i,j} · x_i )</code>. Different weights → <code>H1 ≠ H2</code> even though they share the same inputs.</li>
+<li>Output nodes repeat the same idea on the hidden-layer outputs to produce <code>O1</code>, <code>O2</code>.</li>
+</ul>
+<p><strong>Activation choice by layer:</strong></p>
+<ul>
+<li>Hidden → ReLU. Reason: hidden node values shouldn&#x27;t be capped; they can be any real value depending on the computation. <code>ReLU(T) = T if T&gt;0 else 0</code>.</li>
+<li>Output (classification) → sigmoid <code>σ(T) = 1/(1+e^{-T})</code> (binary) or softmax <code>e^{T_i}/Σ_j e^{T_j}</code> (multi-class). Both ∈ <code>[0,1]</code>; softmax also sums to 1. Prediction = <code>argmax</code> of the output probabilities.</li>
+<li>This mirrors logistic regression exactly — same logistic function. <strong>Difference between ANN and logistic regression = the model structure</strong> (ANN stacks hidden layers; logistic regression is a single transformation). This was the lecturer&#x27;s closing question.</li>
+</ul>
+<p><strong>Weight initialisation:</strong></p>
+<ul>
+<li>Two probabilistic kernels: Normal distribution or Uniform distribution.</li>
+<li>Normal (<code>randn</code>) ↔ StandardScaler logic: standardised data has mean 0 and ~99.7% of values in <code>[-3, 3]</code> (see stats flag).</li>
+<li>Uniform (<code>rand</code>) ↔ MinMaxScaler logic: values in <code>[0, 1]</code>.</li>
+<li>Weight count, layer 1: <code>(K+1)</code> weights per hidden node (incl. bias) × number of hidden nodes. Worked example <code>K=10</code>, 2 hidden nodes → <code>2·(K+1) = 22</code> weights → <code>np.random.randn(22)</code>.</li>
+</ul>
+<p><strong>Training-phase logic (the &quot;why compute output if we know the label?&quot; question):</strong></p>
+<ul>
+<li>In training the labels are known. We still run the forward pass because we&#x27;re <em>estimating the weights</em>: forward pass → predicted probability → compare to known label → (next class) backprop updates weights.</li>
+<li>Example: flatten an image into features, true label = &quot;dog&quot;; the network computes <code>P(class)</code> so it can be compared against the label and corrected.</li>
+</ul>
+<p><strong>Forward pass procedure:</strong></p>
+<ol>
+<li>Initialise/simulate weights (<code>randn</code> or <code>rand</code>).</li>
+<li>Compute <code>T̂</code> then <code>A(T̂)</code> for hidden layer → <code>H1, H2</code>.</li>
+<li>Repeat hidden→output → <code>O1, O2</code>.</li>
+<li>Apply sigmoid/softmax → probabilities → <code>argmax</code> → prediction.</li>
+</ol>
+<p><strong>Deferred to next class:</strong> backpropagation, loss function, optimiser, learning rate. Lecturer: &quot;&gt;8 optimisers exist; Adam is the most popular.&quot; Also flagged growing emphasis on <strong>interpretability/SHAP</strong> (&quot;impact of each input on the target&quot;) — works on tabular input features, harder in image processing where there are no named features.</p>
+<p><strong>Framing chat (non-technical):</strong> opened with a long discussion on AI automation and the job market — Springboard data-analytics course (2018, ~€8k govt-funded, Power BI/Tableau/QlikView), data-engineer/big-data roles that paid ~€100k now folded into &quot;AI engineer/researcher&quot; titles. Point being made: ML/DL + architecture knowledge is where roles are consolidating. Context only, not assessed.</p>
+<hr>
+<h2>Math / Code</h2>
+<pre><code>import numpy as np
+
+# --- Forward pass for one sample through a 1-hidden-layer ANN (binary classification) ---
+def relu(z):      return np.maximum(0.0, z)
+def sigmoid(z):   return 1.0 / (1.0 + np.exp(-z))
+def softmax(z):   e = np.exp(z - z.max()); return e / e.sum()   # stable softmax
+
+K, H = 10, 2                      # features, hidden nodes
+x  = np.concatenate(([1.0], np.random.rand(K)))   # x0=1 bias + K features
+
+# Weight init — Normal (StandardScaler logic) or Uniform (MinMaxScaler logic)
+W1 = np.random.randn(H, K + 1)    # hidden weights incl. bias column  -&gt; 2 x 11 = 22 values
+W2 = np.random.randn(2, H + 1)    # output weights incl. bias
+
+# Transfer (T) then Activation (A)
+T_hidden = W1 @ x                 # weighted sum  T = Σ w_i x_i
+H_out    = relu(T_hidden)         # hidden activation: ReLU, range [0, inf)
+
+h = np.concatenate(([1.0], H_out))   # add bias for next layer
+T_out    = W2 @ h
+proba    = softmax(T_out)         # output activation -&gt; probabilities, sum to 1
+pred     = int(np.argmax(proba))  # predicted class</code></pre>
+<p>Core formulas: transfer <code>T = Σ_{i=0}^{K} wᵢxᵢ</code> · ReLU <code>max(0,T)</code> · sigmoid <code>1/(1+e^{-T})</code> · softmax <code>e^{Tᵢ}/Σⱼe^{Tⱼ}</code>.</p>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>Dissertation</strong> — the ALCE-style <strong>NLI grounding evaluator</strong> is exactly today&#x27;s pattern: a classifier whose final layer is <strong>softmax over entailment classes</strong>, <code>argmax</code> → label. Softmax/<code>argmax</code> and the sigmoid↔logistic equivalence directly underpin how that evaluator (and the LLM-judge&#x27;s class probabilities) produce the labels you&#x27;ll compare against human annotations with Cohen&#x27;s kappa.</li>
+<li>Connects to <strong>Dissertation (SRQ2 / interpretability)</strong> — the lecturer&#x27;s SHAP point (&quot;impact of each input on the target&quot;) is the model-level analogue of your <strong>claim-property bias</strong> analysis (length, hedging, citation density). SHAP itself is tabular and won&#x27;t apply to your sentence-level setup, but the framing — explain <em>why</em> an evaluator labels as it does — is the same instinct as your disagreement taxonomy.</li>
+<li><strong>Risk flag — DL CA01 scope creep into the dissertation.</strong> CA01 wants 3 DL models + a deployed web app. Tempting to reuse Portuguese data and call it dissertation progress, but the dissertation is an <strong>evaluation meta-study and explicitly excludes fine-tuning / model-building</strong> as contributions. Keep CA01 a separate, lightweight build; don&#x27;t let it absorb dissertation hours or blur scope.</li>
+<li><strong>Scheduling collision</strong> — DL CA01 is due <strong>Week 8</strong> (≈ early July 2026; confirm Moodle) and <strong>RS CA1 is due 2026-07-10</strong> with its presentation on 2026-07-13. Two build-and-present deliverables landing in the same week. Plan backwards from early July now, not in June.</li>
+<li>Connects to <strong>RL W2 (value/Q functions)</strong> — gradient descent / optimisation machinery deferred to next DL class is the same family of tooling RL leans on; learn it once.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li><strong>DL CA01 exact due date</strong> — guide says &quot;Week 8&quot;. Pin the calendar date on Moodle and check it against RS CA1 (2026-07-10) before committing a June plan. <em>(time-sensitive)</em></li>
+<li><strong>DL CA02 (60%)</strong> — guide gives no detail (assesses MIMLOs 3 &amp; 5: backprop/optimisation + architectures CNN/RNN). Confirm format and date on Moodle.</li>
+<li>Which <strong>3 models</strong> to pick for CA01&#x27;s &quot;Model Architecture Background&quot; — syllabus arc suggests MLP + CNN + RNN/LSTM. Decide early so the deployed app is feasible on Render.com free tier.</li>
+<li>AI-use scale is <strong>Level 4</strong> (AI task completion, human evaluation) — any AI-generated content must be cited and critically evaluated. Confirm what counts as &quot;cited&quot; for code.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: Difference between the transfer function and the activation function in an ANN node?</li>
+<p>A: Transfer = weighted sum of inputs incl. bias (<code>T = Σwᵢxᵢ</code>), the pre-activation. Activation = non-linearity applied to <code>T</code>; node output = <code>A(T)</code>.</p>
+<li>Q: Why must a classification output layer use sigmoid/softmax rather than ReLU?</li>
+<p>A: ReLU&#x27;s range is <code>[0, ∞)</code> (e.g. <code>5</code>), which can&#x27;t be read as a probability. Sigmoid/softmax squash to <code>[0,1]</code> so outputs are class probabilities → <code>argmax</code> gives the prediction.</p>
+<li>Q: Why keep the bias node (<code>x₀ = 1</code>) explicit even though <code>x₀·w₀ = w₀</code>?</li>
+<p>A: So backpropagation can differentiate the loss with respect to <code>w₀</code> and update it like any other weight.</p>
+<li>Q: One-sentence difference between logistic regression and an ANN?</li>
+<p>A: Same logistic/sigmoid function — the difference is the model <strong>structure</strong> (ANN stacks hidden layers; logistic regression is a single transformation).</p>
+<li>Q: What are the two weight-initialisation kernels and their scaler analogues?</li>
+<p>A: Normal (<code>np.random.randn</code>, ↔ StandardScaler, mean 0, ~<code>[-3,3]</code>) and Uniform (<code>np.random.rand</code>, ↔ MinMaxScaler, <code>[0,1]</code>).</p>
+<li>Q: Softmax formula for output node <code>i</code>?</li>
+<p>A: <code>e^{Tᵢ} / Σⱼ e^{Tⱼ}</code> — each value ∈ <code>[0,1]</code>, all sum to 1.</p>
+</ul>
+<hr>
+<h2>Flags / Corrections (verify before the exam — lecturer&#x27;s stats were loose)</h2>
+<ul>
+<li><strong>&quot;99.95% within ±3 by Chebyshev&quot;</strong> is wrong on two counts. The ~99.7% within 3σ figure is the <strong>empirical rule (68–95–99.7)</strong> for the <em>normal</em> distribution, not Chebyshev. <strong>Chebyshev</strong> guarantees only ≥ 88.9% within 3σ for <em>any</em> distribution. And <strong>CLT</strong> (sampling distribution of the mean) was invoked incorrectly here — it&#x27;s not what gives the spread of standardised data. Use the right name in an assessment.</li>
+<li><strong>&quot;SHAP / interpretability is less than 6 months old&quot;</strong> — false. SHAP (Lundberg &amp; Lee) is from <strong>2017</strong>. The <em>emphasis</em> on interpretability is current, but the dating is wrong.</li>
+<li><strong>&quot;Feed-forward + backprop = one epoch&quot;</strong> — imprecise. An <strong>epoch</strong> = one full pass over the <em>entire</em> training set; with mini-batches it contains many forward/backward passes. A single forward+backward pair is an <strong>iteration/step</strong>, not an epoch.</li>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Module guide: <code>docs/course-materials/deep-learning-module-guide.pdf</code> (B9AI104, lecturer Dr Shahram Azizi Sazi); Week 2 = &quot;ANN — structure &amp; functionality, training &amp; optimisation, application examples&quot;.</li>
+<li>Transcript source: <code>~/Desktop/DBS/2 Periodo/What is Deep Learning.docx</code>, pasted into Codex 2026-05-21.</li>
+<li>Assessment context: <code>context/ASSESSMENTS.md</code> (DL CA01 40% Week 8; CA02 60%).</li>
+<li>Dissertation context: <code>context/DISSERTATION.md</code> (NLI/softmax evaluator, Cohen&#x27;s kappa, SRQ2 claim-property bias).</li>
+<li>CA01 Colab template (from guide): https://colab.research.google.com/drive/1xuz2Pm55jPOzyDu275XVqTrGDJmhgy3k</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Confirm DL CA01 (Week 8) and CA02 exact dates on Moodle; map both against RS CA1 (2026-07-10 / present 2026-07-13).</li>
+<li>[ ] Re-derive the forward pass by hand for the <code>K=10</code>, 2-hidden-node example (transfer → ReLU → softmax → argmax) before the next class adds backprop.</li>
+<li>[ ] Skim a clean reference on weight init (the StandardScaler↔Normal / MinMaxScaler↔Uniform mapping) to lock the corrected stats.</li>
+<li>[ ] Decide CA01&#x27;s 3 models early (likely MLP + CNN + RNN/LSTM) and a deployable use case for Render.com — keep it separate from the dissertation.</li>
+<li>[ ] Update <code>tasks/STUDY_PROGRESS.md</code> with DL W2 completed.</li>
+</ul><footer>Generated from nathan-os notes · 2026-05-22 15:08 IST</footer></main></body></html>

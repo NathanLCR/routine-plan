@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NLP — Week 2: Text Vectorisation &amp; Representation</title><style>
+:root{--bg:#101114;--surface:#181a20;--surface2:#21242d;--border:#343946;--text:#f1f2f4;--muted:#a5acb8;--dim:#7f8794;--accent:#8fb7ff;--good:#77c78d;--warn:#f1b96b;--bad:#ef7a7a;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.65}main{width:min(980px,calc(100% - 28px));margin:0 auto;padding:28px 0 44px}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}header{border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:16px}.crumbs,.meta{color:var(--dim);font-size:12px}h1{font-size:28px;line-height:1.15;margin:10px 0 8px}h2{border-top:1px solid var(--border);color:var(--text);font-size:20px;margin:28px 0 10px;padding-top:20px}h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em}p{margin:0 0 12px}ul,ol{padding-left:24px}li{margin:6px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}code{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:1px 5px}pre{background:#0b0c10;border:1px solid var(--border);border-radius:14px;overflow:auto;padding:14px}pre code{background:none;border:0;padding:0}.card{background:linear-gradient(180deg,var(--surface),#15171c);border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.note-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px}.pill{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 5px 4px 0;padding:3px 8px}.button{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:10px;background:rgba(143,183,255,.14);border:1px solid rgba(143,183,255,.35);color:var(--accent);font-weight:700}input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:8px 0 14px}footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:32px;padding-top:16px}
+</style></head><body><main><header><div class="crumbs"><a href="../../index.html">Dashboard</a> · <a href="../index.html">Study Notes</a></div><h1>NLP — Week 2: Text Vectorisation &amp; Representation</h1><p class="meta">Natural Language Processing · msc-coursework/outputs/class-notes/NLP-W2-TextVectorisation.md</p></header><div class="card"><span class="pill">NLP</span><span class="pill">Week 2</span><span class="pill">msc-coursework/outputs/class-notes/NLP-W2-TextVectorisation.md</span><p class="meta">Modified 2026-05-22T11:13:55+01:00</p></div><h1>NLP — Week 2: Text Vectorisation &amp; Representation</h1>
+<h2>Focus</h2>
+<p>How to turn unstructured text into numeric vectors for classification — the four bag-of-words encodings (frequency, one-hot, TF-IDF, distributed) and the libraries that implement them (scikit-learn, NLTK, Gensim). TF-IDF is the benchmark; distributed representations (Word2Vec/Doc2Vec/GloVe/BERT) capture meaning that BoW cannot. The lecturer&#x27;s sharpest practical points: <strong>TF-IDF is your AI Studio benchmark and a strong general-purpose starting point</strong>, and BoW&#x27;s fatal weakness is that &quot;dog bites man&quot; and &quot;man bites dog&quot; get identical vectors — order and semantics are lost. <strong>Critical compliance warning: NLP CA1 is AI-use Level 2 — no AI-generated content in the final submission</strong> (see flags).</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Token — a string of encoded bytes representing meaning; &quot;not quite a word.&quot; <code>CountVectorizer</code>/<code>TfidfVectorizer</code> treat any whitespace-separated string as a token → a feature/column.</li>
+<li>Bag of words (BoW) — each document = a vector of length = vocabulary size; meaning assumed encoded in vocabulary. Term-document matrix.</li>
+<li>Frequency vectors — raw token counts (<code>CountVectorizer</code>) or term frequency (count normalised by document length).</li>
+<li>One-hot encoding — binary: 1 if token present, 0 if absent. Good for short docs (tweets), and for ANNs with sigmoid <code>[0,1]</code> / tanh <code>[-1,1]</code> activations and RNNs.</li>
+<li>TF-IDF — weights a token by how rare it is across the corpus; the AI Studio benchmark. <code>TF = nₖ/n</code>, <code>IDF = log₂(N/Nₖ)</code>, <code>TF-IDF = TF·IDF</code>.</li>
+<li>n-grams — multi-token features (&quot;machine learning&quot;, &quot;text mining&quot; = 2-grams). Hyperparameter <code>ngram_range=(1,2)</code>.</li>
+<li>Stemming vs lemmatisation — stemming = crude suffix chop (&quot;caring&quot;→&quot;car&quot;); lemmatisation = dictionary root with POS/context (&quot;caring&quot;→&quot;care&quot;). Lemmatisation keeps meaning, costs more.</li>
+<li>Stop-word removal — drop &quot;the/is/of&quot;; TF-IDF does this implicitly (common words get tiny weights).</li>
+<li>Cosine similarity — <code>cos θ = (A·B)/(‖A‖‖B‖)</code>; angle-based similarity of two vectors. (Distance = <code>1 − cos θ</code>; see flag for the transcript muddle.)</li>
+<li>Distributed representation — learned dense embeddings where similar words/docs sit close in space; Word2Vec, Doc2Vec, GloVe, BERT/GPT.</li>
+<li>CRISP-DM — the 6-stage process the CA1 report must follow: Business Understanding → Data Understanding → Data Preparation → Modelling → Evaluation → Deployment.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Why text is hard:</strong></p>
+<ul>
+<li>Average professional vocabulary ≈ 60k words = only ~10% of the Oxford dictionary, ~5% of what Google recognises (Bengfort et al., 2019).</li>
+<li>Ambiguity, polysemy (&quot;crab&quot; = animal / nebula), meaning drift over time (&quot;battery&quot;), culture/context dependence, grammar (prefixes/suffixes don&#x27;t add meaning but explode the token count).</li>
+<li>Early approach treated language like a compiler (Chomsky/grammar) — failed. Statistical ML fits the fuzziness better.</li>
+<li>English/French/German/Arabic/Chinese are mature; <strong>low-resource languages</strong> (e.g. Amharic) lack tooling → research opportunity.</li>
+</ul>
+<p><strong>Pre-processing sequence (do before vectorising):</strong></p>
+<ul>
+<li>Tokenise → remove punctuation/emojis → lowercase → stop-word removal → filtering (consolidate synonyms e.g. bike/bicycle) → stem or lemmatise. Only then vectorise.</li>
+</ul>
+<p><strong>Four BoW encodings:</strong></p>
+<ol>
+<li><strong>Frequency</strong> — <code>CountVectorizer</code>. Counts. Required first step even if you reweight later (and for word clouds). Suffers Zipfian long tail.</li>
+<li><strong>One-hot</strong> — <code>Binarizer</code> after a count, or <code>CountVectorizer(binary=True)</code>. Did the token occur? Loses per-word similarity (&quot;trying&quot;/&quot;try&quot; as distant as &quot;red&quot;/&quot;bicycle&quot;).</li>
+<li><strong>TF-IDF</strong> — <code>TfidfVectorizer</code> (= CountVectorizer + TfidfTransformer). Rare-overall-but-frequent-here → high weight (the Google-search intuition). The benchmark.</li>
+<li><strong>Distributed</strong> — Word2Vec/Doc2Vec via Gensim (NLTK/sklearn don&#x27;t implement these). Continuous dense vectors capturing meaning.</li>
+</ol>
+<p><strong>Libraries (lecturer&#x27;s take):</strong></p>
+<ul>
+<li><strong>scikit-learn</strong> — cleanest/most interpretable for vectorising; her preference. Not built for text but robust API.</li>
+<li><strong>NLTK</strong> — more powerful for linguistics, trickier syntax; <code>TextCollection</code> for TF-IDF, needs the whole corpus.</li>
+<li><strong>Gensim</strong> — <code>doc2bow</code>, <code>TfidfModel</code>, Word2Vec/Doc2Vec; serialises to disk; doesn&#x27;t tokenise/stem. Comes with a Google-news pre-trained model.</li>
+<li>Code samples for all three are in a zipped folder on Moodle.</li>
+</ul>
+<p><strong>Dimensionality:</strong></p>
+<ul>
+<li>BoW is huge &amp; sparse. Cap features (<code>max_features</code>; benchmark = 1000 in AI Studio, slides use 5000). <code>HashingVectorizer</code> for very large corpora (no inverse transform, no IDF).</li>
+<li>Reduce with <strong>PCA</strong> (eigen-decomposition of covariance; needs normalised data) or <strong>SVD</strong> (PCA is a special case of SVD). Lecturer&#x27;s anecdote: TF-IDF → PCA → Random Forest beat other approaches on fake-news detection. <strong>UMAP</strong> (graph-based) is an untried-by-her option worth exploring.</li>
+</ul>
+<p><strong>Balancing:</strong> Classification needs balanced classes. <strong>Undersample</strong> to the minority count (she prefers it). Must vectorise <em>before</em> SMOTE — &quot;you can&#x27;t meaningfully SMOTE unvectorised text.&quot;</p>
+<p><strong>Distributed representations:</strong></p>
+<ul>
+<li><strong>Word2Vec</strong> (Mikolov et al., 2013, Google) — CBOW or skip-gram; <code>king − man + woman ≈ queen</code>; capitals cluster near countries.</li>
+<li><strong>Doc2Vec</strong> — paragraph vector; fixed-length vectors from variable-length docs; respects local word order (n-gram-like); lower dimensionality than BoW.</li>
+<li><strong>GloVe</strong> — co-occurrence-probability ratios (graph/count-based, not skip-gram).</li>
+<li><strong>BERT / GPT</strong> — transformer embeddings; current best. &quot;LLMs are super expert at embeddings.&quot;</li>
+<li>t-SNE / PCA used to project high-dim embeddings to 2D for visualisation.</li>
+</ul>
+<p><strong>RAG / question-answering (lecturer described it directly — dissertation-relevant):</strong></p>
+<ul>
+<li>Embed the question with an LLM → store question→answer truth pairs in a <strong>vector database</strong> → embed a new question → <strong>cosine similarity</strong> retrieves the closest → feed that answer to the LLM to generate language.</li>
+<li>She named <strong>RAGAS</strong> (&quot;recently published, 2025&quot;) as a system of metrics for &quot;my LLM generated this, my truth is this — how good is it?&quot; and for comparing two LLMs. (Dating slip — see flag.)</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># --- TF-IDF (the benchmark) ---
+# TF   = n_k / n           n_k = count of token k in doc, n = total tokens in doc
+# IDF  = log2(N / N_k)     N = #docs in corpus, N_k = #docs containing token k
+# TFIDF = TF * IDF         rare-overall but frequent-here -&gt; high weight
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+
+tfidf = TfidfVectorizer(
+    max_features=5000,        # cap dimensionality (AI Studio benchmark used 1000)
+    stop_words=&quot;english&quot;,     # TF-IDF also down-weights stopwords implicitly
+    ngram_range=(1, 2),       # experiment: 1-gram vs 2-/3-gram (Enron emails needed 3)
+)
+X = tfidf.fit_transform(corpus)       # sparse ((doc, term) -&gt; tfidf)
+clf = LogisticRegression().fit(X, y)
+
+# --- Cosine similarity (similarity, NOT distance) ---
+#   cos(θ) = (A·B) / (||A|| * ||B||)
+#   +1 = same direction (most similar) | 0 = orthogonal (unrelated) | -1 = opposite
+#   cosine DISTANCE = 1 - cos(θ).  For non-negative BoW vectors cos∈[0,1], dist∈[0,1].
+from sklearn.metrics.pairwise import cosine_similarity
+sim = cosine_similarity(X[0], X[1])
+
+# CA1 Task 2 grid: &gt;= 3 representations x &gt;= 3 algorithms = &gt;= 9 models, tabulated.</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>Dissertation (core)</strong> — this lecture <em>is</em> the retrieval half of the dissertation, in miniature:</li>
+<li><strong>TF-IDF → BM25.</strong> The dissertation&#x27;s main retrieval is hybrid RRF = BM25 + BGE-M3. BM25 is a TF-IDF-family sparse weighting — the term-rarity intuition here is exactly what BM25 formalises.</li>
+<li><strong>Cosine similarity = dense retrieval scoring.</strong> BGE-M3 embeddings are ranked by cosine — the lecturer&#x27;s RAG-over-a-vector-DB description is the dissertation&#x27;s retriever.</li>
+<li><strong>RAGAS is one of your three evaluators.</strong> She named it directly. RAGAS faithfulness in <code>context/DISSERTATION.md</code> thresholds to SUPPORTED/PARTIAL/UNSUPPORTED.</li>
+<li><strong>Strong recommendation — double-dip NLP CA1 Task 1 with the dissertation.</strong> Task 1 (critique a recent peer-reviewed NLP paper under Context/Gap/Question/Method/Findings/Significance) should be <strong>one of your dissertation priority papers</strong> — ALCE, RAGAS (Es et al.), RAGTruth, GroUSE, or Sufficient-Context. The lecturer explicitly invited this (&quot;one of the papers you&#x27;re looking at for applied research&quot;). One critique simultaneously feeds NLP CA1, the ARM proposal lit review, and the dissertation. Triple synergy — do not waste it on an unrelated paper.</li>
+<li><strong>Risk flag — Portuguese tokenisation/segmentation.</strong> The lecturer&#x27;s stemming/lemmatisation and low-resource caveats land directly on the dissertation&#x27;s open decision: a &quot;defended Portuguese segmentation method&quot; for sentence-splitting (Step 4 in <code>context/DISSERTATION.md</code>). NLTK is weak for PT; spaCy has PT models. This lecture is the place to settle which splitter you&#x27;ll defend.</li>
+<li>Connects to <strong>DL W2</strong> — one-hot encoding is &quot;commonly used in ANNs with sigmoid <code>[0,1]</code>/tanh <code>[-1,1]</code>&quot; and RNNs — the same activation ranges from your DL note. The transcript even flags you&#x27;ll move to CNNs/RNNs in DL.</li>
+<li>Connects to <strong>ARM</strong> — the 7-heading paper critique is the same critical-reading scaffold ARM uses for the proposal; the lecturer linked CA1 Task 1 to the applied-research project.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li><strong>CA1 due date</strong> — &quot;End Reading Week / Sunday of Reading Week 23:59&quot;. Pin the exact date on Moodle; it likely clusters with RS CA1 (2026-07-10) and DL CA01 (Week 8). <em>(time-sensitive)</em></li>
+<li><strong>AI-use level</strong> — brief highlights <strong>Level 2</strong> (no AI content in final submission). Confirm this is the operative level vs the DL CA01&#x27;s Level 4 — they differ and the stricter rule governs how you write. <em>(compliance-critical)</em></li>
+<li><strong>&quot;Seven headings&quot; vs six</strong> — the brief says seven but lists six (Context, Gap, Question, How, Findings, Significance). Confirm whether topic/title is the 7th.</li>
+<li><strong>&quot;Software required: Neo4j GDS and Python Network-X&quot;</strong> on the brief — almost certainly boilerplate carried over from the graph module; the actual task is text vectorisation with scikit-learn/NLTK/Gensim + AI Studio. Confirm, but don&#x27;t build a Neo4j pipeline.</li>
+<li>Which dataset for Task 2 — BLOG GENDER (provided, balanced, ready) vs Clinician ICD disease codes (needs ~7h de-identification training + data prep). Default to BLOG GENDER unless CA2 ambitions justify MIMIC.</li>
+<li>CA2 group team (2–3, <strong>never 4 → penalised</strong>) — lock members up front.</li>
+</ul>
+<hr>
+<h2>Week 2 Deliverable (CA1 — 50%, individual, due End Reading Week)</h2>
+<p><strong>Task 1 — Paper critique (30 marks / criterion 001).</strong> ≤2 pages text, ≥10pt font, cover page excluded. Peer-reviewed journal/conference paper. Harvard secondary referencing. Under <em>Significance</em>, state the paper&#x27;s citation count. Headings: Context · Gap · Question · How did they do the work? · What did they find? · Significance. → <em>Draft move: pick <strong>RAGAS (Es et al.)</strong> or <strong>ALCE</strong> — a dissertation priority paper — so the critique doubles as lit-review work.</em></p>
+<p><strong>Task 2 — Classifier + CRISP-DM report (70 marks).</strong> Dataset: BLOG GENDER <strong>or</strong> Clinician ICD. Benchmark = AI Studio AutoModel (TF-IDF, 1000 dims). Build ≥3 representations × ≥3 algorithms = <strong>≥9 models</strong>, tabulated, with advantages/disadvantages/interpretation. Report under CRISP-DM 6 headings. Deployment optional (web app not required). Mark split: BU/DU/Deployment 20% (002) · Data Prep–representation 20% (003) · Modelling &amp; Evaluation 30% (004).</p>
+<p><strong>Submit:</strong> single PDF <code>CA01_Surname_FirstName_StudentID</code> + zipped code, to Moodle by Sunday of Reading Week 23:59.</p>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: TF-IDF formula?</li>
+<p>A: <code>TF = nₖ/n</code>, <code>IDF = log₂(N/Nₖ)</code>, <code>TF-IDF = TF·IDF</code>. Rare overall but frequent in this doc → high weight.</p>
+<li>Q: Why does BoW fail on &quot;dog bites man&quot; vs &quot;man bites dog&quot;?</li>
+<p>A: It ignores word order/structure — both produce identical vectors. Loss of contextual/semantic information.</p>
+<li>Q: Cosine similarity formula and what its values mean?</li>
+<p>A: <code>cos θ = (A·B)/(‖A‖‖B‖)</code>. +1 = same direction (most similar), 0 = orthogonal (unrelated), −1 = opposite. Distance = 1 − cos θ.</p>
+<li>Q: Stemming vs lemmatisation?</li>
+<p>A: Stemming = crude suffix removal (&quot;caring&quot;→&quot;car&quot;). Lemmatisation = dictionary root using POS/context (&quot;caring&quot;→&quot;care&quot;). Lemma keeps meaning.</p>
+<li>Q: One sentence — what do distributed representations add over TF-IDF?</li>
+<p>A: Dense learned embeddings place semantically similar words/docs near each other (<code>king−man+woman≈queen</code>); BoW/TF-IDF can&#x27;t capture synonymy.</p>
+<li>Q: Which library implements Word2Vec/Doc2Vec — and which don&#x27;t?</li>
+<p>A: Gensim does (plus a Google-news pre-trained model); NLTK and scikit-learn do not.</p>
+<li>Q: Why must you vectorise text before SMOTE?</li>
+<p>A: SMOTE interpolates in numeric feature space — you can&#x27;t meaningfully oversample raw unvectorised text.</p>
+</ul>
+<hr>
+<h2>Flags / Corrections</h2>
+<ul>
+<li><strong>NLP CA1 AI-use = Level 2, not Level 4.</strong> The brief highlights &quot;AI-assisted idea generation and structuring&quot; — AI for brainstorming/structure only, <strong>no AI-generated content in the final submission</strong>. This is stricter than DL CA01 (Level 4). As you use Atenas/Claude, you must write Task 1 and the CRISP-DM report entirely yourself; AI for outlining/ideas only. Highest-priority compliance item.</li>
+<li><strong>Cosine muddle in the transcript.</strong> The lecturer mixed &quot;cosine&quot; (similarity) and &quot;cosine distance.&quot; Clean version: cosine <em>similarity</em> +1 = identical direction, 0 = orthogonal, −1 = opposite; cosine <em>distance</em> = 1 − similarity (so 0 = identical, 1 = orthogonal, 2 = opposite). For non-negative BoW vectors similarity is capped at <code>[0,1]</code> — which is why two semantically similar docs sharing no terms look maximally far apart (the motivation for distributed representations).</li>
+<li><strong>RAGAS dating.</strong> Lecturer said &quot;published 2025.&quot; RAGAS (Es et al., <em>Automated Evaluation of RAG</em>) is <strong>2023</strong> (arXiv; EACL 2024 demo). Matters because it&#x27;s a dissertation evaluator — cite it correctly.</li>
+<li><strong>Brief boilerplate.</strong> &quot;Software required: Neo4j GDS and Python Network-X&quot; appears lifted from the graph-module template; ignore for this text task unless Moodle says otherwise.</li>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>docs/course-materials/natural-language-processing-week-2-text-vectorisation-and-transformation.pdf</code> (57 slides, Terri Hoare, B9AI006, based on Bengfort et al. 2019 <em>Applied Text Analysis with Python</em>); transcript pasted into Codex 2026-05-21.</li>
+<li>Week 1: <code>docs/course-materials/natural-language-processing-week-1-introduction.pdf</code>.</li>
+<li>Assessment brief: <code>docs/course-materials/natural-language-processing-ca1-assessment.pdf</code> (CA1, 50%, individual, MIMLO 1/2/3).</li>
+<li>Dissertation context: <code>context/DISSERTATION.md</code> (BM25 + BGE-M3 hybrid RRF; RAGAS evaluator; Portuguese sentence segmentation).</li>
+<li>Source papers worth critiquing for Task 1: Mikolov et al. (2013a/b) Word2Vec; Es et al. (2023) RAGAS; Gao et al. ALCE.</li>
+<li>Reflective journal: <code>tasks/REFLECTIVE_JOURNAL.md</code>.</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Confirm CA1 reading-week due date + AI-use Level on Moodle; slot it against RS CA1 (2026-07-10) and DL CA01 (Week 8).</li>
+<li>[ ] Pick the Task 1 paper = a dissertation priority paper (RAGAS or ALCE) and draft the 6/7-heading critique — doubles as lit-review.</li>
+<li>[ ] Lock a 2–3 person CA2 team (never 4).</li>
+<li>[ ] Start Task 2 on BLOG GENDER: clean → CountVectorize → word clouds + per-class token counts → undersample-balance → TF-IDF benchmark vs AI Studio.</li>
+<li>[ ] Decide the ≥3 representations (count / TF-IDF / Doc2Vec or TF-IDF+PCA) × ≥3 algorithms grid before modelling.</li>
+<li>[ ] Update <code>tasks/STUDY_PROGRESS.md</code> — NLP W2 done. <em>(done this session)</em></li>
+</ul>
+<pre><code></code></pre><footer>Generated from nathan-os notes · 2026-05-22 15:08 IST</footer></main></body></html>

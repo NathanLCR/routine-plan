@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RS — Week 1: Introduction to Recommender Systems</title><style>
+:root{--bg:#101114;--surface:#181a20;--surface2:#21242d;--border:#343946;--text:#f1f2f4;--muted:#a5acb8;--dim:#7f8794;--accent:#8fb7ff;--good:#77c78d;--warn:#f1b96b;--bad:#ef7a7a;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.65}main{width:min(980px,calc(100% - 28px));margin:0 auto;padding:28px 0 44px}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}header{border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:16px}.crumbs,.meta{color:var(--dim);font-size:12px}h1{font-size:28px;line-height:1.15;margin:10px 0 8px}h2{border-top:1px solid var(--border);color:var(--text);font-size:20px;margin:28px 0 10px;padding-top:20px}h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em}p{margin:0 0 12px}ul,ol{padding-left:24px}li{margin:6px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}code{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:1px 5px}pre{background:#0b0c10;border:1px solid var(--border);border-radius:14px;overflow:auto;padding:14px}pre code{background:none;border:0;padding:0}.card{background:linear-gradient(180deg,var(--surface),#15171c);border:1px solid var(--border);border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.note-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px}.pill{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 5px 4px 0;padding:3px 8px}.button{display:inline-flex;margin-top:8px;padding:7px 10px;border-radius:10px;background:rgba(143,183,255,.14);border:1px solid rgba(143,183,255,.35);color:var(--accent);font-weight:700}input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:8px 0 14px}footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:32px;padding-top:16px}
+</style></head><body><main><header><div class="crumbs"><a href="../../index.html">Dashboard</a> · <a href="../index.html">Study Notes</a></div><h1>RS — Week 1: Introduction to Recommender Systems</h1><p class="meta">Recommender Systems · msc-coursework/outputs/class-notes/RS-W1-Introduction.md</p></header><div class="card"><span class="pill">RS</span><span class="pill">Week 1</span><span class="pill">msc-coursework/outputs/class-notes/RS-W1-Introduction.md</span><p class="meta">Modified 2026-05-22T11:13:55+01:00</p></div><h1>RS — Week 1: Introduction to Recommender Systems</h1>
+<h2>Focus</h2>
+<p>Recommender systems reduce information overload by suggesting relevant items to users. The class covered the five core recommender families, user/item data types, explicit vs implicit preferences, cold start, evaluation approaches, and ethical risks.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Collaborative filtering — recommendation based on user similarity or user-item behaviour</li>
+<li>Content-based filtering — recommendation based on item features or descriptions</li>
+<li>Socio-demographic recommenders — uses age, location, profession, income, gender</li>
+<li>Knowledge-based recommenders — uses explicit domain constraints and user requirements</li>
+<li>Conversational recommenders — dialogue-driven preference elicitation</li>
+<li>Explicit preferences — ratings, stars, likes, surveys, votes, reviews</li>
+<li>Implicit preferences — clicks, watch time, purchase history, repeat visits</li>
+<li>Cold start — insufficient history for personalised recommendations</li>
+<li>Matthew effect — popular items become more popular through recommendation loops</li>
+<li>Offline vs online evaluation — predictive metrics vs real-world satisfaction/adoption</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Definition:</strong></p>
+<ul>
+<li>Software tools/techniques that suggest items best suited to a user&#x27;s interests</li>
+<li>Designed around a specific item type: books, movies, restaurants, songs, courses, jobs</li>
+<li>Core purpose: reduce information overload + decision fatigue</li>
+</ul>
+<p><strong>Business benefits:</strong></p>
+<ul>
+<li>Customer loyalty, trust, cross-selling, increased sales, better customer understanding</li>
+</ul>
+<p><strong>System data types:</strong></p>
+<ul>
+<li>Item data: cost, features, genre, length, tags, text, benefit</li>
+<li>User profile: age, sex, location, profession, preferences, inferred model</li>
+<li>Explicit: ratings, likes, stars, survey answers, votes, reviews</li>
+<li>Implicit: browsing patterns, clicks, watch time, purchases, repeat visits</li>
+</ul>
+<p><strong>Five recommender families:</strong></p>
+<ul>
+<li>Collaborative — similarity between users or user-item behaviour → neighbourhood → prediction</li>
+<li>Content-based — item features/descriptions → similar items to ones the user liked</li>
+<li>Socio-demographic — uses demographic attributes (age, location, income, gender)</li>
+<li>Knowledge-based — uses explicit domain constraints + user requirements</li>
+<li>Conversational — dialogue to elicit preferences in real time</li>
+</ul>
+<p><strong>Collaborative filtering flow:</strong></p>
+<ol>
+<li>Calculate similarity between target user and all others</li>
+<li>Form a neighbourhood of similar users</li>
+<li>Predict rating by aggregating neighbour ratings</li>
+</ol>
+<p><strong>Cold start:</strong></p>
+<ul>
+<li>No user/item/rating history → fallback to popular or regional trends</li>
+<li>Example: new Netflix user → shown popular titles by region</li>
+</ul>
+<p><strong>Evaluation:</strong></p>
+<ul>
+<li>Offline: train/test splits, prediction metrics, before deployment</li>
+<li>Online / user studies: satisfaction, interaction, adoption, real-world impact</li>
+</ul>
+<p><strong>Ethical risks:</strong></p>
+<ul>
+<li>Binge-watching, overconsumption, overspending, mindless scrolling</li>
+<li>Idea segregation (filter bubbles), privacy concerns</li>
+</ul>
+<p><strong>ML Refresher (lecturer emphasis):</strong></p>
+<ul>
+<li>Supervised: regression (numerical target) or classification (categorical target)</li>
+<li>Unsupervised: no labels, discovering hidden clusters</li>
+<li>Deep learning: separate learning architecture, can still be regression/classification/unsupervised</li>
+<li>Overfitting → dropout, weight decay, early stopping, cross-validation</li>
+<li>Scaler must be fit on training data only to avoid data leakage</li>
+<li>Class imbalance → oversampling, undersampling, SMOTE</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># Regression metrics
+import numpy as np
+
+def rmse(y_true, y_pred):
+    return np.sqrt(np.mean((np.array(y_true) - np.array(y_pred)) ** 2))
+
+def mae(y_true, y_pred):
+    return np.mean(np.abs(np.array(y_true) - np.array(y_pred)))
+
+# Classification metrics reminder
+# precision = TP / (TP + FP)  → of all predicted positives, how many are real?
+# recall    = TP / (TP + FN)  → of all real positives, how many did we catch?
+# F1        = 2 * (precision * recall) / (precision + recall)</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>RS Week 2</strong> because Week 1 defines the personalised baseline; Week 2 introduces</li>
+<p>non-personalised as contrast and as the cold-start solution</p>
+<li>Connects to <strong>Deep Learning</strong> because DL architectures extend collaborative filtering</li>
+<p>(neural CF, VAE-CF, two-tower models)</p>
+<li>Connects to <strong>NLP</strong> because content-based filtering uses TF-IDF and embeddings over item text</li>
+<li>Contrasts with <strong>non-personalised</strong> in that personalised depends on individual history;</li>
+<p>non-personalised uses collective signals and works without user history</p>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>Which evaluation metric to prioritise for CA1: precision@k, NDCG, or RMSE? Depends on problem type.</li>
+<li>How to handle users with very sparse profiles (partial cold start) in CA1?</li>
+<li>What is the overlap between Week 1 content and what is assessed in CA1 vs CA2?</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: What is the difference between personalised and non-personalised recommendation?</li>
+<p>A: Personalised makes different recommendations per user using individual history/preferences. Non-personalised uses aggregate or group signals regardless of individual history.</p>
+</ul>
+<ul>
+<li>Q: What is cold start, and which recommender type handles it best?</li>
+<p>A: Cold start = insufficient user/item/rating history for personalised recommendations. Non-personalised popularity models handle it best since they need no individual history.</p>
+</ul>
+<ul>
+<li>Q: Name the five recommender families introduced in Week 1.</li>
+<p>A: Collaborative filtering, content-based, socio-demographic, knowledge-based, conversational.</p>
+</ul>
+<ul>
+<li>Q: What is the Matthew effect in recommender systems?</li>
+<p>A: Popular items get recommended more, making them even more popular — compounding advantage for already-popular items.</p>
+</ul>
+<ul>
+<li>Q: Why must scalers be fit on training data only?</li>
+<p>A: To prevent data leakage: fitting on all data lets the scaler see test-set information before evaluation, inflating performance estimates.</p>
+</ul>
+<ul>
+<li>Q: Give one example where false negatives are worse than false positives.</li>
+<p>A: Healthcare: missing a disease (false negative) is more dangerous than a false alarm (false positive).</p>
+</ul>
+<ul>
+<li>Q: What is the relevance of implicit feedback in recommender systems?</li>
+<p>A: It captures behaviour without requiring explicit user effort (clicks, watch time, purchases), making it abundant but noisier than explicit ratings.</p>
+</ul>
+<ul>
+<li>Q: What ethical risks do recommender systems introduce?</li>
+<p>A: Binge behaviour, overconsumption, overspending, filter bubbles/idea segregation, and privacy concerns from profiling user behaviour.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>docs/course-materials/recommender-systems-week-1-introduction.pdf</code></li>
+<li>Source notes: <code>docs/RECOMMENDER_SYSTEMS_WEEK1_WEEK2_NOTES.md</code></li>
+<li>Google ML Recommendation guide: https://developers.google.com/machine-learning/recommendation</li>
+<li>Recommender Systems Handbook: https://link.springer.com/book/10.1007/978-1-0716-2197-4</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Build a recommender taxonomy diagram (collab / content / socio-demo / knowledge / hybrid)</li>
+<li>[ ] Confirm CA1 group of 3–4 students — dataset/topic approval due 2026-05-25</li>
+<li>[ ] Review Week 2 slides before next RS class</li>
+<li>[ ] Map the five RS types to potential CA1 use cases</li>
+</ul><footer>Generated from nathan-os notes · 2026-05-22 15:08 IST</footer></main></body></html>
