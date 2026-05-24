@@ -14,39 +14,39 @@
       theme: {
         extend: {
           colors: {
-            'background': '#f7f9fb',
-            'surface': '#f7f9fb',
-            'surface-dim': '#d8dadc',
-            'surface-bright': '#f7f9fb',
-            'surface-container': '#eceef0',
-            'surface-container-low': '#f2f4f6',
-            'surface-container-lowest': '#ffffff',
-            'surface-container-high': '#e6e8ea',
-            'surface-container-highest': '#e0e3e5',
-            'surface-variant': '#e0e3e5',
-            'on-background': '#191c1e',
-            'on-surface': '#191c1e',
-            'on-surface-variant': '#45464d',
-            'outline': '#76777d',
-            'outline-variant': '#c6c6cd',
-            'primary': '#131b2e',
-            'on-primary': '#ffffff',
-            'primary-container': '#dae2fd',
-            'on-primary-container': '#3f465c',
-            'secondary': '#515f74',
+            'background': '#0b0f14',
+            'surface': '#0b0f14',
+            'surface-dim': '#1b2230',
+            'surface-bright': '#111722',
+            'surface-container': '#111722',
+            'surface-container-low': '#151d29',
+            'surface-container-lowest': '#111722',
+            'surface-container-high': '#1a2331',
+            'surface-container-highest': '#222b3b',
+            'surface-variant': '#243041',
+            'on-background': '#eef2ff',
+            'on-surface': '#eef2ff',
+            'on-surface-variant': '#a8b1c4',
+            'outline': '#546074',
+            'outline-variant': '#2a3444',
+            'primary': '#dbeafe',
+            'on-primary': '#0b0f14',
+            'primary-container': '#172034',
+            'on-primary-container': '#dbeafe',
+            'secondary': '#c7d2fe',
             'on-secondary': '#ffffff',
-            'secondary-container': '#d5e3fd',
-            'on-secondary-container': '#57657b',
-            'tertiary': '#000000',
+            'secondary-container': '#1b2435',
+            'on-secondary-container': '#dbeafe',
+            'tertiary': '#7dd3a7',
             'on-tertiary': '#ffffff',
-            'tertiary-container': '#002113',
-            'on-tertiary-container': '#009668',
+            'tertiary-container': '#10241a',
+            'on-tertiary-container': '#a7f3d0',
             'tertiary-fixed': '#6ffbbe',
             'tertiary-fixed-dim': '#4edea3',
             'error': '#ba1a1a',
-            'error-container': '#ffdad6',
+            'error-container': '#2b1115',
             'on-error': '#ffffff',
-            'on-error-container': '#93000a',
+            'on-error-container': '#fecaca',
             'inverse-surface': '#2d3133',
             'inverse-on-surface': '#eff1f3',
             'inverse-primary': '#bec6e0',
@@ -88,12 +88,12 @@
     }
   </script>
   <style>
-    :root { color-scheme: light; }
+    :root { color-scheme: dark; }
     html, body { height: 100%; }
     body {
       margin: 0;
-      background: #f7f9fb;
-      color: #191c1e;
+      background: #0b0f14;
+      color: #eef2ff;
       font-family: Inter, system-ui, sans-serif;
     }
     .custom-scrollbar::-webkit-scrollbar { height: 10px; width: 10px; }
@@ -101,15 +101,37 @@
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { scrollbar-width: none; }
-    .ambient-shadow-card { box-shadow: 0px 4px 20px rgba(15,23,42,0.05); }
+    .ambient-shadow-card { box-shadow: 0px 18px 40px rgba(0,0,0,0.24); }
     .metric-chip {
-      background: rgba(218,226,253,.72);
-      color: #3f465c;
-      border: 1px solid rgba(99, 110, 136, .12);
+      background: rgba(148,163,184,.10);
+      color: #dbeafe;
+      border: 1px solid rgba(148,163,184,.16);
     }
     .mini-label { letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
   /* NOTES_HUB_CSS_START */
-.notes-hub .note-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.note-module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}.note-module{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:11px}.note-module strong{display:block;color:var(--text);font-size:18px}.note-module span{display:block;color:var(--dim);font-size:12px;margin-bottom:6px}.note-module a{color:var(--accent);font-size:13px;text-decoration:none}.note-module a:hover{text-decoration:underline}
+.notes-hub{display:flex;flex-direction:column;gap:16px}
+.notes-hub__header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.notes-hub__header h2{margin:6px 0 8px;font-size:clamp(24px,2vw,30px);line-height:1.1;padding:0;border:0}
+.notes-hub .one{margin:0;color:#a8b1c4;max-width:72ch}
+.notes-hub__actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.notes-hub .pill-row{display:flex;flex-wrap:wrap;gap:8px}
+.notes-hub .pill{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.16);color:#c6cfde;font-size:12px}
+.notes-hub__featured{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:14px;align-items:stretch}
+.notes-hub__spotlight{display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,rgba(17,23,34,.95),rgba(12,17,25,.95));border:1px solid rgba(148,163,184,.16);border-radius:18px;padding:16px}
+.notes-hub__spotlight .spotlight-title{display:block;font-size:22px;line-height:1.15;font-weight:800;color:#eaf2ff;margin:4px 0 2px;text-decoration:none}
+.notes-hub__spotlight p{margin:0;color:#a8b1c4}
+.note-module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;align-content:start}
+.module-card{display:flex;flex-direction:column;gap:8px;text-decoration:none;background:linear-gradient(180deg,rgba(21,29,41,.96),rgba(16,22,32,.96));border:1px solid rgba(148,163,184,.16);border-radius:18px;padding:14px;min-height:164px;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.module-card:hover{transform:translateY(-2px);border-color:rgba(147,197,253,.55);box-shadow:0 20px 40px rgba(0,0,0,.18);text-decoration:none}
+.module-card__top{display:flex;justify-content:space-between;gap:8px;align-items:center;color:#a8b1c4;font-size:12px}
+.module-card strong{font-size:18px;color:#eaf2ff;line-height:1.2}
+.module-card__title{font-size:15px;color:#f6f7fb;font-weight:700}
+.module-card__latest,.module-card__summary{color:#a8b1c4;font-size:13px;line-height:1.45}
+.notes-hub__recent{margin:0;padding-left:20px;display:grid;gap:10px;color:#c6cfde}
+.notes-hub__recent li{margin:0}
+.notes-hub__recent a{font-weight:600}
+@media (max-width: 900px){.notes-hub__featured{grid-template-columns:1fr}}
+@media (max-width:640px){.notes-hub__header{flex-direction:column}.notes-hub__actions{width:100%}.notes-hub .button{width:100%;justify-content:center}.module-card{min-height:auto}}
 /* NOTES_HUB_CSS_END */</style>
 </head>
 <body>
@@ -132,7 +154,7 @@
           </span>
           <span class="metric-chip inline-flex items-center gap-2 rounded-full px-3 py-1.5 font-label-md text-label-md">
             <span class="material-symbols-outlined text-[16px]">sync</span>
-            Dashboard regenerated: 2026-05-24 15:19 IST</span>
+            Dashboard regenerated: 2026-05-24 15:30 IST</span>
         </div>
       </div>
     </header>
@@ -168,7 +190,7 @@
           </div>
           <div class="w-48 h-48 relative flex-shrink-0 flex items-center justify-center">
             <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" fill="none" r="45" stroke="#f2f4f6" stroke-width="8"></circle>
+              <circle cx="50" cy="50" fill="none" r="45" stroke="#1f2937" stroke-width="8"></circle>
               <circle cx="50" cy="50" fill="none" r="45" stroke="#009668" stroke-dasharray="282.7" stroke-dashoffset="86" stroke-linecap="round" stroke-width="8"></circle>
             </svg>
             <div class="absolute flex flex-col items-center justify-center text-center">
@@ -221,7 +243,7 @@
           </div>
         </aside>
 
-        <!-- NOTES_HUB_START --><article class="col-span-12 bg-surface-container-lowest rounded-xl ambient-shadow-card border border-outline-variant/10 p-lg notes-hub"><h2>Study Notes</h2><p class="one">10 generated class notes, browsable from the dashboard.</p><div class="pill-row"><span class="pill"><strong>Source:</strong> msc-coursework/outputs/class-notes</span><span class="pill"><strong>Full pages:</strong> public HTML export</span><span class="pill"><strong>Legacy:</strong> removed</span></div><div class="note-actions"><a class="button" href="notes/rs/rs-w3-nprscoringandpagerank.html">Open latest note</a><a class="button" href="notes/index.html">Open all notes</a></div><div class="note-module-grid"><div class="note-module"><strong>DL</strong><span>2 note(s)</span><a href="notes/dl/dl-w3-feedforwardbackpropagation.html">Feedforward Networks, Activation Functions, and Backpropagation</a></div><div class="note-module"><strong>RS</strong><span>3 note(s)</span><a href="notes/rs/rs-w3-nprscoringandpagerank.html">NPR Scoring Methods &amp; PageRank</a></div><div class="note-module"><strong>ARM</strong><span>2 note(s)</span><a href="notes/arm/arm-w2-generatingresearchideas.html">Generating Research Ideas</a></div><div class="note-module"><strong>RL</strong><span>2 note(s)</span><a href="notes/rl/rl-w2-valueandqfunctions.html">Value Functions, Q-Values &amp; MDPs</a></div><div class="note-module"><strong>NLP</strong><span>1 note(s)</span><a href="notes/nlp/nlp-w2-textvectorisation.html">Text Vectorisation &amp; Representation</a></div></div><h3>Recent notes</h3><ul><li><strong>RS W3</strong> — <a href="notes/rs/rs-w3-nprscoringandpagerank.html">NPR Scoring Methods &amp; PageRank</a></li><li><strong>DL W3</strong> — <a href="notes/dl/dl-w3-feedforwardbackpropagation.html">Feedforward Networks, Activation Functions, and Backpropagation</a></li><li><strong>RS W2</strong> — <a href="notes/rs/rs-w2-nonpersonalised.html">Non-Personalised Recommenders</a></li><li><strong>RS W1</strong> — <a href="notes/rs/rs-w1-introduction.html">Introduction to Recommender Systems</a></li><li><strong>RL W2</strong> — <a href="notes/rl/rl-w2-valueandqfunctions.html">Value Functions, Q-Values &amp; MDPs</a></li></ul></article><!-- NOTES_HUB_END -->
+        <!-- NOTES_HUB_START --><article class="col-span-12 notes-hub bg-surface-container-lowest rounded-xl ambient-shadow-card border border-outline-variant/10 p-lg"><div class="notes-hub__header"><div><div class="kicker">Study Notes</div><h2>Generated class notes</h2><p class="one">10 generated class notes, browsable from the dashboard.</p></div><div class="notes-hub__actions"><a class="button" href="notes/rs/rs-w3-nprscoringandpagerank.html">Open latest note</a><a class="button" href="notes/index.html">Open all notes</a></div></div><div class="pill-row"><span class="pill"><strong>Source:</strong> msc-coursework/outputs/class-notes</span><span class="pill"><strong>Full pages:</strong> public HTML export</span><span class="pill"><strong>Legacy:</strong> removed</span></div><div class="notes-hub__featured"><article class="notes-hub__spotlight"><div class="kicker">Latest note</div><a class="spotlight-title" href="notes/rs/rs-w3-nprscoringandpagerank.html">NPR Scoring Methods &amp; PageRank</a><p>This session moved from theory (W2) to implementation: four scoring functions for aggregate-opinion non-personalised recommenders, followed by PageRank as a graph-authority approach. The lecturer forces you to rank the same dataset with each method so the failure modes are imposs…</p><a class="button" href="notes/rs/rs-w3-nprscoringandpagerank.html">Read latest note</a></article><div class="note-module-grid"><a class="module-card" href="notes/dl/dl-w3-feedforwardbackpropagation.html"><div class="module-card__top"><strong>DL</strong><span>2 note(s)</span></div><div class="module-card__title">Deep Learning</div><div class="module-card__latest">Latest: Feedforward Networks, Activation Functions, and Backpropagation</div><div class="module-card__summary">This class is the missing bridge between “ANN as a diagram” and “ANN as executable training code”. The lecturer reviewed nodes/layers/architectures, then drilled into transfer values, activation functions, forward propagation, loss, optimisers, learning rate, epochs, and manual b…</div></a><a class="module-card" href="notes/rs/rs-w3-nprscoringandpagerank.html"><div class="module-card__top"><strong>RS</strong><span>3 note(s)</span></div><div class="module-card__title">Recommender Systems</div><div class="module-card__latest">Latest: NPR Scoring Methods &amp; PageRank</div><div class="module-card__summary">This session moved from theory (W2) to implementation: four scoring functions for aggregate-opinion non-personalised recommenders, followed by PageRank as a graph-authority approach. The lecturer forces you to rank the same dataset with each method so the failure modes are imposs…</div></a><a class="module-card" href="notes/arm/arm-w2-generatingresearchideas.html"><div class="module-card__top"><strong>ARM</strong><span>2 note(s)</span></div><div class="module-card__title">Applied Research Methods</div><div class="module-card__latest">Latest: Generating Research Ideas</div><div class="module-card__summary">Generating a research idea is a **gradual, iterative process**, not a one-shot emotional pick. A good idea must survive a logical checklist across three categories — **appropriateness** (meeting requirements), **capability** (can you actually do it in 3 months), and **personal in…</div></a><a class="module-card" href="notes/rl/rl-w2-valueandqfunctions.html"><div class="module-card__top"><strong>RL</strong><span>2 note(s)</span></div><div class="module-card__title">Reinforcement Learning</div><div class="module-card__latest">Latest: Value Functions, Q-Values &amp; MDPs</div><div class="module-card__summary">Week 2 moves from Week 1&#x27;s intuition to the formal **Markov Decision Process** description and the two functions you&#x27;ll actually compute: the **value function V(s)** and the **action-value Q(s,a)**. Rewards are *engineered* (e.g. −1 per step), a **discount/&quot;forgetting&quot; factor** p…</div></a><a class="module-card" href="notes/nlp/nlp-w2-textvectorisation.html"><div class="module-card__top"><strong>NLP</strong><span>1 note(s)</span></div><div class="module-card__title">Natural Language Processing</div><div class="module-card__latest">Latest: Text Vectorisation &amp; Representation</div><div class="module-card__summary">How to turn unstructured text into numeric vectors for classification — the four bag-of-words encodings (frequency, one-hot, TF-IDF, distributed) and the libraries that implement them (scikit-learn, NLTK, Gensim). TF-IDF is the benchmark; distributed representations (Word2Vec/Doc…</div></a></div></div><h3>Recent notes</h3><ul class="notes-hub__recent"><li><strong>RS W3</strong> — <a href="notes/rs/rs-w3-nprscoringandpagerank.html">NPR Scoring Methods &amp; PageRank</a></li><li><strong>DL W3</strong> — <a href="notes/dl/dl-w3-feedforwardbackpropagation.html">Feedforward Networks, Activation Functions, and Backpropagation</a></li><li><strong>RS W2</strong> — <a href="notes/rs/rs-w2-nonpersonalised.html">Non-Personalised Recommenders</a></li><li><strong>RS W1</strong> — <a href="notes/rs/rs-w1-introduction.html">Introduction to Recommender Systems</a></li><li><strong>RL W2</strong> — <a href="notes/rl/rl-w2-valueandqfunctions.html">Value Functions, Q-Values &amp; MDPs</a></li></ul></article><!-- NOTES_HUB_END -->
 
         <section class="col-span-12 xl:col-span-6 bg-surface-container-lowest rounded-xl ambient-shadow-card border border-outline-variant/10 p-lg">
           <div class="flex justify-between items-center mb-6">
