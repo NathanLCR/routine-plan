@@ -1,16 +1,417 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>nathan-os dashboard</title><style>
-:root{--bg:#101114;--surface:#181a20;--surface2:#21242d;--border:#343946;--text:#f1f2f4;--muted:#a5acb8;--dim:#7f8794;--accent:#8fb7ff;--good:#77c78d;--warn:#f1b96b;--bad:#ef7a7a;--info:#8ed2d0}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.55}main{width:min(1120px,calc(100% - 32px));margin:0 auto;padding:28px 0 34px}header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:14px}h1,h2,h3,p{margin:0}h1{font-size:25px;line-height:1.15}h2{color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.08em;margin-bottom:12px;text-transform:uppercase}h3{color:var(--muted);font-size:12px;font-weight:800;margin:16px 0 8px;text-transform:uppercase}.meta{color:var(--dim);font-size:12px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{background:linear-gradient(180deg,var(--surface),#15171c);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 18px 40px rgba(0,0,0,.18)}.span-12{grid-column:span 12}.span-7{grid-column:span 7}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.pill{background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;padding:4px 9px}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}.one{font-size:20px;font-weight:800;line-height:1.25;margin-top:4px}.note{color:var(--muted);margin-top:10px}.button{display:inline-flex;margin-top:14px;padding:8px 12px;border-radius:10px;background:rgba(143,183,255,.14);border:1px solid rgba(143,183,255,.35);color:var(--accent);text-decoration:none;font-weight:700}table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--border);padding:8px 6px;text-align:left;vertical-align:top}th{color:var(--muted);font-size:12px;text-transform:uppercase}tr.hot{background:rgba(241,185,107,.08)}ul{margin:8px 0 0 18px;padding:0}li{margin:5px 0}.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.kpi{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px}.kpi strong{display:block;font-size:23px}footer{margin-top:16px;color:var(--dim);font-size:12px;text-align:center}@media(max-width:820px){header{display:block}.span-7,.span-5,.span-6{grid-column:span 12}.kpis{grid-template-columns:1fr}table{font-size:12px}}
-/* NOTES_HUB_CSS_START */
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DBS MSc AI Dashboard</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'background': '#f7f9fb',
+            'surface': '#f7f9fb',
+            'surface-dim': '#d8dadc',
+            'surface-bright': '#f7f9fb',
+            'surface-container': '#eceef0',
+            'surface-container-low': '#f2f4f6',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-high': '#e6e8ea',
+            'surface-container-highest': '#e0e3e5',
+            'surface-variant': '#e0e3e5',
+            'on-background': '#191c1e',
+            'on-surface': '#191c1e',
+            'on-surface-variant': '#45464d',
+            'outline': '#76777d',
+            'outline-variant': '#c6c6cd',
+            'primary': '#131b2e',
+            'on-primary': '#ffffff',
+            'primary-container': '#dae2fd',
+            'on-primary-container': '#3f465c',
+            'secondary': '#515f74',
+            'on-secondary': '#ffffff',
+            'secondary-container': '#d5e3fd',
+            'on-secondary-container': '#57657b',
+            'tertiary': '#000000',
+            'on-tertiary': '#ffffff',
+            'tertiary-container': '#002113',
+            'on-tertiary-container': '#009668',
+            'tertiary-fixed': '#6ffbbe',
+            'tertiary-fixed-dim': '#4edea3',
+            'error': '#ba1a1a',
+            'error-container': '#ffdad6',
+            'on-error': '#ffffff',
+            'on-error-container': '#93000a',
+            'inverse-surface': '#2d3133',
+            'inverse-on-surface': '#eff1f3',
+            'inverse-primary': '#bec6e0',
+            'surface-tint': '#565e74'
+          },
+          spacing: {
+            'base': '4px',
+            'xs': '4px',
+            'sm': '8px',
+            'md': '16px',
+            'lg': '24px',
+            'xl': '32px',
+            '2xl': '48px',
+            'gutter': '24px',
+            'margin-mobile': '16px',
+            'margin-desktop': '40px'
+          },
+          borderRadius: {
+            DEFAULT: '0.25rem',
+            lg: '0.5rem',
+            xl: '0.75rem',
+            full: '9999px'
+          },
+          fontFamily: {
+            display: ['Inter', 'system-ui', 'sans-serif'],
+            'headline-lg': ['Inter', 'system-ui', 'sans-serif'],
+            'headline-md': ['Inter', 'system-ui', 'sans-serif'],
+            'title-lg': ['Inter', 'system-ui', 'sans-serif'],
+            'body-lg': ['Inter', 'system-ui', 'sans-serif'],
+            'body-md': ['Inter', 'system-ui', 'sans-serif'],
+            'label-md': ['Inter', 'system-ui', 'sans-serif'],
+            code: ['JetBrains Mono', 'monospace']
+          },
+          boxShadow: {
+            card: '0px 4px 20px rgba(15,23,42,0.05)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { color-scheme: light; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: #f7f9fb;
+      color: #191c1e;
+      font-family: Inter, system-ui, sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar { height: 10px; width: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(118,119,125,.28); border-radius: 999px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { scrollbar-width: none; }
+    .ambient-shadow-card { box-shadow: 0px 4px 20px rgba(15,23,42,0.05); }
+    .metric-chip {
+      background: rgba(218,226,253,.72);
+      color: #3f465c;
+      border: 1px solid rgba(99, 110, 136, .12);
+    }
+    .mini-label { letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
+  /* NOTES_HUB_CSS_START */
 .notes-hub .note-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.note-module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}.note-module{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:11px}.note-module strong{display:block;color:var(--text);font-size:18px}.note-module span{display:block;color:var(--dim);font-size:12px;margin-bottom:6px}.note-module a{color:var(--accent);font-size:13px;text-decoration:none}.note-module a:hover{text-decoration:underline}
-/* NOTES_HUB_CSS_END */</style></head>
-<body><main>
-<header><div><h1>nathan-os dashboard</h1><p class="meta">Latest source refresh: 2026-05-24 · Europe/Dublin</p></div><p class="meta">Dashboard regenerated: 2026-05-24 14:25 IST</p></header>
-<section class="grid">
-<article class="card span-12"><h2>Today’s brief</h2><p class="one">Create the ARM Google Doc and add the Moodle-sheet link.</p><div class="pill-row"><span class="pill"><strong>Brief:</strong> 2026-05-22</span><span class="pill"><strong>Day type:</strong> class-day</span><span class="pill"><strong>Available study:</strong> 0.5–0.75h</span></div><a class="button" href="briefs/brief-2026-05-22.md">Open brief</a></article><!-- NOTES_HUB_START --><article class="card span-12 notes-hub"><h2>Study Notes</h2><p class="one">10 generated class notes, browsable from the dashboard.</p><div class="pill-row"><span class="pill"><strong>Source:</strong> msc-coursework/outputs/class-notes</span><span class="pill"><strong>Full pages:</strong> public HTML export</span><span class="pill"><strong>Legacy:</strong> removed</span></div><div class="note-actions"><a class="button" href="notes/rs/rs-w3-nprscoringandpagerank.html">Open latest note</a><a class="button" href="notes/index.html">Open all notes</a></div><div class="note-module-grid"><div class="note-module"><strong>DL</strong><span>2 note(s)</span><a href="notes/dl/dl-w3-feedforwardbackpropagation.html">Feedforward Networks, Activation Functions, and Backpropagation</a></div><div class="note-module"><strong>RS</strong><span>3 note(s)</span><a href="notes/rs/rs-w3-nprscoringandpagerank.html">NPR Scoring Methods &amp; PageRank</a></div><div class="note-module"><strong>ARM</strong><span>2 note(s)</span><a href="notes/arm/arm-w2-generatingresearchideas.html">Generating Research Ideas</a></div><div class="note-module"><strong>RL</strong><span>2 note(s)</span><a href="notes/rl/rl-w2-valueandqfunctions.html">Value Functions, Q-Values &amp; MDPs</a></div><div class="note-module"><strong>NLP</strong><span>1 note(s)</span><a href="notes/nlp/nlp-w2-textvectorisation.html">Text Vectorisation &amp; Representation</a></div></div><h3>Recent notes</h3><ul><li><strong>RS W3</strong> — <a href="notes/rs/rs-w3-nprscoringandpagerank.html">NPR Scoring Methods &amp; PageRank</a></li><li><strong>DL W3</strong> — <a href="notes/dl/dl-w3-feedforwardbackpropagation.html">Feedforward Networks, Activation Functions, and Backpropagation</a></li><li><strong>RS W2</strong> — <a href="notes/rs/rs-w2-nonpersonalised.html">Non-Personalised Recommenders</a></li><li><strong>RS W1</strong> — <a href="notes/rs/rs-w1-introduction.html">Introduction to Recommender Systems</a></li><li><strong>RL W2</strong> — <a href="notes/rl/rl-w2-valueandqfunctions.html">Value Functions, Q-Values &amp; MDPs</a></li></ul><p class="note">Generated from current Markdown notes only. If a link is stale, run the notes hub builder before publishing.</p></article><!-- NOTES_HUB_END -->
-<article class="card span-7"><h2>Dissertation status</h2><div class="kpis"><div class="kpi"><span class="meta">Total corpus</span><strong>0</strong></div><div class="kpi"><span class="meta">Main / reserve</span><strong>0 / 0</strong></div><div class="kpi"><span class="meta">Lit-review entries</span><strong>15</strong></div></div><h3>Current blocker</h3><p>Awaiting corpus papers from Nathan. Use corpus-add skill to add papers when ready.</p><h3>Lit-review themes</h3><ul><li>rag grounding and hallucination benchmark: <strong>4</strong></li><li>automatic rag evaluation framework: <strong>3</strong></li><li>portuguese rag applied: <strong>6</strong></li><li>retrieval sufficiency: <strong>1</strong></li><li>academic rag citation: <strong>1</strong></li></ul><p class="note">Stale corpus rows &gt;7 days: 0</p></article>
-<article class="card span-5"><h2>Cross-cutting tasks</h2><ul><li>Configure GitHub repo for dissertation prototype</li><li>Setup Docker environment</li><li>Setup Codex/Atenas workflow (this build — Block 1 in progress)</li></ul></article>
-<article class="card span-12"><h2>MSc — upcoming deadlines</h2><table><thead><tr><th>Module</th><th>Assessment</th><th>Due</th><th>Days left</th><th>Status</th></tr></thead><tbody><tr class=hot><td><strong>RS</strong></td><td>CA1 group/topic/dataset approval</td><td>2026-05-25</td><td>3</td><td>done</td></tr><tr class=hot><td><strong>ARM</strong></td><td>Google Doc research file link</td><td>2026-05-27</td><td>5</td><td>not-started</td></tr><tr class=><td><strong>ARM</strong></td><td>Lecture 1 reflection</td><td>—</td><td>—</td><td>not-started</td></tr></tbody></table><p class="note">Rule: Moodle dates override local data. Highlight = under 30 days and not in progress.</p></article>
-<article class="card span-12"><h2>MSc — study progress</h2><p class="note">Week of 2026-05-25; realistic budget 7.75h.</p><table><thead><tr><th>Module</th><th>Target h</th><th>Actual h</th><th>Status</th><th>Focus</th></tr></thead><tbody><tr class=><td><strong>ARM</strong></td><td>2.0</td><td>—</td><td>no-data</td><td>Google Doc research file, Moodle link, aim/RQ/objectives, Lecture 1 reflection notes</td></tr><tr class=><td><strong>Dissertation</strong></td><td>2.0</td><td>—</td><td>no-data</td><td>Corpus-selection Step 3 triage and extraction notes</td></tr><tr class=><td><strong>DL</strong></td><td>1.25</td><td>—</td><td>no-data</td><td>PyTorch MLP/backpropagation plus optimization/regularization consolidation</td></tr><tr class=><td><strong>NLP</strong></td><td>1.0</td><td>—</td><td>no-data</td><td>CA1 paper critique shortlist and BLOG GENDER classifier baseline map</td></tr><tr class=><td><strong>RS</strong></td><td>0.75</td><td>—</td><td>no-data</td><td>CA1 approved topic/dataset baseline, metrics, cold-start, GenAI task list</td></tr><tr class=><td><strong>RL</strong></td><td>0.25</td><td>—</td><td>no-data</td><td>MDP/value-function flashcards</td></tr><tr class=><td><strong>Planning/review</strong></td><td>0.5</td><td>—</td><td>no-data</td><td>Weekly review and next-week triage</td></tr></tbody></table></article>
-</section><footer>Generated from nathan-os local data. Run /update before publishing if data files changed.</footer>
-</main></body></html>
+/* NOTES_HUB_CSS_END */</style>
+</head>
+<body>
+  <div class="min-h-screen bg-background text-on-background">
+    <header class="sticky top-0 z-30 border-b border-outline-variant/30 bg-background/90 backdrop-blur">
+      <div class="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-margin-mobile py-4 md:px-margin-desktop h-16">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center shadow-sm">
+            <span class="material-symbols-outlined">dashboard</span>
+          </div>
+          <div>
+            <div class="font-headline-lg text-[22px] leading-tight text-primary">DBS MSc AI Dashboard</div>
+            <div class="font-label-md text-label-md text-on-surface-variant">Live from nathan-os · public routine-plan</div>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+          <span class="metric-chip inline-flex items-center gap-2 rounded-full px-3 py-1.5 font-label-md text-label-md">
+            <span class="material-symbols-outlined text-[16px]">schedule</span>
+            2026-05-24 · Europe/Dublin
+          </span>
+          <span class="metric-chip inline-flex items-center gap-2 rounded-full px-3 py-1.5 font-label-md text-label-md">
+            <span class="material-symbols-outlined text-[16px]">sync</span>
+            Dashboard regenerated: 2026-05-24 15:13 IST</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-[1440px] px-margin-mobile py-6 md:px-margin-desktop md:py-8">
+      <div class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 class="font-display text-3xl md:text-display text-primary mb-2 tracking-tight">Dissertation Progress</h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">
+            Track deadlines, weekly study allocation, and the current dissertation blocker without forcing a fake productivity story.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="inline-flex items-center gap-2 rounded-full bg-surface-container-low px-3 py-2 text-label-md text-on-surface-variant border border-outline-variant/20">
+            <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+            Week of 2026-05-25
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full bg-surface-container-low px-3 py-2 text-label-md text-on-surface-variant border border-outline-variant/20">
+            <span class="material-symbols-outlined text-[18px]">public</span>
+            Public GitHub Pages
+          </span>
+          <a class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-surface-tint transition-colors shadow-sm" href="briefs/brief-2026-05-22.md">
+            <span class="material-symbols-outlined text-[18px]">description</span>
+            Open brief
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-12 gap-gutter">
+        <section class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl ambient-shadow-card p-lg flex flex-col md:flex-row gap-lg items-center relative overflow-hidden border border-outline-variant/10">
+          <div class="absolute -right-20 -top-20 opacity-5 pointer-events-none">
+            <span class="material-symbols-outlined text-[300px]">analytics</span>
+          </div>
+          <div class="w-48 h-48 relative flex-shrink-0 flex items-center justify-center">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" fill="none" r="45" stroke="#f2f4f6" stroke-width="8"></circle>
+              <circle cx="50" cy="50" fill="none" r="45" stroke="#009668" stroke-dasharray="282.7" stroke-dashoffset="86" stroke-linecap="round" stroke-width="8"></circle>
+            </svg>
+            <div class="absolute flex flex-col items-center justify-center text-center">
+              <span class="font-display text-display text-primary leading-none">3</span>
+              <span class="font-label-md text-label-md text-on-surface-variant mt-1">Active workstreams</span>
+            </div>
+          </div>
+
+          <div class="flex-1 flex flex-col justify-center w-full">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-error-container text-on-error-container rounded-full font-label-md text-label-md mb-4 w-max">
+              <span class="material-symbols-outlined text-[14px]">timer</span>
+              ARM link due in 3 days
+            </div>
+            <h2 class="font-headline-lg text-headline-lg text-primary mb-2">This week’s focus</h2>
+            <p class="font-title-lg text-title-lg text-on-surface-variant font-normal mb-4">
+              Make the ARM Google Doc, keep dissertation corpus triage moving, and avoid over-committing the chef-shift days.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-surface-container-low px-4 py-3 rounded-lg border border-outline-variant/10">
+                <span class="block font-label-md text-label-md text-outline mb-1">Current focus</span>
+                <span class="font-body-md text-body-md text-primary font-medium">ARM Google Doc + Moodle-sheet link</span>
+              </div>
+              <div class="bg-surface-container-low px-4 py-3 rounded-lg border border-outline-variant/10">
+                <span class="block font-label-md text-label-md text-outline mb-1">Recovery block</span>
+                <span class="font-body-md text-body-md text-primary font-medium">Friday afternoon/evening</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl ambient-shadow-card p-lg border border-outline-variant/10 flex flex-col">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-secondary-container">smart_toy</span>
+            </div>
+            <div>
+              <h3 class="font-title-lg text-title-lg text-primary">Today’s brief</h3>
+              <p class="font-label-md text-label-md text-on-surface-variant">Light setup, not heroics</p>
+            </div>
+          </div>
+          <div class="bg-background rounded-lg p-4 border border-outline-variant/10 flex-1 flex flex-col justify-center">
+            <p class="font-body-md text-body-md text-on-surface mb-4 leading-relaxed">
+              Create the ARM Google Doc and add the Moodle-sheet link.
+            </p>
+            <ul class="space-y-3 text-body-md text-on-surface-variant">
+              <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-[18px] text-on-tertiary-container mt-0.5">check_circle</span>Set up the doc structure.</li>
+              <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-[18px] text-on-tertiary-container mt-0.5">link</span>Add the share link to Moodle.</li>
+              <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-[18px] text-on-tertiary-container mt-0.5">schedule</span>Keep the rest of today in planning mode only.</li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- NOTES_HUB_START --><article class="card span-12 notes-hub"><h2>Study Notes</h2><p class="one">10 generated class notes, browsable from the dashboard.</p><div class="pill-row"><span class="pill"><strong>Source:</strong> msc-coursework/outputs/class-notes</span><span class="pill"><strong>Full pages:</strong> public HTML export</span><span class="pill"><strong>Legacy:</strong> removed</span></div><div class="note-actions"><a class="button" href="notes/rs/rs-w3-nprscoringandpagerank.html">Open latest note</a><a class="button" href="notes/index.html">Open all notes</a></div><div class="note-module-grid"><div class="note-module"><strong>DL</strong><span>2 note(s)</span><a href="notes/dl/dl-w3-feedforwardbackpropagation.html">Feedforward Networks, Activation Functions, and Backpropagation</a></div><div class="note-module"><strong>RS</strong><span>3 note(s)</span><a href="notes/rs/rs-w3-nprscoringandpagerank.html">NPR Scoring Methods &amp; PageRank</a></div><div class="note-module"><strong>ARM</strong><span>2 note(s)</span><a href="notes/arm/arm-w2-generatingresearchideas.html">Generating Research Ideas</a></div><div class="note-module"><strong>RL</strong><span>2 note(s)</span><a href="notes/rl/rl-w2-valueandqfunctions.html">Value Functions, Q-Values &amp; MDPs</a></div><div class="note-module"><strong>NLP</strong><span>1 note(s)</span><a href="notes/nlp/nlp-w2-textvectorisation.html">Text Vectorisation &amp; Representation</a></div></div><h3>Recent notes</h3><ul><li><strong>RS W3</strong> — <a href="notes/rs/rs-w3-nprscoringandpagerank.html">NPR Scoring Methods &amp; PageRank</a></li><li><strong>DL W3</strong> — <a href="notes/dl/dl-w3-feedforwardbackpropagation.html">Feedforward Networks, Activation Functions, and Backpropagation</a></li><li><strong>RS W2</strong> — <a href="notes/rs/rs-w2-nonpersonalised.html">Non-Personalised Recommenders</a></li><li><strong>RS W1</strong> — <a href="notes/rs/rs-w1-introduction.html">Introduction to Recommender Systems</a></li><li><strong>RL W2</strong> — <a href="notes/rl/rl-w2-valueandqfunctions.html">Value Functions, Q-Values &amp; MDPs</a></li></ul><p class="note">Generated from current Markdown notes only. If a link is stale, run the notes hub builder before publishing.</p></article><!-- NOTES_HUB_END -->
+
+        <section class="col-span-12 xl:col-span-6 bg-surface-container-lowest rounded-xl ambient-shadow-card border border-outline-variant/10 p-lg">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-md text-headline-md text-primary">Upcoming deadlines</h3>
+            <span class="font-label-md text-label-md text-on-surface-variant">Moodle overrides local notes</span>
+          </div>
+          <div class="flex overflow-x-auto gap-4 no-scrollbar pb-2">
+            <div class="min-w-[280px] md:min-w-[320px] border border-outline-variant/30 rounded-lg p-5 bg-background/80">
+              <div class="flex justify-between items-start mb-3">
+                <div>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-error-container px-2 py-1 text-[11px] font-semibold text-on-error-container">Hot</span>
+                  <h4 class="mt-3 font-headline-md text-headline-md text-primary">ARM Google Doc link</h4>
+                </div>
+                <span class="material-symbols-outlined text-error">priority_high</span>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface-variant mb-4">Create the research file and add the Moodle-linked sheet entry.</p>
+              <div class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+                <span class="font-label-md text-label-md text-outline">Due</span>
+                <span class="font-code text-code text-primary font-medium">2026-05-27</span>
+              </div>
+            </div>
+
+            <div class="min-w-[280px] md:min-w-[320px] border border-outline-variant/30 rounded-lg p-5 bg-background/80">
+              <div class="flex justify-between items-start mb-3">
+                <div>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-surface-container-low px-2 py-1 text-[11px] font-semibold text-on-surface-variant">Watch</span>
+                  <h4 class="mt-3 font-headline-md text-headline-md text-primary">NLP CA1</h4>
+                </div>
+                <span class="material-symbols-outlined text-secondary">hourglass_top</span>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface-variant mb-4">Paper critique + BLOG GENDER classifier. Date still TBC on Moodle.</p>
+              <div class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+                <span class="font-label-md text-label-md text-outline">Status</span>
+                <span class="font-code text-code text-primary font-medium">high urgency</span>
+              </div>
+            </div>
+
+            <div class="min-w-[280px] md:min-w-[320px] border border-outline-variant/30 rounded-lg p-5 bg-background/80">
+              <div class="flex justify-between items-start mb-3">
+                <div>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-surface-container-low px-2 py-1 text-[11px] font-semibold text-on-surface-variant">Medium</span>
+                  <h4 class="mt-3 font-headline-md text-headline-md text-primary">DL CA01</h4>
+                </div>
+                <span class="material-symbols-outlined text-secondary">school</span>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface-variant mb-4">Project + presentation. Enough runway, but July will collide with RS if ignored.</p>
+              <div class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+                <span class="font-label-md text-label-md text-outline">Due</span>
+                <span class="font-code text-code text-primary font-medium">2026-07-04</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="col-span-12 xl:col-span-6 bg-surface-container-lowest rounded-xl ambient-shadow-card border border-outline-variant/10 p-lg">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-md text-headline-md text-primary">Weekly study allocation</h3>
+            <span class="font-label-md text-label-md text-on-surface-variant">Realistic budget: 7.75h</span>
+          </div>
+          <div class="space-y-0">
+            <div class="flex gap-4 py-4 border-b border-outline-variant/10 last:border-0 items-start group">
+              <div class="flex flex-col items-center mt-1">
+                <div class="w-3 h-3 rounded-full bg-primary ring-4 ring-primary/10"></div>
+                <div class="w-px h-10 bg-outline-variant/30 my-1 group-last:hidden"></div>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between gap-4">
+                  <h4 class="font-title-lg text-title-lg text-primary font-semibold">ARM</h4>
+                  <span class="font-code text-code text-primary">2.0h</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">Google Doc research file, Moodle link, aim/RQ/objectives, Lecture 1 reflection notes.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4 py-4 border-b border-outline-variant/10 last:border-0 items-start group">
+              <div class="flex flex-col items-center mt-1">
+                <div class="w-3 h-3 rounded-full bg-outline-variant ring-4 ring-transparent"></div>
+                <div class="w-px h-10 bg-outline-variant/30 my-1 group-last:hidden"></div>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between gap-4">
+                  <h4 class="font-title-lg text-title-lg text-primary font-semibold">Dissertation</h4>
+                  <span class="font-code text-code text-primary">2.0h</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">Corpus-selection triage, extraction notes, no final prose.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4 py-4 border-b border-outline-variant/10 last:border-0 items-start group">
+              <div class="flex flex-col items-center mt-1">
+                <div class="w-3 h-3 rounded-full border-2 border-primary bg-surface-container-lowest"></div>
+                <div class="w-px h-10 bg-outline-variant/30 my-1 group-last:hidden"></div>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between gap-4">
+                  <h4 class="font-title-lg text-title-lg text-primary font-semibold">DL</h4>
+                  <span class="font-code text-code text-primary">1.25h</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">MLP/backprop and optimization consolidation.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4 py-4 border-b border-outline-variant/10 last:border-0 items-start group">
+              <div class="flex flex-col items-center mt-1">
+                <div class="w-3 h-3 rounded-full border-2 border-outline bg-surface-container-lowest"></div>
+                <div class="w-px h-10 bg-outline-variant/30 my-1 group-last:hidden"></div>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between gap-4">
+                  <h4 class="font-title-lg text-title-lg text-primary font-semibold">NLP / RS / RL</h4>
+                  <span class="font-code text-code text-primary">1.75h total</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">NLP CA1 shortlist, RS baseline follow-through, RL flashcards.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-xl ambient-shadow-card border border-outline-variant/10 p-lg">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-md text-headline-md text-primary">Dissertation status</h3>
+            <span class="font-label-md text-label-md text-on-surface-variant">Corpus still at zero</span>
+          </div>
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-surface-container-low rounded-xl border border-outline-variant/10 p-4">
+              <div class="font-label-md text-label-md text-on-surface-variant">Total corpus</div>
+              <div class="mt-1 font-display text-2xl text-primary">0</div>
+            </div>
+            <div class="bg-surface-container-low rounded-xl border border-outline-variant/10 p-4">
+              <div class="font-label-md text-label-md text-on-surface-variant">Main / reserve</div>
+              <div class="mt-1 font-display text-2xl text-primary">0 / 0</div>
+            </div>
+            <div class="bg-surface-container-low rounded-xl border border-outline-variant/10 p-4">
+              <div class="font-label-md text-label-md text-on-surface-variant">Lit-review entries</div>
+              <div class="mt-1 font-display text-2xl text-primary">15</div>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3 rounded-lg border border-outline-variant/10 bg-background/80 p-4">
+              <span class="material-symbols-outlined text-error mt-0.5">warning</span>
+              <div>
+                <div class="font-semibold text-primary">Current blocker</div>
+                <p class="text-on-surface-variant">Awaiting corpus papers from Nathan. Use the corpus-add workflow when ready.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 rounded-lg border border-outline-variant/10 bg-background/80 p-4">
+              <span class="material-symbols-outlined text-on-tertiary-container mt-0.5">fact_check</span>
+              <div>
+                <div class="font-semibold text-primary">What matters now</div>
+                <p class="text-on-surface-variant">ARM is the live deadline; dissertation work stays in extraction/triage mode only.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-xl ambient-shadow-card border border-outline-variant/10 p-lg">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-md text-headline-md text-primary">Cross-cutting tasks</h3>
+            <span class="font-label-md text-label-md text-on-surface-variant">Keep it small</span>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex gap-3 items-start rounded-lg border border-outline-variant/10 bg-background/80 p-4">
+              <span class="material-symbols-outlined text-on-tertiary-container">web</span>
+              <div>
+                <div class="font-semibold text-primary">Publish dashboard updates</div>
+                <p class="text-on-surface-variant">Keep the public GitHub Pages repo aligned with the local dashboard.</p>
+              </div>
+            </li>
+            <li class="flex gap-3 items-start rounded-lg border border-outline-variant/10 bg-background/80 p-4">
+              <span class="material-symbols-outlined text-on-tertiary-container">dataset</span>
+              <div>
+                <div class="font-semibold text-primary">Dissertation prototype setup</div>
+                <p class="text-on-surface-variant">Repo, Docker, and evaluation workflow only. No final prose.</p>
+              </div>
+            </li>
+            <li class="flex gap-3 items-start rounded-lg border border-outline-variant/10 bg-background/80 p-4">
+              <span class="material-symbols-outlined text-on-tertiary-container">checklist</span>
+              <div>
+                <div class="font-semibold text-primary">Weekly review</div>
+                <p class="text-on-surface-variant">Use Sunday to choose Monday’s three priorities and stop there.</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer class="border-t border-outline-variant/30 py-4 text-center text-sm text-on-surface-variant">
+      Generated from nathan-os local data. Run /update before publishing if data files changed.
+    </footer>
+  </div>
+</body>
+</html>
