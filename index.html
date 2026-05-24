@@ -131,7 +131,18 @@
 .notes-hub__recent li{margin:0}
 .notes-hub__recent a{font-weight:600}
 @media (max-width: 900px){.notes-hub__featured{grid-template-columns:1fr}}
-@media (max-width:640px){.notes-hub__header{flex-direction:column}.notes-hub__actions{width:100%}.notes-hub .button{width:100%;justify-content:center}.module-card{min-height:auto}}
+@media (max-width:640px){
+  .notes-hub__header{flex-direction:column}
+  .notes-hub__actions{width:100%}
+  .notes-hub .button{width:100%;justify-content:center}
+  .notes-hub__featured{gap:12px}
+  .notes-hub__spotlight{padding:18px 16px}
+  .note-module-grid{grid-template-columns:1fr;gap:12px}
+  .module-card{min-height:auto;padding:16px}
+  .module-card__latest,.module-card__summary{display:none}
+  .notes-hub__recent{gap:8px}
+  .notes-hub__recent li:nth-child(n+4){display:none}
+}
 /* NOTES_HUB_CSS_END */</style>
 </head>
 <body>
@@ -154,7 +165,7 @@
           </span>
           <span class="metric-chip inline-flex items-center gap-2 rounded-full px-3 py-1.5 font-label-md text-label-md">
             <span class="material-symbols-outlined text-[16px]">sync</span>
-            Dashboard regenerated: 2026-05-24 15:30 IST</span>
+            Dashboard regenerated: 2026-05-24 15:46 IST</span>
         </div>
       </div>
     </header>
