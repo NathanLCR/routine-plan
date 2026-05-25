@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DL — Week 4: MLP Classification, One-Hot Encoding, Keras Wrappers, and Model Evaluation</title>
+  <style>
+:root{
+  --bg:#0b0f14;
+  --surface:#111722;
+  --surface2:#151d29;
+  --border:#2a3444;
+  --text:#eef2ff;
+  --muted:#a5b0c5;
+  --dim:#7f8aa1;
+  --accent:#93c5fd;
+  --good:#7dd3a7;
+  --warn:#fbbf24;
+  --bad:#fca5a5;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(900px 420px at 10% 0%, rgba(59,130,246,.14), transparent 45%),
+    radial-gradient(700px 360px at 90% 0%, rgba(16,185,129,.08), transparent 40%),
+    linear-gradient(180deg,#0b0f14 0%,#090d12 100%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  font-size:15px;
+  line-height:1.7;
+}
+main{width:min(1120px,calc(100% - 24px));margin:0 auto;padding:24px 0 52px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+header{display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--border);margin-bottom:20px;padding:14px 0 18px}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--dim);font-size:12px}
+.kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(148,163,184,.08);border:1px solid var(--border);color:var(--muted);font-size:12px;line-height:1}
+.crumb-sep{color:var(--dim)}
+.meta{color:var(--dim);font-size:12px;margin:0}
+h1{font-size:clamp(30px,4vw,44px);line-height:1.05;margin:0;color:var(--text);letter-spacing:-.03em}
+h2{color:var(--text);font-size:clamp(20px,2vw,26px);margin:28px 0 12px;padding-top:0;letter-spacing:-.02em}
+h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}
+code{background:rgba(148,163,184,.12);border:1px solid var(--border);border-radius:7px;padding:1px 6px}
+pre{background:#0a0e14;border:1px solid var(--border);border-radius:16px;overflow:auto;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+pre code{background:none;border:0;padding:0}
+.card,.summary-panel{background:linear-gradient(180deg,rgba(17,23,34,.96),rgba(12,17,25,.96));border:1px solid var(--border);border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.summary-panel{display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.summary-panel::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(180deg,var(--accent),transparent)}
+.summary-panel .pill-row{display:flex;flex-wrap:wrap;gap:8px}
+.summary-panel .pill{margin:0}
+.summary-panel .title-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:flex-start}
+.summary-panel .title-row h2{margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.note-card{display:flex;flex-direction:column;gap:10px;min-height:210px;background:linear-gradient(180deg,var(--surface2),#101722);border:1px solid var(--border);border-radius:18px;padding:16px;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.note-card:hover{transform:translateY(-2px);border-color:rgba(147,197,253,.55);box-shadow:0 18px 32px rgba(0,0,0,.22)}
+.note-card__meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}
+.note-card h3{font-size:18px;line-height:1.25;color:var(--text);margin:2px 0 0;text-transform:none;letter-spacing:0}
+.note-card p{color:var(--muted);margin:0;flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;background:rgba(148,163,184,.09);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 6px 4px 0;padding:5px 10px}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;padding:9px 12px;border-radius:12px;background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.35);color:#bfdbfe;font-weight:700;transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.button:hover{text-decoration:none;transform:translateY(-1px);border-color:rgba(96,165,250,.6);background:rgba(59,130,246,.22)}
+input{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:10px 0 14px;outline:none}
+input:focus{border-color:rgba(147,197,253,.7);box-shadow:0 0 0 4px rgba(59,130,246,.14)}
+footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:28px;padding-top:14px}
+.stack{display:grid;gap:8px}
+.lede{max-width:72ch;color:var(--muted)}
+.smallcaps{text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--dim)}
+blockquote{margin:16px 0;padding:14px 16px;border-left:3px solid rgba(147,197,253,.75);background:rgba(148,163,184,.06);border-radius:0 14px 14px 0;color:var(--muted)}
+article h2:first-child, section h2:first-child{margin-top:0}
+@media (max-width:640px){
+  main{width:min(100% - 16px,1120px);padding:16px 0 36px}
+  header{padding-top:10px;margin-bottom:16px}
+  h1{font-size:27px;line-height:1.08}
+  h2{font-size:19px;margin:24px 0 10px}
+  .grid{grid-template-columns:1fr}
+  .card,.summary-panel{padding:15px;border-radius:18px}
+  .button{width:100%;justify-content:center}
+  pre{padding:13px;border-radius:14px}
+  .summary-panel .pill-row,.card .pill-row{gap:6px}
+  .summary-panel .pill,.card .pill{font-size:11px;padding:4px 8px}
+  .note-card{min-height:auto;padding:14px}
+}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="crumbs">
+        <a class="kicker" href="../../index.html">Dashboard</a>
+        <span class="crumb-sep">/</span>
+        <a class="kicker" href="../index.html">Study Notes</a>
+      </div>
+      <div class="stack">
+        <div class="kicker">Generated note page</div>
+        <h1>DL — Week 4: MLP Classification, One-Hot Encoding, Keras Wrappers, and Model Evaluation</h1>
+        <p class="meta">Deep Learning · msc-coursework/outputs/class-notes/DL-W4-MLPClassificationAndKerasWrappers.md</p>
+      </div>
+    </header>
+    <section class="summary-panel"><span class="pill">DL</span><span class="pill">Week 4</span><span class="pill">msc-coursework/outputs/class-notes/DL-W4-MLPClassificationAndKerasWrappers.md</span><p class="meta">Modified 2026-05-25T14:27:30+01:00</p></section><h1>DL — Week 4: MLP Classification, One-Hot Encoding, Keras Wrappers, and Model Evaluation</h1>
+<h2>Focus</h2>
+<p>This lecture moved from ANN mechanics into <em>using</em> MLPs for classification in Keras. The key shift is target encoding: multi-class labels must be encoded into class vectors, the output layer must match the number of classes, and the loss/activation pair must fit the task. The lecture also showed how to package Keras models for cross-validation and hyperparameter search, but the notebook examples mix several APIs and a few weak design choices — useful for learning, not a production template.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Categorical target — a label variable with discrete classes, e.g. Iris species.</li>
+<li>Label encoding — converts string classes to integers before further processing.</li>
+<li>One-hot encoding — converts integer class IDs into dummy vectors, one column per class.</li>
+<li><code>Sequential</code> — Keras model container that stacks layers in order.</li>
+<li><code>Dense</code> layer — fully connected layer; each output node connects to every input from the previous layer.</li>
+<li><code>input_dim</code> / <code>input_shape</code> — defines how many input features the first layer expects.</li>
+<li>Hidden layer activation — usually ReLU for MLP hidden layers.</li>
+<li>Output activation — sigmoid for binary classification, softmax for mutually exclusive multi-class classification.</li>
+<li><code>categorical_crossentropy</code> — loss for one-hot multi-class classification.</li>
+<li><code>binary_crossentropy</code> — loss for binary classification with a sigmoid output.</li>
+<li><code>KerasClassifier</code> / SciKeras — wrapper that makes Keras models usable with scikit-learn tools.</li>
+<li>Cross-validation — evaluates model stability across multiple train/test splits.</li>
+<li>Grid search — brute-force search over hyperparameter combinations.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Classification framing:</strong></p>
+<ul>
+<li>For classification, the number of output nodes must match the number of classes.</li>
+<li>If the target has 5 classes, use 5 output nodes.</li>
+<li>A categorical label must be turned into a machine-readable representation before training.</li>
+<li>Transcript example: Iris species → <code>LabelEncoder</code> → <code>to_categorical()</code>.</li>
+</ul>
+<p><strong>Encoding workflow:</strong></p>
+<ul>
+<li>First map class labels to integers with <code>LabelEncoder</code>.</li>
+<li>Then convert integers to dummy vectors with <code>to_categorical</code>.</li>
+<li>The lecture treated this as the standard route for multi-class ANN classification.</li>
+<li>The logic is simple: the network learns probabilities for each class, not raw text labels.</li>
+</ul>
+<p><strong>Keras model structure:</strong></p>
+<ul>
+<li><code>Sequential</code> was the main model constructor.</li>
+<li>Example baseline: one hidden layer with 8 ReLU nodes, output layer with 3 softmax nodes.</li>
+<li>For Iris, input dimension is 4 because each row has 4 features.</li>
+<li>The output layer does <em>not</em> need a separate <code>input_dim</code> when the previous layer already defines the flow.</li>
+<li>The lecture repeatedly emphasised that <code>Dense</code> means a fully connected computation step.</li>
+</ul>
+<p><strong>Activation choices:</strong></p>
+<ul>
+<li>Hidden layers: ReLU is the default because it allows positive activations and keeps the network usable.</li>
+<li>Output layer for multi-class: softmax.</li>
+<li>Output layer for binary: sigmoid.</li>
+<li>Softmax gives a probability distribution over classes.</li>
+<li>ReLU at the output is wrong for classification because it does not produce class probabilities.</li>
+</ul>
+<p><strong>Loss and optimiser:</strong></p>
+<ul>
+<li>Multi-class one-hot target + softmax output → <code>categorical_crossentropy</code>.</li>
+<li>Binary target + sigmoid output → <code>binary_crossentropy</code>.</li>
+<li>Optimiser used in the examples: Adam.</li>
+<li>The lecture framed backprop as the mechanism that updates weights after the forward pass.</li>
+</ul>
+<p><strong>Cross-validation and wrappers:</strong></p>
+<ul>
+<li><code>KerasClassifier</code> was used to make Keras models compatible with scikit-learn cross-validation.</li>
+<li><code>cross_val_score</code> was used to estimate performance more robustly than a single split.</li>
+<li>The notebook then pushed into repeated runs / k-fold evaluation and model comparison.</li>
+<li>A later example used <code>GridSearchCV</code> to tune <code>batch_size</code> and <code>epochs</code>.</li>
+</ul>
+<p><strong>Worked examples in the notebook:</strong></p>
+<ul>
+<li>Iris: 3-class classification with one-hot labels.</li>
+<li>Pima Indians diabetes: binary classification with 8 features, 1 sigmoid output, binary cross-entropy.</li>
+<li>Cancer diagnosis: 30 features, 2-class softmax output, categorical cross-entropy, cross-validation, then hyperparameter search.</li>
+<li>Another example compared ANN against logistic regression / Naive Bayes style baselines.</li>
+</ul>
+<p><strong>Model summary / parameter count:</strong></p>
+<ul>
+<li>The lecture used <code>model.summary()</code> to interpret the number of trainable parameters.</li>
+<li>In a dense layer, parameters are basically weights plus biases.</li>
+<li>This is the sanity check for whether the network structure matches the feature count and class count.</li>
+</ul>
+<p><strong>Evaluation discipline:</strong></p>
+<ul>
+<li>The transcript mentions recall as a target metric in at least one exercise.</li>
+<li>That matters: accuracy alone can hide class imbalance.</li>
+<li>Cross-validation is useful, but only if the model and labels are set up consistently.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># Multi-class target encoding workflow
+from sklearn.preprocessing import LabelEncoder
+from keras.utils import to_categorical
+
+encoder = LabelEncoder()
+y_int = encoder.fit_transform(y)
+y_onehot = to_categorical(y_int)</code></pre>
+<pre><code># Iris-style MLP classifier
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+model = Sequential()
+model.add(Dense(8, input_dim=4, activation=&#x27;relu&#x27;))
+model.add(Dense(3, activation=&#x27;softmax&#x27;))
+model.compile(
+    loss=&#x27;categorical_crossentropy&#x27;,
+    optimizer=&#x27;adam&#x27;,
+    metrics=[&#x27;accuracy&#x27;]
+)</code></pre>
+<pre><code># Binary classification variant
+model = Sequential()
+model.add(Dense(12, input_shape=(8,), activation=&#x27;relu&#x27;))
+model.add(Dense(1, activation=&#x27;sigmoid&#x27;))
+model.compile(
+    loss=&#x27;binary_crossentropy&#x27;,
+    optimizer=&#x27;adam&#x27;,
+    metrics=[&#x27;accuracy&#x27;]
+)</code></pre>
+<pre><code>Dense-layer parameter count:
+
+parameters = (n_inputs + 1 bias) × n_outputs
+
+Example:
+- 4 inputs -&gt; 8 hidden nodes = (4 + 1) × 8 = 40 parameters
+- 8 hidden nodes -&gt; 3 outputs = (8 + 1) × 3 = 27 parameters</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>Dissertation</strong> — this lecture reinforces the difference between class labels, probability-shaped outputs, and evaluation. That matters for sentence-level grounding evaluators: a class score is not automatically a calibrated probability, and label encoding can hide uncertainty if you are sloppy with metrics.</li>
+<li>Connects to <strong>Dissertation / evaluation methodology</strong> — the cross-validation and hyperparameter-search framing is useful, but the dissertation needs stricter separation of model selection vs. final evaluation.</li>
+<li>Connects to <strong>DL W2/W3</strong> — W2/W3 covered forward pass, activation functions, loss, and backprop; this lecture is the applied classification version of that pipeline.</li>
+<li><strong>Risk flag — notebook API drift and inconsistent examples.</strong> Some code patterns are mixed-version or redundant, and one example uses an awkward <code>input_dim</code> on a later dense layer. Treat the notebook as a learning scaffold, not a copy-paste template.</li>
+<li><strong>Risk flag — output/loss mismatch is easy to get wrong.</strong> For mutually exclusive classes, softmax is the right default; sigmoid is for binary or multi-label cases.</li>
+<li>Connects to <strong>RS CA1</strong> — the same discipline applies to recommender evaluation: choose the output representation and metric to match the task, not the other way around.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>Is this officially <strong>Week 4</strong> or a lab/demo session? The transcript and notebook do not label it cleanly.</li>
+<li>Was <strong>recall</strong> the required assessment metric, or just an example metric mentioned in class?</li>
+<li>Does Moodle expect <strong>SciKeras</strong> or the older <code>keras.wrappers.scikit_learn</code> style? The notebook suggests wrapper usage, but version compatibility should be checked.</li>
+<li>For the assignment, which comparison is mandatory: ANN vs logistic regression only, or ANN vs multiple ML baselines?</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: Why do multi-class labels need one-hot encoding?</li>
+<p>A: Because the network output is a vector of class scores/probabilities, one node per class.</p>
+<li>Q: When should you use softmax?</li>
+<p>A: For mutually exclusive multi-class classification.</p>
+<li>Q: When should you use sigmoid?</li>
+<p>A: For binary classification, or multi-label outputs where each class is independent.</p>
+<li>Q: Which loss pairs with softmax + one-hot labels?</li>
+<p>A: <code>categorical_crossentropy</code>.</p>
+<li>Q: Which loss pairs with sigmoid + binary labels?</li>
+<p>A: <code>binary_crossentropy</code>.</p>
+<li>Q: What does <code>KerasClassifier</code> do?</li>
+<p>A: Wraps a Keras model so scikit-learn tools like <code>cross_val_score</code> and <code>GridSearchCV</code> can use it.</p>
+<li>Q: Why use cross-validation?</li>
+<p>A: To estimate model performance more reliably than a single train/test split.</p>
+<li>Q: What is the main job of <code>model.summary()</code>?</li>
+<p>A: To verify the layer structure and parameter count.</p>
+<li>Q: What is the common hidden-layer activation in an MLP classifier?</li>
+<p>A: ReLU.</p>
+<li>Q: What is the key warning about classification outputs?</li>
+<p>A: The output layer must match the class structure and metric; otherwise the model can look valid while being conceptually wrong.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Source material: <code>/root/.hermes/cache/documents/doc_03d474b4bdc6_Documento sem título.md</code>; extracted from pasted transcript on 2026-05-24</li>
+<li>Source material: <code>/root/.hermes/cache/documents/doc_10d44463123d_mlp_classification_sas.py</code>; read on 2026-05-24</li>
+<li>Dissertation context: <code>memory/dissertation/status.md</code></li>
+<li>Assessment context: <code>memory/msc-coursework/assessments.md</code></li>
+<li>Prior DL notes: <code>msc-coursework/outputs/class-notes/DL-W2-ANNStructureAndForwardPass.md</code>, <code>msc-coursework/outputs/class-notes/DL-W3-FeedforwardBackpropagation.md</code></li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Rebuild the Iris example cleanly with one-hot labels, softmax output, and k-fold cross-validation.</li>
+<li>[ ] Fix the notebook-style inconsistencies before reusing any code in coursework.</li>
+<li>[ ] Compare ANN against logistic regression on one small dataset and keep the metric consistent.</li>
+<li>[ ] If recall is required, rerun the evaluation with recall, not accuracy, as the primary score.</li>
+<li>[ ] If you send the slide deck or PDF, verify whether it changes the week label or the required assessment deliverable.</li>
+</ul>
+    <footer>Generated from nathan-os notes · 2026-05-25 15:39 IST</footer>
+  </main>
+</body>
+</html>
