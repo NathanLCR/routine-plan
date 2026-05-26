@@ -1,381 +1,55 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Daily Routine Plan</title>
-    <link rel="stylesheet" href="assets/styles.css">
-  </head>
-  <body>
-    <main>
-      <a class="back-link" href="index.html">Back to week</a>
-
-      <header id="day-header">
-        <div class="topline" id="day-pills"></div>
-        <h1 id="day-title">Daily Plan</h1>
-        <p class="lede" id="day-lede"></p>
-      </header>
-
-      <nav class="day-nav" aria-label="Other days">
-        <a class="pill" href="day.html?day=monday">Monday</a>
-        <a class="pill" href="day.html?day=tuesday">Tuesday</a>
-        <a class="pill" href="day.html?day=wednesday">Wednesday</a>
-        <a class="pill" href="day.html?day=thursday">Thursday</a>
-        <a class="pill" href="day.html?day=friday">Friday</a>
-        <a class="pill" href="day.html?day=saturday">Saturday</a>
-        <a class="pill" href="day.html?day=sunday">Sunday</a>
-      </nav>
-
-      <section class="day-layout" aria-label="Daily details">
-        <div class="detail-card">
-          <span class="label">Timeline</span>
-          <div class="timeline" id="timeline"></div>
-        </div>
-
-        <aside class="detail-stack">
-          <article class="detail-card">
-            <span class="label">Main Output</span>
-            <p id="main-output"></p>
-          </article>
-          <article class="detail-card">
-            <span class="label">Minimum Version</span>
-            <p id="minimum-version"></p>
-          </article>
-          <article class="detail-card">
-            <span class="label">Guardrail</span>
-            <p id="guardrail"></p>
-          </article>
-        </aside>
-      </section>
-
-      <section class="grid-3" aria-label="Study details">
-        <article class="detail-card">
-          <span class="label">Topics</span>
-          <ul id="topics"></ul>
-        </article>
-        <article class="detail-card">
-          <span class="label">Resources</span>
-          <ul class="resource-list" id="resources"></ul>
-        </article>
-        <article class="detail-card">
-          <span class="label">End Check</span>
-          <ul id="checks"></ul>
-        </article>
-      </section>
-
-      <section class="footer-review">
-        <h2>Tomorrow Prep</h2>
-        <p id="tomorrow-prep"></p>
-      </section>
-    </main>
-
-    <script>
-      const plans = {
-        monday: {
-          title: "Monday 18 May",
-          type: "Class day",
-          pillClass: "",
-          lede: "Deep Learning 10:00-12:00 and Recommender Systems 13:00-16:00. Keep the day clean: attend, consolidate, stop.",
-          output: "Write 5 bullets from DL/RS: what you understood, what is unclear, and what looks assignment-relevant.",
-          minimum: "Attend both classes, eat properly, then write 3 bullets total before stopping.",
-          guardrail: "Do not add dissertation work unless energy is unusually good. Monday is already a heavy class day.",
-          tomorrow: "Before sleep, choose one tiny Tuesday maintenance task: flashcards, one paper section, or Wednesday plan check.",
-          timeline: [
-            ["08:30-09:30", "Morning setup", "Food, bag, laptop, charger, and a quick look at class materials."],
-            ["10:00-12:00", "Deep Learning", "Capture neural-network fundamentals, MLPs, activations, gradient descent, and CA01 hints."],
-            ["12:00-13:00", "Reset", "Lunch, water, and transition. Do not fill the break with extra study."],
-            ["13:00-16:00", "Recommender Systems", "Track recommender types, system architecture, user profiling, personalization, and CA1 hints."],
-            ["17:00-18:00", "Consolidation", "Review only the highest-value DL/RS notes. Keep it to one hour."],
-            ["Evening", "Recovery", "Food, shower, light admin, and sleep setup. Gym only if energy is genuinely good."]
-          ],
-          topics: [
-            "Deep Learning: neural networks, MLPs, activation functions, gradient descent.",
-            "Recommender Systems: collaborative filtering, content-based filtering, utility-based, knowledge-based, demographic, hybrid.",
-            "Assessment watch: Deep Learning CA01 and Recommender Systems CA1 signals."
-          ],
-          resources: [
-            ["Workspace", "Deep Learning module guide", "docs/course-materials/deep-learning-module-guide.pdf"],
-            ["Workspace", "Recommender Systems assessment guide", "docs/course-materials/recommender-systems-module-assessment-guide-2026.pdf"],
-            ["Workspace", "Study topic map", "context/STUDY_RESOURCES.md"],
-            ["External", "Dive into Deep Learning", "https://d2l.ai/"],
-            ["External", "Google recommendation systems guide", "https://developers.google.com/machine-learning/recommendation"]
-          ],
-          checks: [
-            "Can I explain one DL concept from today without notes?",
-            "Can I name the main recommender-system families?",
-            "Did I record one uncertainty to ask later?"
-          ]
-        },
-        tuesday: {
-          title: "Tuesday 19 May",
-          type: "Work day",
-          pillClass: "work",
-          lede: "Six by Nico 10:00-00:00. This is a maintenance day, not a study day.",
-          output: "Complete one 15-25 minute maintenance task, preferably before work.",
-          minimum: "Check Wednesday's dissertation block and sleep.",
-          guardrail: "No coding, no dissertation writing, no hard coursework after the shift.",
-          tomorrow: "Confirm the Wednesday 16:30-18:30 dissertation task: corpus QA first, proposal skeleton only if QA is blocked.",
-          timeline: [
-            ["08:30-09:30", "Pre-shift setup", "Breakfast, water, uniform, commute buffer, and choose one tiny maintenance task."],
-            ["09:30-09:50", "Optional maintenance", "Flashcards or one short paper section. Stop before it becomes real study."],
-            ["10:00-00:00", "Six by Nico", "Full work day. Academic ambition stays deliberately low."],
-            ["After shift", "Shutdown", "Food, shower, and sleep. No difficult coursework after midnight."]
-          ],
-          topics: [
-            "Maintenance only: Monday DL/RS review, flashcards, or one short dissertation paper section.",
-            "Preparation: choose the exact Wednesday dissertation output.",
-            "Recovery: protect sleep after a long kitchen shift."
-          ],
-          resources: [
-            ["Workspace", "Study progress tracker", "tasks/STUDY_PROGRESS.md"],
-            ["Workspace", "Dissertation context", "context/DISSERTATION.md"],
-            ["Workspace", "Corpus selection plan", "context/CORPUS_STEP3.md"],
-            ["Workspace", "Weekly plan", "tasks/WEEKLY_PLAN.md"]
-          ],
-          checks: [
-            "Did I avoid heavy study?",
-            "Do I know what Wednesday's dissertation block is for?",
-            "Did I protect sleep?"
-          ]
-        },
-        wednesday: {
-          title: "Wednesday 20 May",
-          type: "Class + deep work",
-          pillClass: "",
-          lede: "Applied Research Methods 10:00-12:00, Reinforcement Learning 13:00-15:00, dissertation block 16:30-18:30.",
-          output: "Best output: corpus parsing QA decisions. Minimum output: 5 candidate papers fully checked.",
-          minimum: "Attend classes and do 45 minutes on corpus QA or methodology skeleton.",
-          guardrail: "Do not expand dissertation scope. The task is corpus QA or proposal structure only.",
-          tomorrow: "Leave Thursday's ARM block with a clear target: proposal requirements or cleaned Lecture 1 notes.",
-          timeline: [
-            ["08:45-09:30", "ARM prep", "Review ARM notes and keep dissertation proposal questions visible."],
-            ["10:00-12:00", "Applied Research Methods", "Listen for proposal structure, research aims, ethics, and methodology requirements."],
-            ["12:00-13:00", "Lunch reset", "Eat properly and avoid turning the break into scrolling."],
-            ["13:00-15:00", "Reinforcement Learning", "Track MDPs, agent/environment, rewards, value functions, and assessment hints."],
-            ["15:00-16:30", "Decompress", "Food, walk, quiet reset. Protect the dissertation block."],
-            ["16:30-18:30", "Dissertation block", "Run corpus parsing QA. If blocked, draft the methodology skeleton."],
-            ["Evening", "Light close", "Save the output, write the next action, then stop. Light gym is acceptable."]
-          ],
-          topics: [
-            "ARM: research process, relevance gap, reflection/reflexivity, basic vs applied research, responsible research.",
-            "RL: agent, environment, state, action, reward, MDPs, return, discount factor, Q-learning foundation.",
-            "Dissertation: 10 papers plus 5 reserves, parsing QA, inclusion criteria, question suitability."
-          ],
-          resources: [
-            ["Workspace", "Applied Research Methods Lecture 1", "docs/course-materials/applied-research-methods-lecture-1-introduction.pdf"],
-            ["Workspace", "RL Lecture 1a", "docs/course-materials/reinforcement-learning-lecture-1a.pdf"],
-            ["Workspace", "RL Q-learning lectures", "docs/course-materials/reinforcement-learning-lectures/"],
-            ["Workspace", "Dissertation context", "context/DISSERTATION.md"],
-            ["Workspace", "Corpus Step 3", "context/CORPUS_STEP3.md"]
-          ],
-          checks: [
-            "Did I produce a visible dissertation artifact?",
-            "Can I state the proposal problem in one paragraph?",
-            "Can I explain state/action/reward without notes?"
-          ]
-        },
-        thursday: {
-          title: "Thursday 21 May",
-          type: "Class day",
-          pillClass: "",
-          lede: "Deep Learning 10:00-11:00, NLP 12:00-14:00, Applied Research Methods block 15:30-17:00.",
-          output: "One clean ARM note or a proposal requirement checklist.",
-          minimum: "Attend classes and write 5 bullets on what the proposal must include.",
-          guardrail: "Gym only if the ARM block is complete and sleep is stable.",
-          tomorrow: "Friday is recovery after online classes. Do not pre-load it with heavy work.",
-          timeline: [
-            ["09:15-09:45", "Setup", "Check DL and NLP materials. Bring one question into each class."],
-            ["10:00-11:00", "Deep Learning", "Focus on concepts likely to support CA01 model design."],
-            ["12:00-14:00", "Natural Language Processing", "Connect preprocessing, classification, embeddings, or RAG ideas back to the dissertation."],
-            ["14:00-15:30", "Lunch and reset", "Step away before the Applied Research Methods block."],
-            ["15:30-17:00", "ARM block", "Clean Lecture 1 notes and extract exactly what the proposal must include."],
-            ["Evening", "Optional consolidation", "45 minutes of DL or NLP only if sleep and energy are stable."]
-          ],
-          topics: [
-            "DL: model design, training loops, evaluation, CA01 project awareness.",
-            "NLP: preprocessing, language modeling, classification, embeddings, transformers, RAG link.",
-            "ARM: proposal structure, problem, aims, research questions, methodology, ethics, timeline."
-          ],
-          resources: [
-            ["Workspace", "Deep Learning module guide", "docs/course-materials/deep-learning-module-guide.pdf"],
-            ["Workspace", "Study resources: NLP", "context/STUDY_RESOURCES.md"],
-            ["Workspace", "Applied Research Methods Lecture 1", "docs/course-materials/applied-research-methods-lecture-1-introduction.pdf"],
-            ["External", "Hugging Face NLP course", "https://huggingface.co/course"],
-            ["External", "Jurafsky and Martin", "https://web.stanford.edu/~jurafsky/slp3/"]
-          ],
-          checks: [
-            "Do I know what the proposal must contain?",
-            "Did I connect NLP to the dissertation instead of treating it as isolated?",
-            "Did I stop before turning Thursday into a second Wednesday?"
-          ]
-        },
-        friday: {
-          title: "Friday 22 May",
-          type: "Recovery day",
-          pillClass: "recovery",
-          lede: "Online Deep Learning 10:00-12:00 and online Recommender Systems 12:00-14:00. Recovery after class is protected.",
-          output: "At most, one short list of urgent follow-ups from DL/RS.",
-          minimum: "Attend online classes, eat, and recover.",
-          guardrail: "Do not turn recovery into a hidden study block.",
-          tomorrow: "Saturday is a full work day. Choose one tiny maintenance task before the shift.",
-          timeline: [
-            ["09:15-09:55", "Online setup", "Laptop, charger, water, notes, and a quiet class space."],
-            ["10:00-12:00", "Online Deep Learning", "Capture only the points that affect CA01 or next week's study."],
-            ["12:00-14:00", "Online Recommender Systems", "Track assessment, model, or evaluation hints."],
-            ["14:00-14:45", "Food and shutdown", "Eat, close class tabs, and note anything urgent."],
-            ["14:45-15:30", "Optional light review", "Only if needed: 30-45 minutes to avoid losing class notes."],
-            ["After 15:30", "Protected recovery", "Food, laundry, walk, light gym, sleep, or quiet reset."]
-          ],
-          topics: [
-            "DL: only urgent class follow-up, especially CA01.",
-            "RS: only urgent class follow-up, especially CA1 group project hints.",
-            "Recovery: reduce sleep debt before Saturday/Sunday shifts."
-          ],
-          resources: [
-            ["Workspace", "Deep Learning module guide", "docs/course-materials/deep-learning-module-guide.pdf"],
-            ["Workspace", "Recommender Systems assessment guide", "docs/course-materials/recommender-systems-module-assessment-guide-2026.pdf"],
-            ["Workspace", "Study progress tracker", "tasks/STUDY_PROGRESS.md"],
-            ["External", "PyTorch tutorials", "https://docs.pytorch.org/tutorials/"],
-            ["External", "MovieLens datasets", "https://grouplens.org/datasets/movielens/"]
-          ],
-          checks: [
-            "Did I capture urgent class follow-ups?",
-            "Did I actually recover after 14:00?",
-            "Am I set up for the Saturday shift?"
-          ]
-        },
-        saturday: {
-          title: "Saturday 23 May",
-          type: "Work day",
-          pillClass: "work",
-          lede: "Six by Nico 10:00-00:00. This is maintenance only.",
-          output: "15-25 minutes maximum: flashcards or tomorrow check.",
-          minimum: "Prepare for work, survive the shift, sleep.",
-          guardrail: "No serious study after the shift.",
-          tomorrow: "Before Sunday shift, choose whether weekly planning is realistic after work or should move to Monday.",
-          timeline: [
-            ["08:30-09:30", "Pre-shift setup", "Food, water, uniform, commute buffer, and one tiny review if calm."],
-            ["09:30-09:50", "Optional maintenance", "Flashcards or one small note cleanup. Stop quickly."],
-            ["10:00-00:00", "Six by Nico", "Full work day. The academic goal is simply to protect momentum."],
-            ["After shift", "Shutdown", "Food, shower, and sleep. Do not negotiate with midnight ambition."]
-          ],
-          topics: [
-            "Maintenance: flashcards from this week's classes.",
-            "Optional: one short dissertation paper section.",
-            "Recovery: protect the next morning."
-          ],
-          resources: [
-            ["Workspace", "Study progress tracker", "tasks/STUDY_PROGRESS.md"],
-            ["Workspace", "Dissertation priority papers list", "context/DISSERTATION.md"],
-            ["Workspace", "Weekly plan", "tasks/WEEKLY_PLAN.md"]
-          ],
-          checks: [
-            "Did I keep maintenance under 25 minutes?",
-            "Did I avoid heavy academic work?",
-            "Did I protect sleep?"
-          ]
-        },
-        sunday: {
-          title: "Sunday 24 May",
-          type: "Work day",
-          pillClass: "work",
-          lede: "Six by Nico 10:00-00:00. Maintenance only, with weekly planning only if energy allows.",
-          output: "Minimum: tomorrow check. Optional: next week's top 3 priorities.",
-          minimum: "Prepare for work, finish the shift, sleep. Planning can move to Monday.",
-          guardrail: "If you are tired, sleep wins. Planning is not a moral test.",
-          tomorrow: "If weekly planning moved, do it Monday morning before class: top 3 priorities only.",
-          timeline: [
-            ["08:30-09:30", "Pre-shift setup", "Food, water, uniform, commute buffer, and choose the lowest-effort maintenance task."],
-            ["09:30-09:50", "Optional maintenance", "Tomorrow check or one short flashcard pass."],
-            ["10:00-00:00", "Six by Nico", "Full work day. Keep the academic target deliberately small."],
-            ["After shift", "Weekly check", "If alert, choose next week's top 3 in 10 minutes. If tired, move it to Monday morning."]
-          ],
-          topics: [
-            "Maintenance: tomorrow check, next-week priorities, or one flashcard pass.",
-            "Weekly review: what moved, what slipped, what caused friction.",
-            "Recovery: protect sleep before the next academic cycle."
-          ],
-          resources: [
-            ["Workspace", "Weekly plan", "tasks/WEEKLY_PLAN.md"],
-            ["Workspace", "TODO list", "tasks/TODO.md"],
-            ["Workspace", "Study progress tracker", "tasks/STUDY_PROGRESS.md"],
-            ["Workspace", "Operating profile", "context/OPERATING_PROFILE.md"]
-          ],
-          checks: [
-            "What moved forward this week?",
-            "What slipped?",
-            "What are next week's top 3 priorities?"
-          ]
-        }
-      };
-
-      const dayOrder = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-      const params = new URLSearchParams(window.location.search);
-      const key = plans[params.get("day")] ? params.get("day") : "monday";
-      const plan = plans[key];
-
-      document.title = `${plan.title} Routine Plan`;
-      document.getElementById("day-title").textContent = plan.title;
-      document.getElementById("day-lede").textContent = plan.lede;
-      document.getElementById("main-output").textContent = plan.output;
-      document.getElementById("minimum-version").textContent = plan.minimum;
-      document.getElementById("guardrail").textContent = plan.guardrail;
-      document.getElementById("tomorrow-prep").textContent = plan.tomorrow;
-
-      const pill = document.createElement("span");
-      pill.className = `pill ${plan.pillClass}`.trim();
-      pill.textContent = plan.type;
-      document.getElementById("day-pills").appendChild(pill);
-
-      const escapeHtml = (value) =>
-        String(value)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-
-      document.getElementById("timeline").innerHTML = plan.timeline
-        .map(([time, title, detail]) => `
-          <div class="slot">
-            <span class="slot-time">${escapeHtml(time)}</span>
-            <div>
-              <strong>${escapeHtml(title)}</strong>
-              <p>${escapeHtml(detail)}</p>
-            </div>
-          </div>
-        `)
-        .join("");
-
-      document.getElementById("topics").innerHTML = plan.topics
-        .map((topic) => `<li>${escapeHtml(topic)}</li>`)
-        .join("");
-
-      document.getElementById("checks").innerHTML = plan.checks
-        .map((check) => `<li>${escapeHtml(check)}</li>`)
-        .join("");
-
-      document.getElementById("resources").innerHTML = plan.resources
-        .map(([kind, label, value]) => {
-          const isUrl = /^https?:\/\//.test(value);
-          const renderedValue = isUrl
-            ? `<a href="${escapeHtml(value)}">${escapeHtml(value)}</a>`
-            : `<code>${escapeHtml(value)}</code>`;
-          return `
-            <li>
-              <span class="resource-kind">${escapeHtml(kind)}</span>
-              <strong>${escapeHtml(label)}</strong>
-              <p>${renderedValue}</p>
-            </li>
-          `;
-        })
-        .join("");
-
-      document.querySelectorAll(".day-nav a").forEach((link) => {
-        const linkKey = new URL(link.href).searchParams.get("day");
-        if (linkKey === key) {
-          link.setAttribute("aria-current", "page");
-        }
-      });
-    </script>
-  </body>
-</html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daily Routine · DBS MSc AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8d9c0;--surf:#dccfb4;--surf2:#d0c2a0;--surf3:#c4b38c;--text:#1a1108;--sub:#52402a;--faint:#7a5f3a;--ghost:#a08760;--rule:rgba(26,17,8,.12);--ruleStr:rgba(26,17,8,.22);--teal:#1a6b5c;--olive:#3d5e28;--sienna:#8c3820;--shift:#7a4f18;--serif:'Fraunces',Georgia,serif;--mono:'DM Mono',monospace;--sans:'DM Sans',system-ui,sans-serif}*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);font-family:var(--sans);color:var(--text);line-height:1.5}a{color:inherit}.page{min-height:100vh;padding:30px 38px 52px;max-width:1160px;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;gap:16px}.brand{display:flex;align-items:baseline;gap:12px}.brand strong{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-.01em}.mono{font-family:var(--mono);font-size:8px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase}.time{font-family:var(--mono);font-size:8px;color:var(--faint)}.panel,.card{background:var(--surf);border-radius:16px;border:1px solid var(--rule);box-shadow:0 4px 20px rgba(26,17,8,.11),0 1px 4px rgba(26,17,8,.07);overflow:hidden;margin-bottom:12px}.hero{padding:16px 22px 15px;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:1.25fr .75fr;gap:20px;align-items:end}.hero h1{font-family:var(--serif);font-size:38px;line-height:.95;margin:4px 0 8px;font-weight:600;letter-spacing:-.035em}.hero p{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--sub);margin:0}.label{font-family:var(--mono);font-size:8px;font-weight:500;color:var(--faint);letter-spacing:.12em;text-transform:uppercase}.pill{font-family:var(--mono);font-size:8px;font-weight:500;padding:5px 9px;border-radius:5px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--rule);background:rgba(232,217,192,.33)}.pill.active{background:rgba(26,107,92,.11);color:var(--teal);border-color:rgba(26,107,92,.26)}.pill.work{background:rgba(122,79,24,.12);color:var(--shift)}.pill.free{background:rgba(26,107,92,.11);color:var(--teal)}.pill.class{background:rgba(140,56,32,.08);color:var(--sienna)}.day-nav{display:flex;flex-wrap:wrap;gap:8px;padding:12px 22px;border-bottom:1px solid var(--rule);background:rgba(232,217,192,.22)}.layout{display:grid;grid-template-columns:1.6fr .9fr;gap:12px;margin-top:12px}.timeline{padding:6px 20px 18px}.slot{display:grid;grid-template-columns:98px 1fr;gap:13px;padding:13px 0;border-bottom:1px solid var(--rule)}.slot:last-child{border-bottom:0}.slot-time{font-family:var(--mono);font-size:9px;color:var(--sienna);padding-top:2px}.slot-title{font-size:13px;font-weight:600;margin:0 0 4px}.slot-note{font-size:12px;color:var(--sub);margin:0}.stack{display:grid;gap:12px}.card{padding:15px 18px}.card h2{font-family:var(--serif);font-size:24px;line-height:1;margin:8px 0 10px;font-weight:600}.card p{font-size:12px;color:var(--sub);margin:0}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.list{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:9px}.list li{font-size:12px;color:var(--sub);padding-top:8px;border-top:1px solid var(--rule)}.resource a{text-decoration:none}.resource a:hover{text-decoration:underline}.footer{margin-top:22px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.src{font-family:var(--mono);font-size:7px;color:var(--ghost);letter-spacing:.06em}.grain{position:fixed;inset:0;pointer-events:none;opacity:.025;mix-blend-mode:multiply;z-index:9999}@media(max-width:820px){.page{padding:20px 14px 40px}.top,.footer{flex-direction:column;align-items:flex-start}.hero,.layout,.grid3{grid-template-columns:1fr}.hero h1{font-size:31px}.slot{grid-template-columns:1fr;gap:4px}.day-nav{padding:10px 14px}}
+</style>
+</head>
+<body><svg class="grain" aria-hidden="true"><filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#gr)" fill="black"/></svg>
+<div class="page">
+<header class="top"><div class="brand"><strong>DBS MSc AI</strong><span class="mono">daily routine</span></div><span class="time">week of 25 May 2026 · current-week override applied</span></header>
+<section class="panel">
+  <div class="hero"><div><span class="label" id="eyebrow">Daily view</span><h1 id="title">Daily Plan</h1><p id="lede"></p></div><div><span class="label">Main output</span><p id="output" style="font-size:13px;color:var(--sub);margin:7px 0 0"></p></div></div>
+  <nav class="day-nav" aria-label="Week days" id="nav"></nav>
+</section>
+<section class="layout">
+  <article class="panel"><div class="timeline" id="timeline"></div></article>
+  <aside class="stack">
+    <article class="card"><span class="label">Minimum version</span><h2>Do this if energy drops</h2><p id="minimum"></p></article>
+    <article class="card"><span class="label">Guardrail</span><h2>Do not overreach</h2><p id="guardrail"></p></article>
+    <article class="card"><span class="label">Tomorrow prep</span><h2>Leave a clean handoff</h2><p id="tomorrow"></p></article>
+  </aside>
+</section>
+<section class="grid3">
+  <article class="card"><span class="label">Topics</span><ul class="list" id="topics"></ul></article>
+  <article class="card"><span class="label">Resources</span><ul class="list resource" id="resources"></ul></article>
+  <article class="card"><span class="label">End check</span><ul class="list" id="checks"></ul></article>
+</section>
+<footer class="footer"><span class="src"><a href="index.html">← weekly dashboard</a> · <a href="notes/index.html">notes router</a></span><span class="src">source: weekly-plan-2026-05-25.md · study-progress.json</span></footer>
+</div>
+<script>
+const plans={
+ monday:{date:'Monday 25 May',type:'Class day',tone:'class',lede:'DL and Recommender Systems class day. Keep it clean: attend, capture, consolidate, stop.',output:'Capture the DL/RS follow-ups that affect CA1 and generated class notes.',minimum:'Attend classes and write three useful bullets total.',guardrail:'Do not add dissertation work unless it is a five-minute capture.',tomorrow:'Tuesday is now a free day: preload NLP CA1 and dissertation Step 3.',timeline:[['10:00–12:00','Deep Learning','Attend/capture MLP, classification, evaluation, and CA1-relevant signals.'],['13:00–16:00','Recommender Systems','Track non-personalised methods, PageRank, metrics, and CA1 group/project signals.'],['17:00–18:00','Consolidation','Turn class capture into note-ready bullets; stop after one hour.']],topics:['DL: MLP classification and evaluation.','RS: scoring methods, PageRank, CA1 hints.','Admin: preserve any deadline signal.'],resources:[['DL notes','notes/dl/dl-w4-mlpclassificationandkeraswrappers.html'],['RS notes','notes/rs/rs-w3-nprscoringandpagerank.html']],checks:['Did I capture one assignment-relevant point per module?','Did I stop instead of making Monday endless?']},
+ tuesday:{date:'Tuesday 26 May',type:'Free day · no shift',tone:'free',lede:'Recovered shift day. Use the good hours for NLP CA1 and dissertation corpus Step 3; ARM Google Doc remains done.',output:'NLP CA1 shortlist plus dissertation corpus Step 3 triage.',minimum:'Pick one NLP paper candidate and write one reason it is usable or weak.',guardrail:'No heroic late-night catch-up. Protect sleep after the two main blocks.',tomorrow:'Wednesday has ARM/RL class and the ARM deadline marker. Keep the follow-up list small.',timeline:[['00:00–01:15','Peak window','Already past / optional only: light review or sleep protection.'],['13:00–15:00','NLP CA1 block','Paper shortlist, critique criteria, and BLOG GENDER baseline map.'],['16:00–17:30','Dissertation block','Corpus Step 3 triage: Portuguese/academic RAG candidates and evaluator-methodology candidates.'],['17:30–18:00','Admin close','Confirm Moodle dates and update task board only if energy is fine.']],topics:['NLP: CA1 paper shortlist and critique angle.','Dissertation: Step 3 corpus-selection decision support.','ARM: completed Google Doc/link stays crossed off.'],resources:[['NLP note','notes/nlp/nlp-w2-textvectorisation.html'],['Weekly plan','msc-coursework/outputs/weekly-plan-2026-05-25.md'],['Dashboard','index.html']],checks:['Do I have at least one credible NLP CA1 paper candidate?','Did I make Step 3 less vague?','Did I avoid expanding the plan?']},
+ wednesday:{date:'Wednesday 27 May',type:'Class day',tone:'class',lede:'ARM and RL class day. Use any extra energy only for ARM cleanup or RL flashcards.',output:'ARM proposal scaffold cleanup plus RL consolidation notes.',minimum:'Attend classes and write five bullets: two ARM, two RL, one dissertation connection.',guardrail:'Do not rewrite final proposal prose. Structure and checklist only.',tomorrow:'Thursday has DL/NLP. Bring one NLP-to-dissertation question.',timeline:[['10:00–12:00','Applied Research Methods','Listen for proposal structure, aims, ethics, methodology, and marking expectations.'],['13:00–15:00','Reinforcement Learning','Capture MDPs, value functions, Q-values, and assessment-relevant examples.'],['16:00–17:00','ARM cleanup','Clean scaffold/objectives only. No final prose.']],topics:['ARM: research question, aims, objectives, methodology checklist.','RL: MDP/value/Q concepts.','Dissertation: evaluator reliability framing.'],resources:[['ARM W2','notes/arm/arm-w2-generatingresearchideas.html'],['RL W2','notes/rl/rl-w2-valueandqfunctions.html']],checks:['Can I explain the ARM structure without notes?','Can I define state/action/reward/value/Q?']},
+ thursday:{date:'Thursday 28 May',type:'Class day',tone:'class',lede:'DL and NLP class day. Prioritise NLP because CA1 is now the active coursework risk.',output:'NLP class capture plus CA1 shortlist refinement.',minimum:'Attend classes and add three useful CA1 bullets.',guardrail:'Do not turn Thursday evening into a second full workday.',tomorrow:'Friday is a free day: reserve it for RS/DL catch-up and dissertation if energy is good.',timeline:[['10:00–11:00','Deep Learning','Capture CA1/model-design details.'],['12:00–14:00','Natural Language Processing','Connect preprocessing/vectorisation/classification to CA1 and dissertation.'],['15:30–16:30','NLP refinement','Update shortlist and critique criteria.']],topics:['DL: model training/evaluation.','NLP: representation, classification, paper critique.','Dissertation: language/evaluation connection.'],resources:[['DL note','notes/dl/dl-w4-mlpclassificationandkeraswrappers.html'],['NLP note','notes/nlp/nlp-w2-textvectorisation.html']],checks:['Did NLP CA1 become clearer?','Did I capture class notes while still fresh?']},
+ friday:{date:'Friday 29 May',type:'Free day · no shift',tone:'free',lede:'Second recovered day. Use it to stabilise RS/DL and one dissertation follow-up; keep the day realistic.',output:'RS CA1 baseline map plus one DL/Dissertation follow-up.',minimum:'One 60-minute RS block and one 30-minute planning close.',guardrail:'No fake 8-hour study fantasy. Cap the useful work and recover before weekend shifts.',tomorrow:'Saturday is a chef day: choose one 15-minute maintenance item before shift.',timeline:[['10:30–12:00','RS block','CA1 baseline, metrics, cold-start, and GenAI section task list.'],['13:00–14:00','DL catch-up','MLP/backprop consolidation or CA1 issue list.'],['16:00–17:00','Dissertation optional','Only if energy remains: Step 3 candidate comparison.'],['17:00–17:30','Weekly close','Update what actually got done and pick weekend maintenance.']],topics:['RS: CA1 structure and evaluation metrics.','DL: consolidation only.','Dissertation: optional Step 3 refinement.'],resources:[['RS W3','notes/rs/rs-w3-nprscoringandpagerank.html'],['DL W3','notes/dl/dl-w3-feedforwardbackpropagation.html'],['Weekly dashboard','index.html']],checks:['Do I know the next RS CA1 action?','Did I log what happened instead of pretending?']},
+ saturday:{date:'Saturday 30 May',type:'Chef day',tone:'work',lede:'Six by Nico 10:00–00:00. This is maintenance only.',output:'15 minutes maximum: flashcards or tomorrow check.',minimum:'Prepare for work, survive the shift, sleep.',guardrail:'No serious study after the shift.',tomorrow:'Sunday is also chef day. Keep planning microscopic.',timeline:[['08:30–09:30','Pre-shift setup','Food, water, uniform, commute buffer.'],['09:30–09:45','Optional maintenance','Flashcards or one note skim only if calm.'],['10:00–00:00','Six by Nico','Full shift. Academic goal is protecting momentum.'],['After shift','Shutdown','Food, shower, sleep.']],topics:['Maintenance: one note skim or flashcard set.','Recovery: protect sleep.'],resources:[['Notes router','notes/index.html']],checks:['Did I avoid heavy study?','Did I protect sleep?']},
+ sunday:{date:'Sunday 31 May',type:'Chef day',tone:'work',lede:'Six by Nico 10:00–00:00. Close the week lightly; do not force a full review.',output:'Tiny weekly review: what moved, what did not, next Monday first action.',minimum:'Write one next action for Monday.',guardrail:'No hard coursework after the shift.',tomorrow:'Monday starts the next week; make the first action obvious.',timeline:[['08:30–09:30','Pre-shift setup','Food, water, uniform, commute buffer.'],['09:30–09:45','Optional review','One next-action line for Monday.'],['10:00–00:00','Six by Nico','Full shift.'],['After shift','Shutdown','Sleep first; planning can move to Monday.']],topics:['Weekly close: one honest sentence.','Planning: Monday first action.'],resources:[['Weekly dashboard','index.html']],checks:['Do I know Monday’s first action?','Did I avoid pretending Sunday is a study day?']}
+};
+const order=['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+const params=new URLSearchParams(location.search);let key=(params.get('day')||'tuesday').toLowerCase();if(!plans[key]) key='tuesday';
+const p=plans[key];
+document.getElementById('title').textContent=p.date;document.getElementById('eyebrow').textContent=p.type;document.getElementById('lede').textContent=p.lede;document.getElementById('output').textContent=p.output;document.getElementById('minimum').textContent=p.minimum;document.getElementById('guardrail').textContent=p.guardrail;document.getElementById('tomorrow').textContent=p.tomorrow;
+document.getElementById('nav').innerHTML=order.map(d=>`<a class="pill ${plans[d].tone} ${d===key?'active':''}" href="day.html?day=${d}">${plans[d].date.split(' ')[0]} ${plans[d].date.split(' ')[1]}</a>`).join('');
+document.getElementById('timeline').innerHTML=p.timeline.map(x=>`<div class="slot"><span class="slot-time">${x[0]}</span><div><p class="slot-title">${x[1]}</p><p class="slot-note">${x[2]}</p></div></div>`).join('');
+for(const id of ['topics','checks']) document.getElementById(id).innerHTML=p[id].map(x=>`<li>${x}</li>`).join('');
+document.getElementById('resources').innerHTML=p.resources.map(x=>`<li><a href="${x[1]}">${x[0]}</a></li>`).join('');
+</script>
+</body></html>
