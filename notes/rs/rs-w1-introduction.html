@@ -1,107 +1,9 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>RS — Week 1: Introduction to Recommender Systems</title>
-  <style>
-:root{
-  --bg:#0b0f14;
-  --surface:#111722;
-  --surface2:#151d29;
-  --border:#2a3444;
-  --text:#eef2ff;
-  --muted:#a5b0c5;
-  --dim:#7f8aa1;
-  --accent:#93c5fd;
-  --good:#7dd3a7;
-  --warn:#fbbf24;
-  --bad:#fca5a5;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  background:
-    radial-gradient(900px 420px at 10% 0%, rgba(59,130,246,.14), transparent 45%),
-    radial-gradient(700px 360px at 90% 0%, rgba(16,185,129,.08), transparent 40%),
-    linear-gradient(180deg,#0b0f14 0%,#090d12 100%);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-  font-size:15px;
-  line-height:1.7;
-}
-main{width:min(1120px,calc(100% - 24px));margin:0 auto;padding:24px 0 52px}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-header{display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--border);margin-bottom:20px;padding:14px 0 18px}
-.crumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--dim);font-size:12px}
-.kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(148,163,184,.08);border:1px solid var(--border);color:var(--muted);font-size:12px;line-height:1}
-.crumb-sep{color:var(--dim)}
-.meta{color:var(--dim);font-size:12px;margin:0}
-h1{font-size:clamp(30px,4vw,44px);line-height:1.05;margin:0;color:var(--text);letter-spacing:-.03em}
-h2{color:var(--text);font-size:clamp(20px,2vw,26px);margin:28px 0 12px;padding-top:0;letter-spacing:-.02em}
-h3{color:var(--muted);font-size:15px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.06em}
-p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:1px solid var(--border);margin:22px 0}
-code{background:rgba(148,163,184,.12);border:1px solid var(--border);border-radius:7px;padding:1px 6px}
-pre{background:#0a0e14;border:1px solid var(--border);border-radius:16px;overflow:auto;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
-pre code{background:none;border:0;padding:0}
-.card,.summary-panel{background:linear-gradient(180deg,rgba(17,23,34,.96),rgba(12,17,25,.96));border:1px solid var(--border);border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 10px 30px rgba(0,0,0,.18)}
-.summary-panel{display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
-.summary-panel::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(180deg,var(--accent),transparent)}
-.summary-panel .pill-row{display:flex;flex-wrap:wrap;gap:8px}
-.summary-panel .pill{margin:0}
-.summary-panel .title-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:flex-start}
-.summary-panel .title-row h2{margin:0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.note-card{display:flex;flex-direction:column;gap:10px;min-height:210px;background:linear-gradient(180deg,var(--surface2),#101722);border:1px solid var(--border);border-radius:18px;padding:16px;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
-.note-card:hover{transform:translateY(-2px);border-color:rgba(147,197,253,.55);box-shadow:0 18px 32px rgba(0,0,0,.22)}
-.note-card__meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}
-.note-card h3{font-size:18px;line-height:1.25;color:var(--text);margin:2px 0 0;text-transform:none;letter-spacing:0}
-.note-card p{color:var(--muted);margin:0;flex:1}
-.pill{display:inline-flex;align-items:center;gap:6px;background:rgba(148,163,184,.09);border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px;margin:4px 6px 4px 0;padding:5px 10px}
-.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;padding:9px 12px;border-radius:12px;background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.35);color:#bfdbfe;font-weight:700;transition:transform .16s ease,border-color .16s ease,background .16s ease}
-.button:hover{text-decoration:none;transform:translateY(-1px);border-color:rgba(96,165,250,.6);background:rgba(59,130,246,.22)}
-input{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;margin:10px 0 14px;outline:none}
-input:focus{border-color:rgba(147,197,253,.7);box-shadow:0 0 0 4px rgba(59,130,246,.14)}
-footer{border-top:1px solid var(--border);color:var(--dim);font-size:12px;margin-top:28px;padding-top:14px}
-.stack{display:grid;gap:8px}
-.lede{max-width:72ch;color:var(--muted)}
-.smallcaps{text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--dim)}
-blockquote{margin:16px 0;padding:14px 16px;border-left:3px solid rgba(147,197,253,.75);background:rgba(148,163,184,.06);border-radius:0 14px 14px 0;color:var(--muted)}
-article h2:first-child, section h2:first-child{margin-top:0}
-@media (max-width:640px){
-  main{width:min(100% - 16px,1120px);padding:16px 0 36px}
-  header{padding-top:10px;margin-bottom:16px}
-  h1{font-size:27px;line-height:1.08}
-  h2{font-size:19px;margin:24px 0 10px}
-  .grid{grid-template-columns:1fr}
-  .card,.summary-panel{padding:15px;border-radius:18px}
-  .button{width:100%;justify-content:center}
-  pre{padding:13px;border-radius:14px}
-  .summary-panel .pill-row,.card .pill-row{gap:6px}
-  .summary-panel .pill,.card .pill{font-size:11px;padding:4px 8px}
-  .note-card{min-height:auto;padding:14px}
-}
-  </style>
-</head>
-<body>
-  <main>
-    <header>
-      <div class="crumbs">
-        <a class="kicker" href="../../index.html">Dashboard</a>
-        <span class="crumb-sep">/</span>
-        <a class="kicker" href="../index.html">Study Notes</a>
-      </div>
-      <div class="stack">
-        <div class="kicker">Generated note page</div>
-        <h1>RS — Week 1: Introduction to Recommender Systems</h1>
-        <p class="meta">Recommender Systems · msc-coursework/outputs/class-notes/RS-W1-Introduction.md</p>
-      </div>
-    </header>
-    <section class="summary-panel"><span class="pill">RS</span><span class="pill">Week 1</span><span class="pill">msc-coursework/outputs/class-notes/RS-W1-Introduction.md</span><p class="meta">Modified 2026-05-22T11:13:55+01:00</p></section><h1>RS — Week 1: Introduction to Recommender Systems</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RS — Week 1: Introduction to Recommender Systems</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d9c0;--surf:#dccfb4;--surf2:#d0c2a0;--surf3:#c4b38c;--text:#1a1108;--sub:#52402a;--faint:#7a5f3a;--ghost:#a08760;--rule:rgba(26,17,8,.12);--ruleStr:rgba(26,17,8,.22);--teal:#1a6b5c;--olive:#3d5e28;--sienna:#8c3820;--shift:#7a4f18;--serif:'Fraunces',Georgia,serif;--mono:'DM Mono',monospace;--sans:'DM Sans',system-ui,sans-serif}*{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}body{margin:0;background:var(--bg);font-family:var(--sans);color:var(--text);line-height:1.55}a{color:inherit}.page{min-height:100vh;padding:30px 38px 52px;max-width:1160px;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;gap:16px}.brand{display:flex;align-items:baseline;gap:12px}.brand strong{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-.01em}.mono{font-family:var(--mono);font-size:8px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase}.time{font-family:var(--mono);font-size:8px;color:var(--faint)}.panel,.card{background:var(--surf);border-radius:16px;border:1px solid var(--rule);box-shadow:0 4px 20px rgba(26,17,8,.11),0 1px 4px rgba(26,17,8,.07);overflow:hidden;margin-bottom:12px}.hero{padding:18px 22px 16px;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:1.4fr .8fr;gap:24px;align-items:end}.hero h1{font-family:var(--serif);font-size:38px;line-height:.95;margin:0 0 8px;font-weight:600;letter-spacing:-.035em}.hero p{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.5;margin:0;color:var(--sub)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:1px solid var(--rule);padding-left:14px}.stat b{display:block;font-family:var(--serif);font-size:31px;line-height:1;color:var(--sienna)}.label{font-family:var(--mono);font-size:8px;font-weight:500;color:var(--faint);letter-spacing:.12em;text-transform:uppercase}.toolbar{padding:13px 22px;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;background:rgba(140,56,32,.04)}.search{width:100%;border:1px solid var(--ruleStr);background:rgba(232,217,192,.48);border-radius:9px;padding:10px 12px;color:var(--text);font:12px var(--sans);outline:none}.search:focus{border-color:rgba(26,107,92,.45);box-shadow:0 0 0 3px rgba(26,107,92,.08)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.pill{font-family:var(--mono);font-size:8px;font-weight:500;padding:5px 9px;border-radius:5px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--rule);background:rgba(232,217,192,.33)}.pill:hover{border-color:var(--ruleStr);text-decoration:none}.grid{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--rule)}.module-card{padding:16px 18px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-height:160px;text-decoration:none;display:flex;flex-direction:column;gap:10px}.module-card:nth-child(3n){border-right:0}.module-card:hover{background:rgba(232,217,192,.22);text-decoration:none}.module-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.code{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.06em}.count{font-family:var(--mono);font-size:8px;color:var(--ghost)}.module-card h2{font-family:var(--serif);font-size:22px;line-height:1.05;margin:0;font-weight:600;color:var(--text)}.module-card p{font-size:12px;line-height:1.45;color:var(--sub);margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.section{padding:16px 22px}.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 14px}.section h2{font-family:var(--serif);font-size:25px;line-height:1;margin:0;font-weight:600}.notes-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 14px}.note-row{border-top:1px solid var(--rule);padding:10px 0 2px;text-decoration:none;display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:start}.note-row:hover .title{text-decoration:underline}.note-code{font-family:var(--mono);font-size:8px;font-weight:500;letter-spacing:.08em}.title{font-size:13px;font-weight:500;line-height:1.25;display:block}.summary{font-size:11px;color:var(--sub);line-height:1.4;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.week{font-family:var(--mono);font-size:8px;color:var(--ghost)}.footer{margin-top:22px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.src{font-family:var(--mono);font-size:7px;color:var(--ghost);letter-spacing:.06em}.grain{position:fixed;inset:0;pointer-events:none;opacity:.025;mix-blend-mode:multiply;z-index:9999}.article{display:grid;grid-template-columns:240px 1fr;gap:22px}.side{position:sticky;top:22px;align-self:start}.side .card{padding:15px 18px}.toc{display:flex;flex-direction:column;gap:7px;margin-top:10px}.toc a{font-family:var(--mono);font-size:8px;color:var(--sub);text-decoration:none;letter-spacing:.05em;text-transform:uppercase}.toc a:hover{text-decoration:underline}.content{background:var(--surf);border:1px solid var(--rule);border-radius:16px;box-shadow:0 4px 20px rgba(26,17,8,.11);padding:24px 30px}.content h1{font-family:var(--serif);font-size:38px;line-height:1;margin:0 0 12px}.content h2{font-family:var(--serif);font-size:27px;line-height:1.05;margin:28px 0 10px;border-top:1px solid var(--rule);padding-top:18px}.content h3{font-family:var(--serif);font-size:20px;margin:22px 0 8px}.content p,.content li{font-size:14px;color:var(--text)}.content p{margin:0 0 12px}.content ul,.content ol{padding-left:20px}.content li{margin:5px 0}.content code{font-family:var(--mono);font-size:.88em;background:rgba(232,217,192,.35);border:1px solid var(--rule);border-radius:5px;padding:1px 5px}.content pre{background:#1f160d;color:#f3e8d0;border:1px solid rgba(26,17,8,.24);border-radius:12px;padding:14px;overflow:auto}.content blockquote{border-left:3px solid var(--sienna);margin:14px 0;padding:8px 14px;background:rgba(140,56,32,.08);color:var(--sub)}.content table{width:100%;border-collapse:collapse;font-size:12px;margin:14px 0}.content th,.content td{border:1px solid var(--rule);padding:7px;text-align:left}.content th{background:rgba(232,217,192,.28)}@media(max-width:880px){.page{padding:20px 14px 40px}.top,.footer{flex-direction:column;align-items:flex-start}.hero{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}.toolbar{grid-template-columns:1fr}.grid,.notes-list,.article{grid-template-columns:1fr}.module-card{border-right:0}.side{position:static}.hero h1,.content h1{font-size:30px}}
+</style></head><body><svg class="grain" aria-hidden="true"><filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#gr)" fill="black"/></svg><div class="page"><header class="top"><div class="brand"><strong>DBS MSc AI</strong><span class="mono">notes subrouter</span></div><span class="time">generated 2026-05-26 14:24</span></header><main class="article"><aside class="side"><div class="card"><span class="label">RS · week 1</span><h2 style="font-family:var(--serif);font-size:24px;line-height:1;margin:10px 0;color:var(--text)">Introduction to Recommender Systems</h2><p class="summary" style="display:block;-webkit-line-clamp:unset">Recommender systems reduce information overload by suggesting relevant items to users. The class covered the five core recommender families, user/item data types, explicit vs implicit preferences, cold start, evaluation approaches, and ethical risks.</p><div class="toc"><a href="../../index.html">Dashboard</a><a href="../index.html">All notes</a><a href="../rs/rs-w3-nprscoringandpagerank.html">W3 · NPR Scoring Methods &amp; PageRa</a><a href="../rs/rs-w2-nonpersonalised.html">W2 · Non-Personalised Recommender</a><a href="../rs/rs-w1-introduction.html">W1 · Introduction to Recommender </a></div></div></aside><article class="content"><h1>RS — Week 1: Introduction to Recommender Systems</h1>
 <h2>Focus</h2>
 <p>Recommender systems reduce information overload by suggesting relevant items to users. The class covered the five core recommender families, user/item data types, explicit vs implicit preferences, cold start, evaluation approaches, and ethical risks.</p>
-<hr>
+<p>---</p>
 <h2>Key Concepts</h2>
 <ul>
 <li>Collaborative filtering — recommendation based on user similarity or user-item behaviour</li>
@@ -115,7 +17,7 @@ article h2:first-child, section h2:first-child{margin-top:0}
 <li>Matthew effect — popular items become more popular through recommendation loops</li>
 <li>Offline vs online evaluation — predictive metrics vs real-world satisfaction/adoption</li>
 </ul>
-<hr>
+<p>---</p>
 <h2>Notes (live capture)</h2>
 <p><strong>Definition:</strong></p>
 <ul>
@@ -172,7 +74,7 @@ article h2:first-child, section h2:first-child{margin-top:0}
 <li>Scaler must be fit on training data only to avoid data leakage</li>
 <li>Class imbalance → oversampling, undersampling, SMOTE</li>
 </ul>
-<hr>
+<p>---</p>
 <h2>Math / Code</h2>
 <pre><code># Regression metrics
 import numpy as np
@@ -187,7 +89,7 @@ def mae(y_true, y_pred):
 # precision = TP / (TP + FP)  → of all predicted positives, how many are real?
 # recall    = TP / (TP + FN)  → of all real positives, how many did we catch?
 # F1        = 2 * (precision * recall) / (precision + recall)</code></pre>
-<hr>
+<p>---</p>
 <h2>Connections</h2>
 <ul>
 <li>Connects to <strong>RS Week 2</strong> because Week 1 defines the personalised baseline; Week 2 introduces</li>
@@ -198,14 +100,14 @@ def mae(y_true, y_pred):
 <li>Contrasts with <strong>non-personalised</strong> in that personalised depends on individual history;</li>
 <p>non-personalised uses collective signals and works without user history</p>
 </ul>
-<hr>
+<p>---</p>
 <h2>Open Questions</h2>
 <ul>
 <li>Which evaluation metric to prioritise for CA1: precision@k, NDCG, or RMSE? Depends on problem type.</li>
 <li>How to handle users with very sparse profiles (partial cold start) in CA1?</li>
 <li>What is the overlap between Week 1 content and what is assessed in CA1 vs CA2?</li>
 </ul>
-<hr>
+<p>---</p>
 <h2>Flashcards (SR)</h2>
 <ul>
 <li>Q: What is the difference between personalised and non-personalised recommendation?</li>
@@ -239,7 +141,7 @@ def mae(y_true, y_pred):
 <li>Q: What ethical risks do recommender systems introduce?</li>
 <p>A: Binge behaviour, overconsumption, overspending, filter bubbles/idea segregation, and privacy concerns from profiling user behaviour.</p>
 </ul>
-<hr>
+<p>---</p>
 <h2>References</h2>
 <ul>
 <li>Slides: <code>docs/course-materials/recommender-systems-week-1-introduction.pdf</code></li>
@@ -247,15 +149,11 @@ def mae(y_true, y_pred):
 <li>Google ML Recommendation guide: https://developers.google.com/machine-learning/recommendation</li>
 <li>Recommender Systems Handbook: https://link.springer.com/book/10.1007/978-1-0716-2197-4</li>
 </ul>
-<hr>
+<p>---</p>
 <h2>Next Steps</h2>
 <ul>
 <li>[ ] Build a recommender taxonomy diagram (collab / content / socio-demo / knowledge / hybrid)</li>
 <li>[ ] Confirm CA1 group of 3–4 students — dataset/topic approval due 2026-05-25</li>
 <li>[ ] Review Week 2 slides before next RS class</li>
 <li>[ ] Map the five RS types to potential CA1 use cases</li>
-</ul>
-    <footer>Generated from nathan-os notes · 2026-05-26 01:47 IST</footer>
-  </main>
-</body>
-</html>
+</ul></article></main><footer class="footer"><span class="src">notes/index.html · msc-coursework/outputs/class-notes · notes subrouter</span><span class="src"><a href="../index.html">notes</a> · <a href="../../index.html">dashboard</a></span></footer></div></body></html>
