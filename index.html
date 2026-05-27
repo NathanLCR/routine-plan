@@ -3,143 +3,642 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DBS MSc AI Dashboard</title>
+<title>DBS MSc AI Dashboard · 2026-05-26</title>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-sm:2px;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}
+:root{
+  --bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;
+  --teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--red:#b82010;--green:#3a5c20;
+  --ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;
+  --stamp:#c85020;--done:#3a5c20;
+  --shadow-card:3px 3px 0 var(--ink-mid);
+  --shadow-card-lg:4px 4px 0 var(--ink-mid);
+  --shadow-outer:0 6px 32px rgba(24,16,10,.22);
+}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 .linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}
-.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer),inset 0 0 0 2px #c8785a30;display:flex;flex-direction:column;gap:14px}
-.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px}
+.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:8px;padding:22px 28px 28px;box-shadow:var(--shadow-outer),inset 0 0 0 2px #c8785a30;display:flex;flex-direction:column;gap:14px;background:var(--bg)}
+
+.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;gap:18px}
 .script{font-family:'Pacifico',cursive;color:var(--red)}
-.greet{text-align:center}
+.greet{display:flex;flex-direction:column;align-items:center;gap:2px}
+.greet .script{font-size:13px;line-height:1}
 .letters{display:flex;gap:1px}
-.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}
-.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}
-.postmark b{font-family:'Oswald';font-size:7px}
-.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}
-.regen{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);margin-top:4px}
-.card{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);overflow:hidden;background:transparent}
-.today-head{background:var(--teal);padding:8px 18px;display:flex;justify-content:space-between;align-items:center;color:white}
+.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1;letter-spacing:.02em}
+.mast-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);opacity:.85;box-shadow:inset 0 0 0 1px #c8502040}
+.postmark b{font-family:'Oswald';font-size:7px;letter-spacing:.12em;text-transform:uppercase}
+.postmark .pmd{font-family:'DM Mono';font-size:7px}
+.postmark .pmline{width:80%;height:1px;background:var(--stamp);margin:2px 0}
+.regen{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.05em}
+
+.card{border:2px solid var(--ink);border-radius:4px;box-shadow:var(--shadow-card-lg);overflow:hidden;background:var(--bg)}
+.today-head{background:var(--teal);padding:8px 18px;display:flex;justify-content:space-between;align-items:center;color:white;gap:12px}
+.today-head .day{display:flex;align-items:baseline;gap:12px}
 .today-head b{font-family:'Oswald';font-size:22px;letter-spacing:.04em;-webkit-text-stroke:.5px var(--teal-dk)}
 .mono{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}
 .today-head .mono{color:rgba(255,255,255,.75)}
+.today-head .filename{font-size:8px;color:rgba(255,255,255,.6)}
+
 .brief{background:#c8901018;padding:10px 18px;border-bottom:1px solid #18100a20;display:flex;gap:12px;align-items:baseline}
+.brief .script{font-size:12px;flex-shrink:0}
 .brief p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:15px;line-height:1.5;margin:0}
+
 .timeblocks{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid #18100a20}
-.block{padding:12px 16px;border-right:1px solid #18100a15}
+.block{padding:12px 16px;border-right:1px solid #18100a15;display:flex;flex-direction:column;gap:6px}
 .block:last-child{border-right:0}
-.blocktop{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px}
-.blockname,.sect{font-family:'Oswald';font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-.timepill{font-family:'DM Mono';font-size:9px;padding:2px 7px;border:1px solid #18100a40}
-.item{display:flex;gap:7px;align-items:baseline;margin:5px 0;font-size:11px;font-weight:500}
+.block.work{background:#c8502010}
+.block.empty{background:transparent}
+.blocktop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}
+.blocklabel{font-family:'Oswald';font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink);text-transform:uppercase}
+.timepill{font-family:'DM Mono';font-size:9px;padding:2px 7px;border:1px solid;letter-spacing:.05em}
+.blockmodrow{display:flex;justify-content:space-between;align-items:baseline;font-family:'Oswald';font-size:11px;letter-spacing:.05em}
+.modtag{font-weight:700}
+.modhours{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}
+.blockitem{display:flex;gap:7px;align-items:baseline;font-size:11px;line-height:1.4;font-weight:500}
+
 .tasks{padding:10px 18px}
+.tasks-title{font-family:'Oswald';font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--ink-fnt);text-transform:uppercase;display:block;margin-bottom:10px}
 .tasksgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px 24px}
-.inner{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);padding:13px 16px}
-.notesbar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.note-link{border:1px solid #18100a30;padding:7px;background:#18100a05}
-.note-code{font-family:'Oswald';color:var(--teal);margin-right:6px}
-.note-title{font-size:11px}
-.stamp{border:1.5px solid currentColor;padding:4px 8px;font-family:'Oswald';font-weight:700;display:inline-block;min-width:42px;text-align:center;background:currentColor18}
-.numrow{display:flex;justify-content:space-between}
-.big{font-family:'Oswald';font-size:28px;font-weight:700;color:var(--red);line-height:1}
-.footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px}
-@media(max-width:820px){.frame{padding:14px}.timeblocks{grid-template-columns:1fr}.mast{align-items:flex-start}.letters span{font-size:25px}.notesbar{grid-template-columns:1fr}.footer{display:block}}
+.task{display:flex;gap:8px;align-items:baseline;font-size:12px;line-height:1.4}
+.task-mark{font-size:10px}
+.task-tag{font-family:'Oswald';font-size:10px;font-weight:700;letter-spacing:.05em;flex-shrink:0}
+
+.weekcard{border:2px solid var(--ink);border-radius:4px;box-shadow:var(--shadow-card);overflow:hidden}
+.weekgrid{display:grid;grid-template-columns:120px repeat(7,1fr)}
+.wkhead{background:var(--yellow);border-bottom:2px solid var(--ink)}
+.wkhead .rowlab{padding:7px 12px;border-right:1px solid #18100a30;display:flex;align-items:center;font-family:'Oswald';font-size:9px;font-weight:700;letter-spacing:.12em}
+.dayh{padding:7px 4px;border-right:1px solid #18100a30;display:flex;flex-direction:column;align-items:center;gap:1px}
+.dayh:last-child{border-right:0}
+.dayh.today{background:var(--teal)}
+.dayh.today .dayname,.dayh.today .daynum{color:white}
+.dayh.past .dayname,.dayh.past .daynum{color:var(--ink-gh)}
+.dayname{font-family:'Oswald';font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--ink)}
+.daynum{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt)}
+.flag{font-family:'DM Mono';font-size:7px;color:var(--red);letter-spacing:.05em}
+
+.shiftrow{display:grid;grid-template-columns:120px repeat(7,1fr);background:#c8502008;border-bottom:1px solid #18100a20}
+.shiftrow .rowlab{padding:5px 12px;border-right:1px solid #18100a20;display:flex;align-items:center;font-family:'Oswald';font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--stamp)}
+.cell{border-right:1px solid #18100a15;display:flex;align-items:center;justify-content:center;padding:5px 2px;min-height:42px}
+.cell:last-child{border-right:0}
+.cell.today{background:#3a808014}
+.cell.shift{min-height:auto;padding:5px 2px}
+.shift-pill{font-family:'DM Mono';font-size:8px;font-weight:500;padding:2px 6px;border:1px solid;letter-spacing:.03em}
+.empty-dot{color:#18100a25;font-family:'DM Mono';font-size:9px}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.dot.past{background:var(--ink-gh);border:none}
+.sq{width:9px;height:9px;border-radius:1px;display:inline-block;border:1px solid}
+.sq.past{background:#a88a6060;border-color:var(--ink-gh)}
+
+.modrow{display:grid;grid-template-columns:120px repeat(7,1fr);border-bottom:1px solid #18100a15}
+.modrow:last-child{border-bottom:0}
+.modlabel{padding:8px 12px;border-right:1px solid #18100a20;display:flex;flex-direction:column;gap:3px}
+.mini-bar{height:4px;border:1px solid;border-color:rgba(0,0,0,.15);border-radius:1px;overflow:hidden;background:rgba(0,0,0,.04)}
+.mini-bar-fill{height:100%}
+.modlabel-row{display:flex;justify-content:space-between;align-items:baseline}
+.modcode{font-family:'Oswald';font-size:11px;font-weight:700;letter-spacing:.05em}
+.modcount{font-family:'DM Mono';font-size:7px;color:var(--ink-gh)}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;padding:7px 12px;border-top:1px solid #18100a15;font-family:'DM Mono';font-size:8px;color:var(--ink-fnt)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend .dot,.legend .sq{width:8px;height:8px}
+
+.bottom{display:grid;grid-template-columns:2fr 1.1fr .9fr;gap:12px}
+.inner{border:2px solid var(--ink);border-radius:4px;box-shadow:var(--shadow-card);padding:13px 16px;background:var(--bg)}
+.inner-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:13px}
+.inner-title h3{font-family:'Oswald';font-size:10px;font-weight:700;letter-spacing:.14em;margin:0;text-transform:uppercase}
+
+.planrow{display:flex;align-items:center;gap:10px;margin:9px 0}
+.planname{font-family:'Oswald';font-size:9px;font-weight:700;letter-spacing:.05em;width:96px;flex-shrink:0;text-transform:uppercase}
+.bar{flex:1;position:relative;height:7px;border:1px solid #a88a6040;overflow:hidden}
+.bar-hash{position:absolute;inset:0;background:
+  repeating-linear-gradient(90deg,transparent 0,transparent 4px,#a88a6018 4px,#a88a6018 5px)}
+.bar-fill{position:absolute;left:0;top:0;height:100%;opacity:.85}
+.planhours{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);width:36px;text-align:right;flex-shrink:0}
+
+.dlrow{display:flex;align-items:flex-start;gap:10px;margin:12px 0}
+.dl-stamp{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid;padding:4px 8px;min-width:46px;line-height:1.1}
+.dl-mod{font-family:'Oswald';font-size:13px;font-weight:700;letter-spacing:.06em}
+.dl-sub{font-family:'DM Mono';font-size:7px;letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.dl-meta{padding-top:4px}
+.dl-due{font-family:'DM Mono';font-size:8px;display:block;margin-bottom:2px;letter-spacing:.04em}
+.dl-task{font-family:'DM Sans';font-size:11px;margin:0;line-height:1.35;color:var(--ink-mid)}
+
+.diss-card{border-color:var(--red);box-shadow:3px 3px 0 #b8201080;background:#b8201006}
+.diss-card .inner-title h3{color:var(--red)}
+.diss-nums{display:flex;justify-content:space-between;margin-bottom:12px}
+.dn{text-align:center}
+.big{font-family:'Oswald';font-size:28px;font-weight:700;line-height:1}
+.diss-blocker{border:1.5px solid var(--red);padding:6px 9px;background:#b820100e}
+.bl-title{font-family:'Oswald';font-size:9px;font-weight:700;color:var(--red);letter-spacing:.07em}
+.diss-blocker p{font-family:'DM Mono';font-size:9px;color:var(--ink-mid);margin:3px 0 0;line-height:1.3}
+
+.notescard{padding:13px 16px;border:2px solid var(--ink);border-radius:4px;box-shadow:var(--shadow-card)}
+.notesbar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px}
+.note-link{border:1px solid #18100a30;padding:7px 9px;background:#18100a05;display:flex;flex-direction:column;gap:2px;transition:background .15s}
+.note-link:hover{background:#18100a10}
+.note-code{font-family:'Oswald';font-size:10px;font-weight:700;letter-spacing:.05em}
+.note-title{font-size:11px;line-height:1.3;color:var(--ink)}
+
+.watchcard{border:1.5px solid var(--yellow);border-radius:4px;padding:8px 14px;background:#c8901014;display:flex;gap:14px;align-items:flex-start;box-shadow:2px 2px 0 #c8901060}
+.watch-title{font-family:'Oswald';font-size:9px;font-weight:700;letter-spacing:.14em;color:#8b6308;text-transform:uppercase;flex-shrink:0;padding-top:2px}
+.watch-list{margin:0;padding-left:18px;font-family:'DM Sans';font-size:11px;line-height:1.45;color:var(--ink-mid)}
+.watch-list li{margin:0;padding:0}
+
+.newscard{border:2px solid var(--ink);border-radius:4px;padding:13px 16px;box-shadow:var(--shadow-card);background:var(--bg)}
+.newslist{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.news-item{border:1px solid #18100a30;padding:8px 10px;background:#18100a05;display:flex;flex-direction:column;gap:4px;transition:background .15s}
+.news-item:hover{background:#18100a12}
+.news-source{font-family:'DM Mono';font-size:7px;letter-spacing:.08em;color:var(--ink-fnt);text-transform:uppercase}
+.news-title{font-family:'DM Sans';font-size:11px;line-height:1.35;color:var(--ink);font-weight:500}
+
+.footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:2px}
+.footer .script{font-size:11px}
+.footer .mono{font-size:7px;color:var(--ink-gh)}
+
+@media(max-width:960px){
+  .bottom{grid-template-columns:1fr 1fr}
+  .diss-card{grid-column:1/-1}
+}
+@media(max-width:780px){
+  .frame{padding:14px;margin:6px}
+  .timeblocks{grid-template-columns:1fr}
+  .block{border-right:0;border-bottom:1px solid #18100a15}
+  .mast{flex-direction:column;align-items:flex-start;gap:12px}
+  .mast-right{align-items:flex-start}
+  .letters span{font-size:25px}
+  .weekgrid,.shiftrow,.modrow{grid-template-columns:84px repeat(7,1fr);font-size:10px}
+  .modcount{display:none}
+  .bottom{grid-template-columns:1fr}
+  .notesbar,.newslist{grid-template-columns:1fr}
+  .watchcard{flex-direction:column;gap:6px}
+  .tasksgrid{grid-template-columns:1fr}
+  .footer{flex-direction:column;gap:4px}
+}
 </style>
 </head>
 <body>
-<svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg>
+<svg class="linen" aria-hidden="true">
+  <filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+  <rect width="100%" height="100%" filter="url(#linen)" fill="black"/>
+</svg>
+
 <div class="frame">
-<header class="mast">
-<div class="greet">
-<div class="script" style="font-size:13px">Greetings from</div>
-<div class="letters">
-<span style="color:var(--teal)">N</span>
-<span style="color:var(--yellow)">A</span>
-<span style="color:var(--red)">T</span>
-<span style="color:var(--green)">H</span>
-<span style="color:var(--teal)">A</span>
-<span style="color:var(--yellow)">N</span>
-<span style="color:var(--red)">O</span>
-<span style="color:var(--green)">S</span>
-</div>
-</div>
-<div style="text-align:right">
-<div class="postmark">
-<b>DBS MSc AI</b>
-<i></i>26.526<i></i>
-<b>DUBLIN IE</b>
-</div>
-<div class="regen">14:26 IST · 27 MAY 2026</div>
-</div>
-</header>
 
-<section class="card">
-<div class="today-head">
-<div><b>TUESDAY</b> <span class="mono">2026-05-26 · FREE DAY · 3 hours</span></div>
-</div>
-<div class="brief">
-<span class="script">today</span>
-<p>Use the free day to finish one concrete NLP CA1 artifact and make a visible dent in dissertation corpus selection.</p>
-</div>
-<div class="timeblocks">
+  <!-- ═══ MASTHEAD ═══ -->
+  <header class="mast">
+    <div class="greet">
+      <span class="script">Greetings from</span>
+      <div class="letters">
+        <span style="color:var(--teal)">N</span><span style="color:var(--yellow)">A</span>
+        <span style="color:var(--red)">T</span><span style="color:var(--green)">H</span>
+        <span style="color:var(--teal)">A</span><span style="color:var(--yellow)">N</span>
+        <span style="color:var(--red)">O</span><span style="color:var(--green)">S</span>
+      </div>
+    </div>
+    <div class="mast-right">
+      <div class="postmark">
+        <b>DBS MSc AI</b>
+        <span class="pmline"></span>
+        <span class="pmd">26.05.26</span>
+        <span class="pmline"></span>
+        <b>DUBLIN IE</b>
+      </div>
+      <span class="regen">regen 15:01 IST · 27 MAY 2026</span>
+    </div>
+  </header>
+
+  <!-- ═══ TODAY CARD ═══ -->
+  <section class="card">
+    <div class="today-head">
+      <div class="day">
+        <b>TUESDAY</b>
+        <span class="mono">2026-05-26 · FREE DAY · 3 HOURS</span>
+      </div>
+      <span class="filename mono">brief-2026-05-26</span>
+    </div>
+    <div class="brief">
+      <span class="script">today</span>
+      <p>Use the free day to finish one concrete NLP CA1 artifact and make a visible dent in dissertation corpus selection.</p>
+    </div>
+    <div class="timeblocks">
 <div class="block">
-<div class="blocktop">
-<span class="blockname" style="color:#3a2810">NLP</span>
-<span class="timepill" style="color:#3a2810">1.5</span>
-</div>
-<div class="item"><span style="color:#3a2810">›</span><span>Finish the critique scaffold: sharpen thesis, contributions, limitations, and 3 critique bullets.</span></div>
-</div>
-<div class="block">
-<div class="blocktop">
-<span class="blockname" style="color:#b82010">Dissertation</span>
-<span class="timepill" style="color:#b82010">1.0</span>
-</div>
-<div class="item"><span style="color:#b82010">›</span><span>Corpus QA on C01–C10 and update the candidate list.</span></div>
-</div>
-<div class="block">
-<div class="blocktop">
-<span class="blockname" style="color:#c89010">ARM</span>
-<span class="timepill" style="color:#c89010">0.5</span>
-</div>
-<div class="item"><span style="color:#c89010">›</span><span>Write the Lecture 1 reflection outline or stakeholder/usefulness paragraph.</span></div>
+  <div class="blocktop">
+    <span class="blocklabel">PEAK WINDOW</span>
+    <span class="timepill" style="color:#3a2810;border-color:#3a281066;background:#3a281018">00:00 – 01:15</span>
+  </div>
+  <div class="blockmodrow">
+    <span class="modtag" style="color:#3a2810">NLP</span>
+    <span class="modhours">1.5h</span>
+  </div>
+  <div class="blockitem"><span style="color:#3a2810">›</span><span>Finish the critique scaffold: sharpen thesis, contributions, limitations, and 3 critique bullets.</span></div>
 </div>
 
+<div class="block">
+  <div class="blocktop">
+    <span class="blocklabel">MAIN BLOCK</span>
+    <span class="timepill" style="color:#b82010;border-color:#b8201066;background:#b8201018">13:00 – 15:00</span>
+  </div>
+  <div class="blockmodrow">
+    <span class="modtag" style="color:#b82010">Dissertation</span>
+    <span class="modhours">1.0h</span>
+  </div>
+  <div class="blockitem"><span style="color:#b82010">›</span><span>Corpus QA on C01–C10 and update the candidate list.</span></div>
 </div>
-<div class="tasks">
-<span class="sect" style="color:var(--ink-fnt)">Tasks · Today</span>
-<div class="tasksgrid">
-<div class="item"><span>·</span><span>Continue NLP CA1 paper critique scaffold</span></div>
-<div class="item"><span>·</span><span>Write ARM Lecture 1 reflection (100–200 words)</span></div>
-<div class="item"><span>·</span><span>Write one paragraph explaining dissertation stakeholder/usefulness fit as applied research</span></div>
 
+<div class="block">
+  <div class="blocktop">
+    <span class="blocklabel">DEEP BLOCK</span>
+    <span class="timepill" style="color:#c89010;border-color:#c8901066;background:#c8901018">16:00 – 17:30</span>
+  </div>
+  <div class="blockmodrow">
+    <span class="modtag" style="color:#c89010">ARM</span>
+    <span class="modhours">0.5h</span>
+  </div>
+  <div class="blockitem"><span style="color:#c89010">›</span><span>Write the Lecture 1 reflection outline or stakeholder/usefulness paragraph.</span></div>
+</div></div>
+    <div class="tasks">
+      <span class="tasks-title">Tasks · Today</span>
+      <div class="tasksgrid">
+<div class="task">
+  <span class="task-mark" style="color:#3a2810">›</span>
+  <span class="task-tag" style="color:#3a2810">NLP</span>
+  <span class="task-text" style="">Continue NLP CA1 paper critique scaffold</span>
 </div>
+
+<div class="task">
+  <span class="task-mark" style="color:#c89010">›</span>
+  <span class="task-tag" style="color:#c89010">ARM</span>
+  <span class="task-text" style="">Write ARM Lecture 1 reflection (100–200 words)</span>
 </div>
+
+<div class="task">
+  <span class="task-mark" style="color:#c89010">›</span>
+  <span class="task-tag" style="color:#c89010">ARM</span>
+  <span class="task-text" style="">Write one paragraph explaining dissertation stakeholder/usefulness fit as applied research</span>
+</div></div>
+    </div>
+  </section>
+
+  
+<section class="watchcard">
+  <span class="watch-title">Watch-outs</span>
+  <ul class="watch-list"><li>No corpus rows are stale right now.</li><li>RL CA1/CA2 weights are still unconfirmed — don’t plan around them yet.</li><li>DL CA01 and RS CA1 overlap in July, so parallel workstreams are non-optional.</li></ul>
 </section>
 
-<section class="inner">
-<div class="sect">Class notes · 11 <a class="mono" style="float:right" href="notes/index.html">all notes →</a></div>
-<div class="notesbar">
-<a class="note-link" href="notes/rs/rs-w3-nprscoringandpagerank.html"><span class="note-code">RS</span><span class="note-title">NPR Scoring Methods &amp; PageRank</span></a>
-<a class="note-link" href="notes/dl/dl-w4-mlpclassificationandkeraswrappers.html"><span class="note-code">DL</span><span class="note-title">MLP Classification, One-Hot Encoding, Keras Wrappers, and Model Evaluation</span></a>
-<a class="note-link" href="notes/dl/dl-w3-feedforwardbackpropagation.html"><span class="note-code">DL</span><span class="note-title">Feedforward Networks, Activation Functions, and Backpropagation</span></a>
-<a class="note-link" href="notes/rs/rs-w2-nonpersonalised.html"><span class="note-code">RS</span><span class="note-title">Non-Personalised Recommenders</span></a>
-<a class="note-link" href="notes/rs/rs-w1-introduction.html"><span class="note-code">RS</span><span class="note-title">Introduction to Recommender Systems</span></a>
+  <!-- ═══ WEEK GRID ═══ -->
+  <section class="weekcard">
+    <div class="weekgrid wkhead">
+      <div class="rowlab">WK 22</div>
+      
+<a class="dayh past" href="day.html?day=2026-05-25">
+  <span class="dayname">MON</span>
+  <span class="daynum">25</span>
+  <span class="flag">⚑</span>
+</a>
 
+<a class="dayh past" href="day.html?day=2026-05-26">
+  <span class="dayname">TUE</span>
+  <span class="daynum">26</span>
+  
+</a>
+
+<a class="dayh today" href="day.html?day=2026-05-27">
+  <span class="dayname">WED</span>
+  <span class="daynum">27</span>
+  <span class="flag">⚑</span>
+</a>
+
+<a class="dayh" href="day.html?day=2026-05-28">
+  <span class="dayname">THU</span>
+  <span class="daynum">28</span>
+  
+</a>
+
+<a class="dayh" href="day.html?day=2026-05-29">
+  <span class="dayname">FRI</span>
+  <span class="daynum">29</span>
+  
+</a>
+
+<a class="dayh" href="day.html?day=2026-05-30">
+  <span class="dayname">SAT</span>
+  <span class="daynum">30</span>
+  
+</a>
+
+<a class="dayh" href="day.html?day=2026-05-31">
+  <span class="dayname">SUN</span>
+  <span class="daynum">31</span>
+  
+</a>
+    </div>
+    <div class="shiftrow">
+      <div class="rowlab">SHIFT</div>
+      <div class="cell shift"><span class="empty-dot">—</span></div>
+<div class="cell shift"><span class="empty-dot">—</span></div>
+<div class="cell shift today"><span class="empty-dot">—</span></div>
+<div class="cell shift"><span class="empty-dot">—</span></div>
+<div class="cell shift"><span class="empty-dot">—</span></div>
+<div class="cell shift"><span class="shift-pill" style="color:#c85020;border-color:#c8502066">10–00</span></div>
+<div class="cell shift"><span class="shift-pill" style="color:#c85020;border-color:#c8502066">10–00</span></div>
+    </div>
+    
+<div class="modrow">
+  <div class="modlabel" style="background:#3a808010">
+    <div class="mini-bar"><div class="mini-bar-fill" style="background:#3a8080;width:75%"></div></div>
+    <div class="modlabel-row">
+      <span class="modcode" style="color:#18100a">DL</span>
+      <span class="modcount">3/4 notes</span>
+    </div>
+  </div>
+  <div class="cell"><span class="dot past"></span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell today"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="dot" style="background:#3a8080;border:1.5px solid #18100a40"></span></div>
+<div class="cell"><span class="dot" style="background:#3a8080;border:1.5px solid #18100a40"></span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
 </div>
+
+<div class="modrow">
+  <div class="modlabel" style="background:#3a5c2010">
+    <div class="mini-bar"><div class="mini-bar-fill" style="background:#3a5c20;width:75%"></div></div>
+    <div class="modlabel-row">
+      <span class="modcode" style="color:#18100a">RS</span>
+      <span class="modcount">3/4 notes</span>
+    </div>
+  </div>
+  <div class="cell"><span class="dot past"></span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell today"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="dot" style="background:#3a5c20;border:1.5px solid #18100a40"></span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+</div>
+
+<div class="modrow">
+  <div class="modlabel" style="background:#c8901010">
+    <div class="mini-bar"><div class="mini-bar-fill" style="background:#c89010;width:50%"></div></div>
+    <div class="modlabel-row">
+      <span class="modcode" style="color:#18100a">ARM</span>
+      <span class="modcount">2/4 notes</span>
+    </div>
+  </div>
+  <div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell today"><span class="dot" style="background:#c89010;border:1.5px solid #18100a40"></span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+</div>
+
+<div class="modrow">
+  <div class="modlabel" style="background:#3a808010">
+    <div class="mini-bar"><div class="mini-bar-fill" style="background:#3a8080;width:50%"></div></div>
+    <div class="modlabel-row">
+      <span class="modcode" style="color:#18100a">RL</span>
+      <span class="modcount">2/4 notes</span>
+    </div>
+  </div>
+  <div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell today"><span class="dot" style="background:#3a8080;border:1.5px solid #18100a40"></span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+</div>
+
+<div class="modrow">
+  <div class="modlabel" style="background:#3a281010">
+    <div class="mini-bar"><div class="mini-bar-fill" style="background:#3a2810;width:25%"></div></div>
+    <div class="modlabel-row">
+      <span class="modcode" style="color:#18100a">NLP</span>
+      <span class="modcount">1/4 notes</span>
+    </div>
+  </div>
+  <div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell today"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="dot" style="background:#3a2810;border:1.5px solid #18100a40"></span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+</div>
+
+<div class="modrow">
+  <div class="modlabel" style="background:#b8201010">
+    <div class="mini-bar"><div class="mini-bar-fill" style="background:#b82010;width:0%"></div></div>
+    <div class="modlabel-row">
+      <span class="modcode" style="color:#b82010">DISS</span>
+      <span class="modcount">0/10 notes</span>
+    </div>
+  </div>
+  <div class="cell"><span class="sq past"></span></div>
+<div class="cell"><span class="sq past"></span></div>
+<div class="cell today"><span class="sq" style="background:#b8201070;border-color:#b82010"></span></div>
+<div class="cell"><span class="sq" style="background:#b8201070;border-color:#b82010"></span></div>
+<div class="cell"><span class="sq" style="background:#b8201070;border-color:#b82010"></span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+<div class="cell"><span class="empty-dot">·</span></div>
+</div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--teal);border:1.5px solid #18100a40"></span>scheduled class</span>
+      <span><span class="dot past"></span>past class</span>
+      <span><span class="sq" style="background:#b8201070;border-color:var(--red)"></span>dissertation work</span>
+      <span><span style="color:#18100a25">·</span>no activity</span>
+      <span><span style="color:var(--red)">⚑</span>deadline this day</span>
+    </div>
+  </section>
+
+  <!-- ═══ BOTTOM STRIP ═══ -->
+  <div class="bottom">
+
+    <section class="inner">
+      <div class="inner-title">
+        <h3>Study Plan</h3>
+        <span class="mono">0 / 11.5h this week</span>
+      </div>
+      
+<div class="planrow">
+  <span class="planname" style="color:#b82010">DISSERTATION</span>
+  <div class="bar">
+    <div class="bar-hash"></div>
+    <div class="bar-fill" style="width:100%;background:#b82010;opacity:.35"></div>
+    <div class="bar-fill" style="width:0%;background:#b82010;opacity:.95"></div>
+  </div>
+  <span class="planhours">—/3.00h</span>
+</div>
+
+<div class="planrow">
+  <span class="planname" style="color:#3a2810">NLP</span>
+  <div class="bar">
+    <div class="bar-hash"></div>
+    <div class="bar-fill" style="width:83%;background:#3a2810;opacity:.35"></div>
+    <div class="bar-fill" style="width:0%;background:#3a2810;opacity:.95"></div>
+  </div>
+  <span class="planhours">—/2.50h</span>
+</div>
+
+<div class="planrow">
+  <span class="planname" style="color:#c89010">ARM</span>
+  <div class="bar">
+    <div class="bar-hash"></div>
+    <div class="bar-fill" style="width:50%;background:#c89010;opacity:.35"></div>
+    <div class="bar-fill" style="width:0%;background:#c89010;opacity:.95"></div>
+  </div>
+  <span class="planhours">—/1.50h</span>
+</div>
+
+<div class="planrow">
+  <span class="planname" style="color:#3a8080">DL</span>
+  <div class="bar">
+    <div class="bar-hash"></div>
+    <div class="bar-fill" style="width:50%;background:#3a8080;opacity:.35"></div>
+    <div class="bar-fill" style="width:0%;background:#3a8080;opacity:.95"></div>
+  </div>
+  <span class="planhours">—/1.50h</span>
+</div>
+
+<div class="planrow">
+  <span class="planname" style="color:#3a5c20">RS</span>
+  <div class="bar">
+    <div class="bar-hash"></div>
+    <div class="bar-fill" style="width:41%;background:#3a5c20;opacity:.35"></div>
+    <div class="bar-fill" style="width:0%;background:#3a5c20;opacity:.95"></div>
+  </div>
+  <span class="planhours">—/1.25h</span>
+</div>
+
+<div class="planrow">
+  <span class="planname" style="color:#3a8080">RL</span>
+  <div class="bar">
+    <div class="bar-hash"></div>
+    <div class="bar-fill" style="width:25%;background:#3a8080;opacity:.35"></div>
+    <div class="bar-fill" style="width:0%;background:#3a8080;opacity:.95"></div>
+  </div>
+  <span class="planhours">—/45m</span>
+</div>
+
+<div class="planrow">
+  <span class="planname" style="color:#7a5c38">PLANNING/REVIEW</span>
+  <div class="bar">
+    <div class="bar-hash"></div>
+    <div class="bar-fill" style="width:16%;background:#7a5c38;opacity:.35"></div>
+    <div class="bar-fill" style="width:0%;background:#7a5c38;opacity:.95"></div>
+  </div>
+  <span class="planhours">—/30m</span>
+</div>
+
+<div class="planrow">
+  <span class="planname" style="color:#7a5c38">ADMIN/MOODLE</span>
+  <div class="bar">
+    <div class="bar-hash"></div>
+    <div class="bar-fill" style="width:16%;background:#7a5c38;opacity:.35"></div>
+    <div class="bar-fill" style="width:0%;background:#7a5c38;opacity:.95"></div>
+  </div>
+  <span class="planhours">—/30m</span>
+</div>
+    </section>
+
+    <section class="inner">
+      <div class="inner-title"><h3>Deadlines</h3></div>
+      
+<div class="dlrow">
+  <div class="dl-stamp" style="color:#3a5c20;background:#3a5c2014;border-color:#3a5c20">
+    <span class="dl-mod">RS</span>
+    <span class="dl-sub">✓ done</span>
+  </div>
+  <div class="dl-meta">
+    <span class="dl-due" style="color:#3a5c20">2026-05-25</span>
+    <p class="dl-task" style="text-decoration:line-through;opacity:.7">CA1 group/topic/dataset approval</p>
+  </div>
+</div>
+
+<div class="dlrow">
+  <div class="dl-stamp" style="color:#3a5c20;background:#3a5c2014;border-color:#3a5c20">
+    <span class="dl-mod">ARM</span>
+    <span class="dl-sub">✓ done</span>
+  </div>
+  <div class="dl-meta">
+    <span class="dl-due" style="color:#3a5c20">2026-05-27</span>
+    <p class="dl-task" style="text-decoration:line-through;opacity:.7">Google Doc research file link</p>
+  </div>
+</div>
+
+<div class="dlrow">
+  <div class="dl-stamp" style="color:#7a5c38;background:#7a5c3814;border-color:#7a5c38">
+    <span class="dl-mod">NLP</span>
+    
+  </div>
+  <div class="dl-meta">
+    <span class="dl-due" style="color:#7a5c38">End of Reading Week (TBC)</span>
+    <p class="dl-task" style="">CA1 (paper critique + BLOG GENDER classifier)</p>
+  </div>
+</div>
+    </section>
+
+    <section class="inner diss-card">
+      <div class="inner-title"><h3>Dissertation</h3></div>
+      
+<div class="diss-nums">
+  <div class="dn"><div class="big" style="color:#b82010">4</div><div class="mono">corpus</div></div>
+  <div class="dn"><div class="big" style="color:#b82010">15</div><div class="mono">lit</div></div>
+  <div class="dn"><div class="big" style="color:#3a5c20">0</div><div class="mono">stale</div></div>
+</div>
+<div class="diss-blocker">
+  <span class="bl-title">⚠ BLOCKER</span>
+  <p>Step 3 — corpus selection</p>
+</div>
+    </section>
+
+  </div>
+
+  
+<section class="newscard">
+  <div class="inner-title">
+    <h3>Today in AI · Tech</h3>
+    <span class="mono">top 3 of 40</span>
+  </div>
+  <div class="newslist">
+<a class="news-item" href="https://simonwillison.net/2026/May/25/encyclical-on-ai/#atom-everything" target="_blank" rel="noopener">
+  <span class="news-source">Simon Willison</span>
+  <span class="news-title">Notes on Pope Leo XIV&#x27;s encyclical on AI</span>
+</a>
+<a class="news-item" href="https://simonwillison.net/2026/May/26/copilot-cowork-exfiltrates-files/#atom-everything" target="_blank" rel="noopener">
+  <span class="news-source">Simon Willison</span>
+  <span class="news-title">Microsoft Copilot Cowork Exfiltrates Files</span>
+</a>
+<a class="news-item" href="https://the-decoder.com/george-hotz-says-coding-agents-will-be-one-of-the-most-costly-mistakes-in-software-development/" target="_blank" rel="noopener">
+  <span class="news-source">The Decoder</span>
+  <span class="news-title">George Hotz says coding agents will be &quot;one of the most costly mistakes&quot; in software development</span>
+</a></div>
 </section>
 
-<section class="inner" style="border-color:var(--red);box-shadow:3px 3px 0 #b8201080">
-<div class="sect" style="color:var(--red)">Dissertation</div>
+  <!-- ═══ NOTES STRIP ═══ -->
+  <section class="notescard">
+    <div class="inner-title">
+      <h3>Class notes · 11</h3>
+      <a class="mono" href="notes/index.html">all notes →</a>
+    </div>
+    <div class="notesbar"><a class="note-link" href="notes/rs/rs-w3-nprscoringandpagerank.html"><span class="note-code" style="color:#3a5c20">RS</span><span class="note-title">NPR Scoring Methods &amp; PageRank</span></a>
+<a class="note-link" href="notes/dl/dl-w4-mlpclassificationandkeraswrappers.html"><span class="note-code" style="color:#3a8080">DL</span><span class="note-title">MLP Classification, One-Hot Encoding, Keras Wrappers, and Model Evaluation</span></a>
+<a class="note-link" href="notes/dl/dl-w3-feedforwardbackpropagation.html"><span class="note-code" style="color:#3a8080">DL</span><span class="note-title">Feedforward Networks, Activation Functions, and Backpropagation</span></a>
+<a class="note-link" href="notes/rs/rs-w2-nonpersonalised.html"><span class="note-code" style="color:#3a5c20">RS</span><span class="note-title">Non-Personalised Recommenders</span></a>
+<a class="note-link" href="notes/rs/rs-w1-introduction.html"><span class="note-code" style="color:#3a5c20">RS</span><span class="note-title">Introduction to Recommender Systems</span></a></div>
+  </section>
 
-</section>
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <span class="script">nathan-os</span>
+    <span class="mono">briefs · tasks · msc-coursework · dissertation</span>
+  </footer>
 
-<footer class="footer">
-<span class="script">nathan-os</span>
-<span class="mono">briefs · tasks · msc-coursework · dissertation</span>
-</footer>
 </div>
 </body>
 </html>
