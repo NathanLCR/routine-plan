@@ -1,0 +1,239 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARM — Week 3: Structuring Your Research Proposal</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>31.05.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 09:10 IST - 31 May 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>ARM — Week 3: Structuring Your Research Proposal</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Applied Research Methods · msc-coursework/outputs/class-notes/ARM-W3-StructuringTheProposal.md</p></div></section><section class="summary-panel"><span class="pill">ARM</span><span class="pill">Week 3</span><span class="pill">msc-coursework/outputs/class-notes/ARM-W3-StructuringTheProposal.md</span><p class="meta">Modified 2026-05-27T21:06:48+01:00</p></section><h1>ARM — Week 3: Structuring Your Research Proposal</h1>
+<h2>Focus</h2>
+<p>The proposal has a defined structure and each section has a real job. This week maps that structure — title → abstract → background → methodology → timescale — and introduces the two criteria that cut across everything: <strong>coherence</strong> (does it hang together?) and <strong>appropriateness</strong> (does it follow the rules?). The abstract is the last thing you write and the first thing that gets judged; the title directly affects your grade and your citation count. Data set submission is <strong>Week 7</strong> — that is four weeks away, not &quot;later&quot;.</p>
+<hr>
+<h2>Assessments (confirmed)</h2>
+<p>| Assessment | Task | Weight | Submission | |---|---|---|---| | CA1 | Research Proposal | 80% | Week 9 (Moodle) | | CA2 | Research Presentation (based on proposal) | 20% | Week 12 (Moodle) |</p>
+<p>CA1 feedback date: Week 11.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Proposal structure — title → abstract → background → methodology → timescale</li>
+<li>Title criteria — clarity/precision, relevance/significance, keywords/searchability</li>
+<li>Title trap — if a fancy word is in the title, the entire report must deliver on it</li>
+<li>Abstract — 200 words max; written last; covers everything; motivates the reader</li>
+<li>How to read a paper — abstract → conclusion → results → methodology (not in order)</li>
+<li>Background — three functions: introduce the problem, justify the RQ/aim, ground in literature</li>
+<li>Methodology — the largest section; philosophy → design → participants → techniques → ethics</li>
+<li>Timescale — Gantt chart; include holidays, dependencies, all requirements (reflective diary)</li>
+<li>Research Proposal Checklist (Box 2.11) — the literal marking grid; use it before submitting</li>
+<li>Reflective diary — 100–200 words per entry; written every week</li>
+<li>Reflective vs Reflexive — distinct concepts; both matter for the diary</li>
+<li>Self-plagiarism — can&#x27;t reuse submitted work, even your own; reference yourself differently</li>
+<li>AI detection — tools exist beyond Turnitin; 60% similarity + submitting = fail</li>
+<li>Fail ARM = no early repeat, no progression, visa risk</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Where you should be at Week 3:</strong></p>
+<ul>
+<li>Research questions in Google Doc ✓</li>
+<li>Research aims ✓</li>
+<li>Objectives — optional this week, will change after lit review anyway</li>
+<li>Numbers: 1–2 RQs (2 is ideal); 3 is too many and costs marks; aims ~3 is the sweet spot, 2–5 is acceptable range</li>
+</ul>
+<p><strong>The Title:</strong></p>
+<ul>
+<li>Job: tell the reader exactly what the study is, no tricks, no confusion</li>
+<li>Three criteria from the slides:</li>
+<li><em>Clarity and precision</em> — succinct, captures main focus, avoids vagueness and complexity</li>
+<li><em>Relevance and significance</em> — signals the problem being addressed, interests the right reader</li>
+<li><em>Keywords and searchability</em> — how you&#x27;re paired with the right supervisor; how you get cited</li>
+<li>Title trap (lecture examples, real grade consequences):</li>
+<li>&quot;big data&quot; in the title → entire report must deliver big data (five Vs, all of them)</li>
+<li>&quot;explainable AI&quot; → entire report must justify <em>why</em> explainability is needed (not just SHAP + feature importance), cover all four explainability categories, measure and compare explainability across models</li>
+<li>The lecturer&#x27;s best paper isn&#x27;t getting citations because he tried a fancy title — searchability killed it</li>
+<li>Process: generate 3–5 candidate titles, test each against clarity + searchability, then trim</li>
+<li>Format: one sentence ideally; subtitle allowed when length vs clarity tradeoff demands it</li>
+<li>Avoid acronyms unless extremely standard</li>
+</ul>
+<p><strong>The Abstract (200 words max):</strong></p>
+<ul>
+<li>Written <strong>last</strong>, appears <strong>first</strong> — strange but real</li>
+<li>Covers: motivation, lit overview, methods, results — everything</li>
+<li>Not a dry summary: it must also motivate reading (&quot;facts + why + how&quot;)</li>
+<li>How to evaluate a paper you&#x27;re considering reading: abstract → conclusion (they must match) → skip to results → methodology. Not front-to-back</li>
+<li>Example abstract (housing price prediction, C4.5/RIPPER/AdaBoost) — scored 6/10:</li>
+<li>Negative: first sentence is too long; the opening line should state the problem (or problem + solution) in one clear sentence</li>
+<li>Negative: acronyms (OFHEO, MRIS) dropped without definition early on</li>
+<li>(transcript cut off before full critique — notes are partial)</li>
+<li>Why it matters: at publication scale, the abstract is the filter that decides whether your paper gets read or ignored</li>
+<li>Supervisor editing insight: 30 minutes on 200 words is normal — every line is load-bearing</li>
+</ul>
+<p><strong>The Background section:</strong> Three functions (from slides):</p>
+<ol>
+<li><em>Introduce the research issue</em> — answer &quot;what am I going to do?&quot; Engage the reader&#x27;s interest; justify the choice (personal interest + intellectual curiosity + career direction + perceived value)</li>
+<li><em>Rationale for the research</em> — answer &quot;why am I going to do this?&quot; Justify worthiness via one of: applying a theory to a specific context / developing a theory within a research setting / testing a theory within a given context</li>
+<li><em>Grounding in academic literature</em> — show knowledge of relevant prior work; NOT a full lit review, just an overview of key sources and theories that will inform the research</li>
+</ol>
+<p><strong>The Methodology section (largest section):</strong></p>
+<ul>
+<li>Subsections: research philosophy, design, participants, techniques, procedures, ethical considerations</li>
+<li>Research philosophy → directly determines design choice (quantitative / qualitative / mixed methods)</li>
+<li>Justify and describe each element so they cohere — philosophy → design → methods must align</li>
+<li>For primary data: specify participants, organisation, sector, location</li>
+<li>Describe sampling technique, sample size, collection/analysis methods at overview level (not full detail)</li>
+<li>Ethics — crucial for human participants AND secondary data. Show forethought. Even anonymised macro-level data warrants consideration</li>
+<li>Ethical considerations may need their own dedicated section depending on the project</li>
+</ul>
+<p><strong>Timescale (Gantt chart):</strong></p>
+<ul>
+<li>Divide the project into distinct stages/tasks; estimate time for each</li>
+<li>Gantt format: tasks in rows, weeks in columns, bar length = estimated time</li>
+<li>Must include: holidays (Christmas, Easter), sequential dependencies, ALL project requirements including the reflective diary</li>
+<li>Buffer rule: research takes longer than expected — update the chart regularly</li>
+<li>Dataset submission = Week 7. That is ~4 weeks from now. If you don&#x27;t have it by then, drop the project</li>
+</ul>
+<p><strong>Dataset vetting (from the live discussion):</strong></p>
+<ul>
+<li>Timer rule: sit for 1–2 hours and actually look. If you&#x27;ve never done that, you haven&#x27;t tried</li>
+<li>Kaggle is still banned; but if you can reverse-engineer the original source and access it from there, that&#x27;s fine</li>
+<li>What &quot;approved dataset&quot; means: you have read every column, know what each feature means, know which column you&#x27;re predicting, checked for missing values, and can answer live questions about it</li>
+<li>Image/audio datasets count. RL projects: discuss environment design with the lecturer</li>
+<li>Surveys and human data: ethics approval required (4–5 week lead time) — do not collect anything before it</li>
+</ul>
+<p><strong>Reflective Diary:</strong></p>
+<ul>
+<li>Required weekly entry: 100–200 words</li>
+<li>It&#x27;s assessed and demonstrates ownership/responsibility of the research process</li>
+<li>Reflective vs Reflexive (distinct — the slides define both):</li>
+<li><strong>Reflective</strong>: contemplation; looking back on experiences, actions, or knowledge; introspection; &quot;what happened and what does it mean?&quot;</li>
+<li><strong>Reflexive</strong>: awareness of your own position and its influence on the process; &quot;how does my presence/bias affect the research itself?&quot; — critical in qualitative/social science research</li>
+<li>Box 1.4 checklist for diary entries:</li>
+<li><em>In relation to each experience:</em> what went well (why? what does it mean for the research?)? what didn&#x27;t go well (why? what adjustments will you make?)?</li>
+<li><em>Looking back:</em> how could you have improved? what themes emerge across entries? how will you apply the learning?</li>
+</ul>
+<p><strong>Research Proposal Checklist (Box 2.11) — the actual marking grid:</strong></p>
+<ul>
+<li>Have I explained what I&#x27;m going to do?</li>
+<li>Have I explained why I&#x27;m doing this?</li>
+<li>Have I said why it&#x27;s worth doing?</li>
+<li>Have I explained how it relates to prior research in the area?</li>
+<li>Have I stated which theory/theories inform the work and how I&#x27;ll use them?</li>
+<li>Have I stated my RQ(s), aim, and objectives/investigative questions?</li>
+<li>Have I outlined how I&#x27;ll conduct the research?</li>
+<li>Have I outlined my research design?</li>
+<li>Have I outlined what data I need?</li>
+<li>Have I stated who my participants/respondents are and where?</li>
+<li>Have I explained how I&#x27;ll select them?</li>
+<li>Have I explained how I&#x27;ll gain access?</li>
+<li>Have I outlined how I&#x27;ll collect data?</li>
+<li>Have I outlined how I&#x27;ll analyse data and develop theoretical explanations?</li>
+<li>Have I outlined potential data quality issues?</li>
+<li>Have I outlined how I&#x27;ll overcome those issues?</li>
+<li>Have I considered ethical issues at each stage?</li>
+<li>Have I outlined how I&#x27;ll address those ethical issues?</li>
+</ul>
+<p><strong>Integrity warnings (non-negotiable):</strong></p>
+<ul>
+<li>AI writing tools are detectable — AI detection goes beyond Turnitin; tools you don&#x27;t know about; a student was failed for an AI-written style section</li>
+<li>Turnitin 60% similarity is already a red flag; submitting it anyway is worse — it&#x27;s on record</li>
+<li>Self-plagiarism: if you reuse a previous submission, Turnitin flags it at 100% match — you must reference yourself and reword</li>
+<li>Fail ARM = no early repeat (unlike other modules), dissertation stops, visa implications if international</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># No new quantitative content in Week 3 — structural/process lecture.
+
+# Dissertation tie-in — the Gantt chart for the proposal must include:
+# [W3-W4] Corpus finalisation + data set approval
+# [W4-W5] Annotation tool setup + annotator recruitment
+# [W5-W6] Annotation collection (150 sentences, 50 double-annotated)
+# [W5-W7] Running automatic evaluators (ALCE-NLI, RAGAS faithfulness, LLM-as-judge)
+# [W7]    Data set submission deadline — dissertation corpus IS the dataset
+# [W7-W8] Cohen&#x27;s kappa computation + inter-annotator agreement analysis
+# [W8-W9] Results chapter draft → feeds CA1 methodology section
+# [W9]    CA1 Research Proposal due
+
+# Ethics note: if annotation uses even 2 human annotators → primary data involving humans
+# → ethics approval required before any collection
+# Lead time: 4–5 weeks → initiation deadline was effectively Week 1 or 2</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li><strong>Title risk for the dissertation</strong> — the locked title contains &quot;Sentence-Level Grounding Evaluator Reliability&quot;, &quot;Portuguese Academic RAG&quot;, &quot;Human-Annotated Comparative Study&quot;. Each term must be fully delivered. RAG pipeline must be visible; Portuguese must be motivated (not just mentioned); human annotation must drive the comparative frame, not be decorative</li>
+<li><strong>Abstract strategy</strong> — given the evaluator-comparison structure, the opening line should be: &quot;Automatic evaluation of retrieval-augmented generation relies on metrics whose agreement with human judgment is untested in non-English academic contexts.&quot; That states the problem in one sentence, avoids acronyms, and gives the reader a hook. Draft this early, use it to pressure-test the rest</li>
+<li><strong>Dataset = Week 7 deadline</strong> — the dissertation corpus (SBC/SciELO/CEUR academic papers, 150 annotated sentences) must be ready and showable by Week 7. The 50 double-annotated sentences for IAA are critical; if ethics approval hasn&#x27;t been confirmed, this is the critical-path blocker</li>
+<li><strong>Methodology section</strong> — research philosophy for the dissertation is empirical-positivist (measuring agreement with established metrics); design is quantitative comparative; participant details = three LLM generators, three automatic evaluators, human annotators (N to confirm). Write this section to match the Box 2.11 checklist line by line</li>
+<li><strong>Reflective diary</strong> — entries are due weekly. They feed the ownership/responsibility marks. The connection between diary entries and final report quality is direct: the more you&#x27;ve been thinking about the problem in writing, the better the answers to examiner questions</li>
+<li>Connects to <strong>W1</strong> (appropriateness, capability, personal interest) and <strong>W2</strong> (RQs, aims, objectives — those are now the inputs to the background section)</li>
+<li><strong>Literature review process</strong> (slide 21) — the spiral diagram shows it is iterative, not linear: define search parameters → conduct search → obtain → evaluate → record → revise → repeat. The final output is a critical review, not a summary pile. This feeds directly into the background and full lit review sections</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>Is the ethics approval for human annotators confirmed? If not, this is the actual critical-path item and must be resolved this week (4–5 week lead time = already cutting it close for W9 submission)</li>
+<li>What exact word count is expected for CA1? (Lecturer said &quot;a proposal&quot; — check Moodle brief)</li>
+<li>Week 7 dataset submission: does the dissertation corpus (annotated sentences + evaluator outputs) satisfy the format the lecturer expects, or does it need to be packaged differently?</li>
+<li>Abstract example #2 (fruit yield / tomato detection, precision 0.88, recall 0.80) — the lecturer implied this was a better abstract; need to identify what made it stronger (structured opening, clear gap statement, concrete numeric results in the abstract)</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: In what order should you write the proposal sections?</li>
+<p>A: Write the abstract last, even though it appears first. Everything else feeds into it.</p>
+</ul>
+<ul>
+<li>Q: What are the three criteria for a good research title?</li>
+<p>A: Clarity and precision (tells you exactly what it is), relevance and significance (signals the problem), keywords and searchability (findability and supervisor matching).</p>
+</ul>
+<ul>
+<li>Q: What is the title trap and why does it cost marks?</li>
+<p>A: If a technical term (e.g., &quot;explainable AI&quot;, &quot;big data&quot;) is in the title, the entire report must fully deliver on it. Using a term you don&#x27;t fully understand or implement is exposed immediately.</p>
+</ul>
+<ul>
+<li>Q: How long is an abstract and what must it contain?</li>
+<p>A: 200 words maximum. It covers motivation, related literature, methods, and results — plus the &quot;why&quot; and &quot;how&quot;, not just facts. It must motivate reading.</p>
+</ul>
+<ul>
+<li>Q: What is the efficient order for reading a research paper?</li>
+<p>A: Abstract → conclusion (they must match) → results → methodology. Do not read front-to-back.</p>
+</ul>
+<ul>
+<li>Q: What are the three functions of the Background section?</li>
+<p>A: (1) Introduce the research issue (&quot;what am I doing?&quot;), (2) provide rationale for the RQ/aim (&quot;why am I doing this?&quot;), (3) ground in the academic literature (&quot;where does this fit?&quot;).</p>
+</ul>
+<ul>
+<li>Q: Distinguish reflective from reflexive.</li>
+<p>A: Reflective = contemplating your own experiences and actions; looking back. Reflexive = awareness of your own position/bias and how it influences the research process itself.</p>
+</ul>
+<ul>
+<li>Q: What is the dataset submission deadline, and what triggers a project drop?</li>
+<p>A: Week 7. If you don&#x27;t have an approvable dataset by then, drop the project.</p>
+</ul>
+<ul>
+<li>Q: What does dataset approval actually require?</li>
+<p>A: You know every column, know what you&#x27;re predicting, checked for missing values, can answer live questions. The tutor doesn&#x27;t vet it — you do first.</p>
+</ul>
+<ul>
+<li>Q: Why can&#x27;t you reuse a section from a previous submission?</li>
+<p>A: Self-plagiarism — it was submitted to Turnitin already. It will come up as 100% match against your own prior work. You must reword it and cite yourself.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>Lecture 3 - Structuring your research proposal.pdf</code> (Dr. Anesu Nyabadza, DBS) — filed into course materials</li>
+<li>Box 2.11 (Research Proposal Checklist) — Saunders et al., Research Methods for Business Students</li>
+<li>Box 1.4 (Reflective Diary Checklist) — same source</li>
+<li>Transcript: ARM W3 live lecture 2026-05-28</li>
+<li>Prior notes: <code>ARM-W1-AppliedResearch.md</code>, <code>ARM-W2-GeneratingResearchIdeas.md</code></li>
+<li>Dissertation context: <code>context/DISSERTATION.md</code></li>
+</ul>
+<hr>
+<h2>Week 3 Tasks</h2>
+<ul>
+<li>[ ] <strong>Write reflective diary entry for Week 3</strong> — 100–200 words using Box 1.4 questions → <code>tasks/REFLECTIVE_JOURNAL.md</code></li>
+<li>[ ] <strong>File the lecture PDF</strong> into <code>msc-coursework/inputs/course-materials/</code></li>
+<li>[ ] <strong>Verify dataset/corpus readiness</strong> — check if dissertation corpus (150 annotated sentences) satisfies Week 7 dataset submission; confirm what format the lecturer expects</li>
+<li>[ ] <strong>Confirm ethics approval status</strong> for human annotation — if not done, initiate immediately (4–5 week lead time, W9 = CA1 deadline)</li>
+<li>[ ] <strong>Draft the proposal background section</strong> — 3 functions: introduce issue, rationale, lite lit ground</li>
+<li>[ ] <strong>Run Box 2.11 checklist</strong> against current Google Doc draft — identify every unanswered item</li>
+<li>[ ] <strong>Draft a Gantt chart</strong> for the dissertation/proposal timeline from now to CA1 (Week 9) and CA2 (Week 12)</li>
+<li>[ ] <strong>Write 3–5 candidate titles</strong> and test each against clarity + searchability + no-trap criteria</li>
+<li>[ ] <strong>Draft abstract opening line</strong> — one sentence, no acronyms, states the problem clearly</li>
+</ul>
+<hr>
+<h2>Upcoming Deadlines</h2>
+<p>| Deadline | Item | |---|---| | Week 7 (~2026-06-24) | Dataset submission to lecturer | | Week 9 (~2026-07-08) | CA1 — Research Proposal (80%, Moodle) | | Week 11 (~2026-07-22) | CA1 feedback | | Week 12 (~2026-07-29) | CA2 — Research Presentation (20%, Moodle) |</p><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 09:10 IST - 31 May 2026</span></footer></div></body></html>

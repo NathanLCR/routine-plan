@@ -1,0 +1,170 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NLP — Week 3: Bag-of-Words → Embeddings, BERT, and Text Classification</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>31.05.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 09:10 IST - 31 May 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>NLP — Week 3: Bag-of-Words → Embeddings, BERT, and Text Classification</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Natural Language Processing · msc-coursework/outputs/class-notes/NLP-W3-EmbeddingsAndClassification.md</p></div></section><section class="summary-panel"><span class="pill">NLP</span><span class="pill">Week 3</span><span class="pill">msc-coursework/outputs/class-notes/NLP-W3-EmbeddingsAndClassification.md</span><p class="meta">Modified 2026-05-29T11:14:57+01:00</p></section><h1>NLP — Week 3: Bag-of-Words → Embeddings, BERT, and Text Classification</h1>
+<h2>Focus</h2>
+<p>This lecture moved from sparse bag-of-words to <strong>dense distributed embeddings</strong> (Word2Vec, GloVe, BERT) and then into the <strong>classification half of CA1</strong>. The throughline: BoW/TF-IDF is the cheap, interpretable benchmark, but it loses meaning (&quot;bank&quot; gets one vector regardless of context); embeddings put semantically similar words near each other in continuous space (<code>king − man + woman ≈ queen</code>), and contextual transformer embeddings (BERT) fix the polysemy problem by reading left <em>and</em> right. For CA1 Task 2 you benchmark against AI Studio&#x27;s TF-IDF and then build a grid of <strong>≥3 representations × ≥3 algorithms (≥9 models)</strong> under CRISP-DM, always reporting <strong>per-class</strong> metrics. The lecturer also laid out the rest of the module — topic modelling, co-occurrence graphs + Neo4j knowledge graphs, RAG vs GraphRAG, and building an LLM from scratch — much of which is directly dissertation-relevant.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li>Distributed / dense embedding — a learned low-dimensional vector per token where similar meanings cluster in space; you choose the dimensionality, so vectors are dense (not sparse like BoW).</li>
+<li>Word2Vec — neural-network embedding (Mikolov et al., 2013, Google). Two variants: <strong>CBOW</strong> (predict the target word from surrounding context) and <strong>skip-gram</strong> (predict surrounding context from the target word). Local context only (~5-word window).</li>
+<li>GloVe — Global Vectors (Pennington et al., 2014, Stanford). <strong>Count/co-occurrence based</strong>, not predictive: factorises a global word–co-occurrence matrix; relates the dot product of two word vectors to the log of their co-occurrence probability. Captures global + local statistics; slower but often more accurate than Word2Vec.</li>
+<li>Static vs contextual embeddings — Word2Vec/GloVe are <strong>static</strong> (one fixed vector per word, ignores sense); BERT is <strong>contextual</strong> (the vector for &quot;bank&quot; depends on the sentence).</li>
+<li>BERT — Bidirectional Encoder Representations from Transformers (Devlin et al., 2018, Google). Uses the <strong>encoder</strong> half of the transformer; self-attention reads context in both directions. Trained with <strong>MLM</strong> (masked language modelling) + <strong>NSP</strong> (next-sentence prediction). Used for embeddings <em>and</em> classification.</li>
+<li>DistilBERT — smaller/faster distilled BERT; the practical choice when full BERT is too heavy for experiments.</li>
+<li>Self-attention — weighs the importance of every other token when forming a token&#x27;s representation (&quot;attention is all you need&quot;). Wide context vs Word2Vec/GloVe&#x27;s local window.</li>
+<li>Transfer learning (for text) — pre-train on a huge corpus, then fine-tune on a small labelled set; brings the image-transfer-learning idea into NLP. Fewer labelled examples needed.</li>
+<li>Out-of-vocabulary (OOV) problem — static embeddings have no vector for words unseen in training.</li>
+<li>Co-occurrence network/matrix — two word-nodes linked by how often they co-occur within a window; underlies GloVe, t-SNE/UMAP visualisation, and Louvain-based topic modelling.</li>
+<li>VADER — rule-based sentiment scorer; can auto-label unlabelled text with a sentiment score you then threshold into classes.</li>
+<li>Naive Bayes — classic, strong baseline for spam (the original spam filters were Bayesian).</li>
+<li>CRISP-DM — the 6-stage report scaffold for CA1 (and the client research project): Business Understanding → Data Understanding → Data Preparation → Modelling → Evaluation → Deployment.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>BoW recap &amp; why we move on:</strong></p>
+<ul>
+<li>TF-IDF (<code>TfidfVectorizer</code>) is the recommended benchmark and what AI Studio runs (top <strong>1000</strong> dimensions). <code>CountVectorizer</code> is the simpler frequency baseline — sometimes fine when class vocabularies are obviously distinct (e.g. medicines vs buildings).</li>
+<li>Hyperparameters live in the vectoriser brackets: <code>max_features</code> (dimensions), <code>ngram_range</code>, <code>stop_words</code>, lowercasing; plus stemming/lemmatisation upstream.</li>
+<li><strong>Stemming vs lemmatisation:</strong> stemming crudely chops suffixes (&quot;caring&quot;→&quot;car&quot;); lemmatisation returns a dictionary root (&quot;caring&quot;→&quot;care&quot;). Lemmatisation is slower but more interpretable.</li>
+<li>BoW limits: no word order (&quot;dog bites man&quot; = &quot;man bites dog&quot;), loses context/nuance, high-dimensional sparse vectors → curse of dimensionality.</li>
+<li><strong>Leakage discipline:</strong> fit the vectoriser on training data only; transform test data using the <em>training</em> vocabulary.</li>
+</ul>
+<p><strong>Embeddings intuition:</strong></p>
+<ul>
+<li>Map words into a continuous vector space where similar meanings congregate; you can do arithmetic on the vectors (<code>king − man + woman ≈ queen</code> — from the Word2Vec paper).</li>
+<li>Project high-dim embeddings to 2D for visualisation with <strong>t-SNE</strong> (or PCA when the first 2 components capture &gt;~95% variance). Capitals cluster near their countries; tenses/grammatical variants cluster.</li>
+<li>Benefits: dimensionality reduction (you pick the size), semantic information retained, transfer learning across tasks.</li>
+</ul>
+<p><strong>Word2Vec vs GloVe:</strong></p>
+<ul>
+<li>Word2Vec — neural, <strong>local</strong> context window (~5 words). CBOW = context→target; skip-gram = target→context (good for rare words).</li>
+<li>GloVe — <strong>global</strong> co-occurrence matrix factorisation; takes longer to train but folds in corpus-wide statistics. <em>(Lecturer said GloVe &quot;predicts context words&quot; — it&#x27;s actually count/co-occurrence based, not predictive; see flag.)</em></li>
+<li>Both are static: the word &quot;bank&quot; (river vs financial) gets the <strong>same</strong> vector → motivation for BERT.</li>
+</ul>
+<p><strong>BERT:</strong></p>
+<ul>
+<li>Encoder side of the transformer; <strong>bidirectional</strong> self-attention → context-aware embeddings, so &quot;bank&quot; differs by sentence.</li>
+<li>Pre-trained on Wikipedia + BookCorpus via <strong>MLM</strong> (mask a token, predict it from both sides — e.g. mask &quot;fox&quot; in &quot;the quick brown ___ jumps…&quot;) and <strong>NSP</strong> (does sentence B follow sentence A?).</li>
+<li>Fine-tune by adding a task-specific layer (e.g. a classification head) on top and training on a small labelled set.</li>
+<li>BERT (or DistilBERT) often <strong>beats traditional methods at classification</strong>, especially meaning-heavy tasks (sentiment, emotion, fake news, bias). Anecdote: a student did emotion detection with DistilBERT after traditional algorithms underperformed.</li>
+</ul>
+<p><strong>Classification (CA1 Task 2):</strong></p>
+<ul>
+<li>Once vectorised, it&#x27;s standard ML: split → <strong>balance training data</strong> (lecturer prefers <strong>undersampling</strong> when you have enough data; class weighting and SMOTE often disappoint on BoW) → <strong>cross-validate + hyperparameter grid search</strong>.</li>
+<li><strong>12-fold CV question:</strong> which of the 12 models is returned? <strong>A 13th, trained on all the data</strong> — the folds exist to estimate the confidence interval (mean ± std). AI Studio uses 3-fold.</li>
+<li>Dimensionality control: cap <code>max_features</code> or run <strong>TF-IDF → PCA/SVD</strong> (PCA is a special case of SVD). Anecdote: TF-IDF → PCA → Random Forest won a fake-news task.</li>
+<li>Sentiment is hard (sarcasm/context). <strong>VADER</strong> can auto-label unlabelled text with a sentiment score you then threshold.</li>
+<li>Naive Bayes = useful spam baseline. SVM and deep learning often top the table; deep learning tends to win meaning-heavy problems.</li>
+<li>Real systems often stack multiple classifiers (age, gender, topic…) feeding a final decision.</li>
+</ul>
+<p><strong>Evaluation discipline (repeated, exam-worthy):</strong></p>
+<ul>
+<li><strong>Always report per-class precision/recall/F1</strong> (<code>classification_report</code>) — never a bare accuracy or only the weighted average; they hide poor minority-class performance.</li>
+<li>AUC ≥ 0.8 ≈ a good model. Also report <strong>time-to-train / time-to-test</strong> — a real deployment cost (a heavy transformer may not be worth it over a count vectoriser on an easy problem).</li>
+<li>&quot;No free lunch&quot;: no representation/algorithm wins universally — experiment. The whole crux of CA1 is <em>which representation best captures meaning for this data</em>.</li>
+</ul>
+<p><strong>Dataset constraint (do not ignore):</strong></p>
+<ul>
+<li>CA1 Task 2 dataset must be <strong>BLOG GENDER</strong> <em>or</em> the <strong>Clinician/MIMIC ICD disease-code discharge notes</strong> — not an arbitrary dataset. A prior student lost marks for choosing arbitrarily. MIMIC needs access approval + download (you must do it yourself; takes a while).</li>
+<li><strong>Baleen corpus</strong> is a nice hand-labelled topic dataset (cinema, cooking, DIY, gaming, sports, tech, book) — useful for topic classification and as a truth benchmark for topic-modelling comparisons.</li>
+</ul>
+<p><strong>Library cheat-sheet:</strong></p>
+<ul>
+<li><code>scikit-learn</code> → <code>CountVectorizer</code>, <code>TfidfVectorizer</code> (BoW); lecturer&#x27;s preferred, cleanest API.</li>
+<li><code>gensim</code> → Word2Vec (<code>pip install gensim</code>; not pre-installed in Colab); tokenise with NLTK first.</li>
+<li><code>transformers</code> → <code>BertTokenizer</code> + <code>BertModel</code>: tokenise, then pull the embedding array (array-of-arrays, one vector per token) — the same two-step shape GPT will use.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># --- Word2Vec (Gensim) ---
+# pip install gensim
+from gensim.models import Word2Vec
+from nltk.tokenize import sent_tokenize, word_tokenize
+sentences = [word_tokenize(s) for s in sent_tokenize(text)]      # tokenise sentences→words
+model = Word2Vec(sentences, vector_size=100, window=5, min_count=1)  # window=5 = local context
+vec = model.wv[&quot;language&quot;]                                       # 100-dim dense vector
+
+# --- GloVe (pre-trained) + similarity ---
+# load pre-trained glove; cosine similarity ranks neighbours
+sims = glove.most_similar(&quot;language&quot;)     # returns [(word, cosine_sim), ...]
+
+# --- BERT embeddings (Transformers) ---
+from transformers import BertTokenizer, BertModel
+tok = BertTokenizer.from_pretrained(&quot;bert-base-uncased&quot;)
+bert = BertModel.from_pretrained(&quot;bert-base-uncased&quot;)
+ids = tok(&quot;Natural language is fascinating&quot;, return_tensors=&quot;pt&quot;)
+emb = bert(**ids).last_hidden_state        # [1, n_tokens, 768] — one vector per token
+
+# --- CA1 Task 2 grid: &gt;=3 representations x &gt;=3 algorithms = &gt;=9 models ---
+# representations: CountVectorizer | TF-IDF | (Word2Vec/GloVe/BERT or TF-IDF-&gt;PCA)
+# algorithms:      NaiveBayes | LogReg | SVM | RandomForest | MLP/DL
+# discipline:      fit vectoriser on TRAIN only; undersample to balance;
+#                  StratifiedKFold CV + GridSearchCV; report PER-CLASS P/R/F1 (+ AUC, train/test time)</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li><strong>Dissertation (core) — RAG vs GraphRAG is now on the syllabus.</strong> The lecturer explicitly framed the upcoming module as a <em>comparative study of vector-based RAG vs graph-based RAG, measured with <strong>RAGAS</strong>, grounding LLM answers to reduce hallucination</em>. This is the dissertation&#x27;s retrieval/evaluation core, taught directly. The Neo4j knowledge-graph-from-PDF + LLM-query workflow is the GraphRAG arm.</li>
+<li><strong>Dissertation — static vs contextual embeddings.</strong> Word2Vec/GloVe = static; BERT/BGE-M3 = contextual. The lecture&#x27;s &quot;bank&quot; polysemy point is exactly why dense contextual retrieval (BGE-M3, cosine-ranked) beats sparse term matching, and why hybrid (BM25 + dense) is used.</li>
+<li><strong>NLP W2.</strong> TF-IDF benchmark, cosine similarity, CRISP-DM, undersampling, TF-IDF→PCA→RF anecdote all carry over. W2 introduced distributed reps as a concept; W3 is the mechanics.</li>
+<li><strong>DL.</strong> Transfer learning (pre-train → fine-tune), softmax output for multi-class, backprop after forward pass — same machinery as the DL Keras notes; BERT/GPT just scale it.</li>
+<li><strong>ARM.</strong> The lecturer keeps tying class topics to &quot;good research projects&quot; (RAG vs GraphRAG comparative study, topic-modelling labeller comparison). Any of these is a viable ARM proposal angle and overlaps the dissertation.</li>
+</ul>
+<hr>
+<h2>Roadmap (lecturer&#x27;s plan for remaining lectures)</h2>
+<ol>
+<li><strong>Next week — Topic modelling.</strong> Given a document, surface ~10 topics × 10 words. Compare traditional <strong>LDA</strong> vs transformer-based <strong>BERTopic</strong>; measure with a <strong>coherence</strong> metric → results are quantifiable, popular for research. Idea: use the Baleen hand-labels as truth and compare LDA vs BERTopic as labellers.</li>
+<li><strong>Week after — Co-occurrence graphs + Neo4j knowledge graph.</strong> Build a co-occurrence network (two nodes, edge = co-occurrence count; Louvain → topics). Then use <strong>Neo4j&#x27;s LLM knowledge-graph builder</strong> to construct a knowledge graph <strong>from a PDF</strong> and query it with an LLM. Comparative study: <strong>vector RAG vs graph RAG</strong>, scored with <strong>RAGAS</strong>. Source text = the 2025 papal encyclical on AI ethics (see flag for the title) — chosen because the module must engage ethics.</li>
+<li><strong>Then — Build an LLM from scratch.</strong> Working through the library book (Sebastian Raschka, <em>Build a Large Language Model (From Scratch)</em>): tokenisation → self-attention → GPT <strong>decoder</strong> architecture → train on a small text (poor output) → <strong>load OpenAI GPT-2 pre-trained weights</strong> → fine-tune for <strong>spam/ham classification</strong> (swap the final layer to a classification head) → finally <strong>instruction fine-tuning</strong> for question answering.</li>
+<li><strong>Week 12 — CA presentations.</strong></li>
+</ol>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: CBOW vs skip-gram?</li>
+<p>A: CBOW predicts the <strong>target word from its context</strong>; skip-gram predicts the <strong>context from the target word</strong> (better for rare words). Both are Word2Vec, neural, local-window.</p>
+<li>Q: Word2Vec vs GloVe in one line?</li>
+<p>A: Word2Vec = neural, <strong>local</strong> context; GloVe = <strong>global</strong> co-occurrence-matrix factorisation (count-based). GloVe slower, often more accurate.</p>
+<li>Q: Why does BERT solve the &quot;bank&quot; problem when Word2Vec/GloVe don&#x27;t?</li>
+<p>A: BERT is <strong>contextual + bidirectional</strong> (self-attention reads both sides) → different vectors per sense; Word2Vec/GloVe are <strong>static</strong> (one vector per word).</p>
+<li>Q: BERT&#x27;s two pre-training objectives?</li>
+<p>A: <strong>MLM</strong> (mask a token, predict it from both directions) and <strong>NSP</strong> (does sentence B follow A?).</p>
+<li>Q: 12-fold CV — which model is returned?</li>
+<p>A: A <strong>13th</strong>, trained on all the data; the 12 folds give the confidence interval (mean ± std).</p>
+<li>Q: How do you balance and validate for CA1 Task 2?</li>
+<p>A: Undersample the majority class (preferred when data is sufficient); StratifiedKFold CV + GridSearchCV; fit vectoriser on train only.</p>
+<li>Q: What metric must you always report — and what must you not rely on?</li>
+<p>A: Report <strong>per-class precision/recall/F1</strong> (+ AUC, train/test time). Don&#x27;t rely on bare/averaged <strong>accuracy</strong>.</p>
+<li>Q: Allowed CA1 Task 2 datasets?</li>
+<p>A: <strong>BLOG GENDER</strong> or <strong>Clinician/MIMIC ICD disease-code discharge notes</strong> — not arbitrary.</p>
+</ul>
+<hr>
+<h2>Flags / Corrections</h2>
+<ul>
+<li><strong>Attribution muddle: BERT ≠ &quot;Attention Is All You Need.&quot;</strong> The lecturer attributed BERT to &quot;Baswani/Swani et al. 2017.&quot; Correct: the transformer architecture (encoder+decoder) is <strong>Vaswani et al., 2017</strong> (&quot;Attention Is All You Need&quot;); <strong>BERT is Devlin et al., 2018</strong> (Google), using only the encoder. GPT uses the decoder.</li>
+<li><strong>GloVe is count-based, not predictive.</strong> Transcript said GloVe is &quot;based on predicting context words.&quot; GloVe factorises a global co-occurrence matrix (Pennington et al., 2014). The <em>predictive</em> family is Word2Vec.</li>
+<li><strong>VADER, not &quot;fodder/Fother/FUDR.&quot;</strong> Rule-based sentiment tool. Note: VADER&#x27;s <code>compound</code> score is <strong>−1 to +1</strong>, not 0–1; if you threshold, threshold the compound score.</li>
+<li><strong>GPT-2 vocab size.</strong> Lecturer said &quot;~54,400 tokens.&quot; GPT-2&#x27;s vocabulary is <strong>50,257</strong> (BPE). Minor, but cite correctly if it appears in the LLM build.</li>
+<li><strong>Papal encyclical title — verify.</strong> Lecturer reached for &quot;Magnificat / Magnifica humanitas — On safeguarding the human person in the time of artificial intelligence&quot; (signed 15 May 2025, ~45k words, framed against Leo XIII&#x27;s <em>Rerum Novarum</em>, 1891, ~135 years prior). I can&#x27;t confirm the exact Latin title from memory — <strong>confirm the official title/citation before using it as a cited source text</strong> for the Neo4j/RAG exercise.</li>
+<li><strong>Speech-to-text artifacts in the transcript:</strong> &quot;cloud&quot; = <strong>Claude/Anthropic</strong>; &quot;Jensum/JenSim&quot; = <strong>Gensim</strong>; &quot;love/GLAV&quot; = <strong>GloVe</strong>; &quot;FOJ/FOJ tool / LMBase&quot; = <strong>Neo4j</strong> (its LLM graph-builder); &quot;RAGIS&quot; = <strong>RAGAS</strong>; &quot;engramming&quot; = <strong>n-gramming</strong>; &quot;Berlin/baleen&quot; = <strong>Baleen corpus</strong>; &quot;TISNI&quot; = <strong>t-SNE</strong>; &quot;Bayesian/naive Bayes&quot; intact.</li>
+<li><strong>RAGAS dating (carried from W2).</strong> Lecturer dates RAGAS to 2025; the paper (Es et al., <em>Automated Evaluation of RAG</em>) is <strong>2023</strong> (EACL 2024 demo). It&#x27;s a dissertation evaluator — cite the right year.</li>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Lecture transcript: NLP Week 3, 2026-05-28 (pasted by Nathan).</li>
+<li>Course materials (Moodle): NLP feature-engineering demo + exercises notebook (BoW → embeddings); Word2Vec, GloVe, BERT papers on Moodle.</li>
+<li>Library book: Sebastian Raschka, <em>Build a Large Language Model (From Scratch)</em> — basis for the LLM-from-scratch module.</li>
+<li>Key papers: Mikolov et al. (2013) Word2Vec; Pennington et al. (2014) GloVe; Vaswani et al. (2017) Transformer; Devlin et al. (2018) BERT; Es et al. (2023) RAGAS.</li>
+<li>Prior note: <code>msc-coursework/outputs/class-notes/NLP-W2-TextVectorisation.md</code>.</li>
+<li>Dissertation context: <code>context/DISSERTATION.md</code> (BM25 + BGE-M3 hybrid RRF; RAGAS evaluator; RAG vs GraphRAG).</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] <strong>CA1 Task 2:</strong> confirm dataset (BLOG GENDER vs Clinician ICD — BLOG GENDER is ready; MIMIC needs access approval first), then build the ≥3×≥3 grid under CRISP-DM with per-class metrics + CV/grid search.</li>
+<li>[ ] Decide the representation set (Count / TF-IDF / one dense: Word2Vec, GloVe, or DistilBERT) and the algorithm set (NB / LogReg / SVM / RF / DL).</li>
+<li>[ ] Verify the papal encyclical&#x27;s official title/citation before treating it as the Neo4j/RAG source text.</li>
+<li>[ ] For the dissertation: treat the upcoming <strong>RAG vs GraphRAG + RAGAS</strong> module as direct dissertation work — align the Neo4j exercise with your retrieval/eval design.</li>
+<li>[ ] Read the encyclical anyway (lecturer&#x27;s recommendation — &quot;profound&quot;).</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 09:10 IST - 31 May 2026</span></footer></div></body></html>

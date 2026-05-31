@@ -1,0 +1,183 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DL — Week 3: MLP for Regression + Text Mining Intro</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>31.05.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 09:10 IST - 31 May 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>DL — Week 3: MLP for Regression + Text Mining Intro</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Deep Learning · msc-coursework/outputs/class-notes/DL-W3-MLPRegressionTextMining.md</p></div></section><section class="summary-panel"><span class="pill">DL</span><span class="pill">Week 3</span><span class="pill">msc-coursework/outputs/class-notes/DL-W3-MLPRegressionTextMining.md</span><p class="meta">Modified 2026-05-29T11:20:55+01:00</p></section><h1>DL — Week 3: MLP for Regression + Text Mining Intro</h1>
+<h2>Focus</h2>
+<p>Keras ANN applied to regression (continuous target) and the start of text mining with NLTK. The sharpest warning: <strong>always scale Y separately from X in regression, and always inverse_transform predictions before reporting</strong> — output is unitless between 0–1 without it. Text mining preprocessing is positioned as a universal data-preparation problem, not a unique NLP problem; the model stage is the same across domains.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>MinMaxScaler (regression)</strong> — scales all values to [0, 1]; apply to both X and Y independently with separate scaler objects</li>
+<li><strong>inverse_transform</strong> — reverses MinMax scaling to restore original units (e.g. miles per gallon); mandatory before any prediction output</li>
+<li><strong>Separate scalers for X and Y</strong> — X and Y have different ranges; one scaler would corrupt both</li>
+<li><strong>ReLU as output activation (regression)</strong> — guarantees non-negative output; use when target is physically non-negative (e.g. MPG, price, distance)</li>
+<li><strong>Sigmoid / Softmax as output (regression)</strong> — valid if Y is scaled to [0, 1] via MinMax; requires inverse_transform after</li>
+<li><strong>compile() dual role</strong> — configures both backpropagation (loss + optimizer) AND evaluation metric; evaluation runs on a validation split within training</li>
+<li><strong>batch_size=1 ≡ SGD</strong> — Adam with batch_size=1 is stochastic gradient descent; more stable on noisy data</li>
+<li><strong>KerasClassifier</strong> — Scikit-Learn wrapper for Keras; enables GridSearchCV over <code>epochs</code> and <code>batch_size</code></li>
+<li><strong>NLU vs NLP</strong> — NLU parses context and intent; NLP processes it; NLU is prerequisite in any chatbot/RAG pipeline</li>
+<li><strong>Stemming (Lancaster)</strong> — rule-based suffix stripping; fast, aggressive, context-blind; <code>caring → car</code> (wrong); not preferred</li>
+<li><strong>Lemmatization (WordNet)</strong> — dictionary + POS-aware; <code>feet → foot</code>, <code>waiting → wait</code>; context-aware; preferred</li>
+<li><strong>Stop word removal</strong> — discard high-frequency low-signal tokens</li>
+<li><strong>Custom filter</strong> — remove tokens with <code>len &lt; 3</code>, punctuation, special characters; write your own function</li>
+<li><strong>Vectorizer</strong> — converts cleaned tokens to numeric representation (BoW, TF-IDF, embeddings); not covered yet, coming next sessions</li>
+<li><strong>SLM (Small Language Model)</strong> — lecturer&#x27;s framing: fine-tuned SLMs more relevant than generic LLMs for secure/personalised enterprise apps under EU AI Act / GDPR constraints</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Classification → Regression: the two changes:</strong></p>
+<ul>
+<li>Output activation: <code>softmax</code> → <code>relu</code> (regression target must be ≥ 0)</li>
+<li>Loss + metric: <code>categorical_crossentropy</code> / <code>accuracy</code> → <code>mse</code> or <code>mae</code> (same function usable for both)</li>
+<li>Everything else (Sequential, Dense, compile, fit) is identical</li>
+</ul>
+<p><strong>MinMaxScaler on both X and Y:</strong></p>
+<ul>
+<li>In CA2 (ML), you only scaled X — correct for classical ML</li>
+<li>In ANN regression, scale Y too; the network output is in [0, 1] and must be decoded</li>
+<li>Formula: <code>X_scaled = (X − X_min) / (X_max − X_min)</code></li>
+<li>Inverse: <code>X = X_scaled × (X_max − X_min) + X_min</code></li>
+<li>Always define two separate scalers; never fit both on the same object</li>
+</ul>
+<p><strong>Compile and fit pattern:</strong></p>
+<pre><code>scaler_X = MinMaxScaler()
+scaler_y = MinMaxScaler()
+X_train_s = scaler_X.fit_transform(X_train)
+y_train_s = scaler_y.fit_transform(y_train.reshape(-1, 1))
+
+model = Sequential([
+    Dense(12, input_dim=X_train.shape[1], activation=&#x27;relu&#x27;),
+    Dense(8, activation=&#x27;relu&#x27;),
+    Dense(1, activation=&#x27;relu&#x27;),        # or sigmoid if y is [0,1]
+])
+model.compile(optimizer=&#x27;adam&#x27;, loss=&#x27;mae&#x27;, metrics=[&#x27;mae&#x27;])
+model.fit(X_train_s, y_train_s, epochs=100, batch_size=16, validation_split=0.2)
+
+y_pred_s = model.predict(scaler_X.transform(X_test))
+y_pred   = scaler_y.inverse_transform(y_pred_s)     # ← mandatory</code></pre>
+<p><strong>Hyperparameter tuning:</strong></p>
+<ul>
+<li><code>batch_size</code> and <code>epochs</code> are grid-searchable via <code>KerasClassifier</code> + <code>GridSearchCV</code></li>
+<li>Same pattern as CA1 (ML) — no new API; just wrap the Keras model</li>
+</ul>
+<p><strong>Text mining — preprocessing pipeline:</strong></p>
+<ol>
+<li>Lowercase all tokens</li>
+<li>Tokenise</li>
+<li>Stem (Lancaster) or Lemmatise (WordNet) — prefer lemmatisation</li>
+<li>Remove stop words</li>
+<li>Custom filter: <code>len(token) &gt;= 3</code>, strip punctuation / special chars</li>
+<li>Vectorise → (coming next sessions)</li>
+</ol>
+<p><strong>Stemming vs Lemmatisation:</strong></p>
+<ul>
+<li>Stemmer: <code>waiting → wait</code>, <code>weights → weight</code>, <code>care → car</code> (wrong) — no dictionary</li>
+<li>Lemmatiser: <code>feet → foot</code>, uses POS and dictionary; six WordNet types available</li>
+<li>Rule of thumb: always use lemmatisation unless speed is the only constraint</li>
+</ul>
+<p><strong>Responsible AI / EU context (aside):</strong></p>
+<ul>
+<li>Reg AI = Regulation AI (EU AI Act framing)</li>
+<li>Data ownership persists after individual death under EU interpretation</li>
+<li>Companies claim GDPR compliance but responsible AI requires documented, explainable pipelines — not just claims</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># MinMax scaling — both X and Y for ANN regression
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+scaler_X = MinMaxScaler()
+scaler_y = MinMaxScaler()
+
+X_tr = scaler_X.fit_transform(X_train)
+y_tr = scaler_y.fit_transform(y_train.reshape(-1, 1))
+
+model = Sequential([
+    Dense(12, input_dim=X_tr.shape[1], activation=&#x27;relu&#x27;),
+    Dense(8,  activation=&#x27;relu&#x27;),
+    Dense(1,  activation=&#x27;relu&#x27;),   # non-negative continuous target
+])
+model.compile(optimizer=&#x27;adam&#x27;, loss=&#x27;mae&#x27;, metrics=[&#x27;mae&#x27;])
+model.fit(X_tr, y_tr, epochs=100, batch_size=16, validation_split=0.2, verbose=0)
+
+y_pred = scaler_y.inverse_transform(model.predict(scaler_X.transform(X_test)))
+
+# ---
+# Lemmatisation (WordNet)
+import nltk
+from nltk.stem import WordNetLemmatizer
+nltk.download(&#x27;wordnet&#x27;, quiet=True)
+
+lem = WordNetLemmatizer()
+tokens = [&quot;feet&quot;, &quot;waiting&quot;, &quot;weights&quot;, &quot;caring&quot;]
+print([lem.lemmatize(t, pos=&#x27;v&#x27;) for t in tokens])
+# → [&#x27;feet&#x27;, &#x27;wait&#x27;, &#x27;weights&#x27;, &#x27;care&#x27;]  (noun form differs from verb form)
+# Note: pass pos=&#x27;v&#x27; for verbs; default is noun — matters for accuracy
+
+# Dissertation tie-in: this pipeline feeds token normalisation before
+# any embedding step in the Portuguese RAG corpus pre-processing.</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>Dissertation</strong> — NLU → NLP pipeline is the preprocessing backbone of the RAG system. Lemmatisation + stop-word removal will apply to the Portuguese academic corpus before embedding; WordNet covers English but for PT-BR you&#x27;ll need NLTK&#x27;s Portuguese stopwords list + a Portuguese lemmatiser (spaCy <code>pt_core_news_sm</code> or Stanza). The lecturer&#x27;s &quot;vectoriser coming next&quot; maps directly to the embedding step in your retrieval pipeline.</li>
+<li><strong>Risk flag</strong> — The class uses Keras/TensorFlow; the DL study resource order and CA01 example code may expect PyTorch. Verify what framework CA01 requires before spending time on Keras patterns.</li>
+<li><strong>Risk flag (text mining)</strong> — WordNet lemmatiser is English-only. Your dissertation corpus is Portuguese. Flag this gap before the NLP module covers vectorisation — you need a PT-compatible preprocessing stack, not NLTK WordNet.</li>
+<li>Connects to <strong>NLP module</strong> — NLP CA1 (due end of Reading Week) includes a gender classifier; the text preprocessing pipeline from today (tokenise → lemmatise → vectorise) is the same pipeline you&#x27;ll build there. What&#x27;s missing from today: vectoriser (BoW / TF-IDF). Get ahead of this.</li>
+<li>Connects to <strong>DL-W2</strong> — compile/fit pattern established there; today extended it to regression and added the scaler-on-Y requirement.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li><strong>CA01 framework</strong> — is it Keras or PyTorch? Check Moodle before Week 4. The study resource path says PyTorch; class examples use Keras. This mismatch will cost time if left until Week 8.</li>
+<li><strong>CNN presentation slot</strong> — lecturer asked for volunteers to present first (~29 May or start of next teaching block after reading week). If you want the slot, email the list now.</li>
+<li><strong>Reading week</strong> — confirmed between now and Week 4 CNN start. Use it for NLP CA1 (classifier + paper critique), not DL catch-up.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: Why scale Y in ANN regression but not in classical ML regression?</li>
+<p>A: ANN output nodes produce values in [0, 1] (with sigmoid/relu); unscaled targets push the network to learn large-magnitude weights, destabilising training. Classical ML estimators fit the target scale directly.</p>
+</ul>
+<ul>
+<li>Q: What is the inverse MinMax transform formula?</li>
+<p>A: <code>X_original = X_scaled × (X_max − X_min) + X_min</code></p>
+</ul>
+<ul>
+<li>Q: Why define two separate scaler objects (one for X, one for Y)?</li>
+<p>A: Each scaler stores the min/max of the data it was fit on. Fitting one scaler on both would produce incorrect inverse transforms because the stored range would be wrong for both.</p>
+</ul>
+<ul>
+<li>Q: batch_size=1 with Adam is equivalent to what?</li>
+<p>A: SGD (stochastic gradient descent) — one sample per weight update.</p>
+</ul>
+<ul>
+<li>Q: What&#x27;s the difference between stemming and lemmatisation?</li>
+<p>A: Stemming is rule-based suffix stripping (fast, lossy, context-blind). Lemmatisation uses a dictionary + POS (slower, accurate, context-aware). Prefer lemmatisation unless speed is the hard constraint.</p>
+</ul>
+<ul>
+<li>Q: What does compile() configure in Keras?</li>
+<p>A: Two things: (1) backpropagation — loss function + optimizer; (2) evaluation — the metric computed on the validation split each epoch.</p>
+</ul>
+<ul>
+<li>Q: When should you use ReLU as the output activation for regression?</li>
+<p>A: When the target variable is physically non-negative (e.g. distance, price, MPG). ReLU guarantees output ≥ 0.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Transcript pasted into Codex 2026-05-28 (Thursday DL class, 10:00–11:00)</li>
+<li>Dissertation context: <code>memory/dissertation/status.md</code></li>
+<li>Module structure + deadlines: <code>memory/msc-coursework/modules.md</code></li>
+<li>Prior notes: <code>msc-coursework/outputs/class-notes/DL-W2-ANNStructureAndForwardPass.md</code></li>
+<li>Draft notes (superseded): <code>dl-class-notes-2026-05-28.md</code> — safe to delete</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Check Moodle: confirm CA01 uses Keras or PyTorch — if PyTorch, start translating today&#x27;s patterns now</li>
+<li>[ ] NLP CA1 (classifier + paper critique) — due end of Reading Week; text preprocessing from today is directly applicable</li>
+<li>[ ] Email DL lecturer if presenting in first CNN slot (~29 May); otherwise slot is assigned randomly</li>
+<li>[ ] Delete <code>dl-class-notes-2026-05-28.md</code> from Cowork root (superseded by this file)</li>
+<li>[ ] Before dissertation corpus prep: source a Portuguese lemmatiser (spaCy <code>pt_core_news_sm</code> or Stanza) — NLTK WordNet is English-only</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 09:10 IST - 31 May 2026</span></footer></div></body></html>
