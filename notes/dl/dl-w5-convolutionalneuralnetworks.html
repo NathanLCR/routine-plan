@@ -1,0 +1,176 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DL — Week 5: Convolutional Neural Networks (CNNs)</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>02.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 17:28 IST - 02 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>DL — Week 5: Convolutional Neural Networks (CNNs)</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Deep Learning · msc-coursework/outputs/class-notes/DL-W5-ConvolutionalNeuralNetworks.md</p></div></section><section class="summary-panel"><span class="pill">DL</span><span class="pill">Week 5</span><span class="pill">msc-coursework/outputs/class-notes/DL-W5-ConvolutionalNeuralNetworks.md</span><p class="meta">Modified 2026-06-02T16:47:16+01:00</p></section><h1>DL — Week 5: Convolutional Neural Networks (CNNs)</h1>
+<h2>Focus</h2>
+<p>This lecture covered Convolutional Neural Networks (CNNs), contrasting them with fully connected networks for image processing. It highlighted why flattening images destroys spatial structure and introduced CNN building blocks like convolution, ReLU, and pooling. The lecturer stressed understanding the core computation pipeline and mastering the output dimension formula for CA1.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Transfer function</strong> — the weighted sum <code>Σ(wᵢxᵢ) + b</code> computed at a node, <em>before</em> activation.</li>
+<li><strong>Activation function</strong> — nonlinearity applied to the transfer function output (ReLU, sigmoid, softmax…).</li>
+<li><strong>Block of computation</strong> — one repeatable unit: weights+bias → transfer function → activation. Stacked per node and per layer.</li>
+<li><strong>Flattening</strong> — collapsing a multi-dimensional input (image) into a 1-D vector. Destroys spatial structure.</li>
+<li><strong>Convolution layer</strong> — slides a small kernel across the input, doing element-wise multiply + sum, to extract local features.</li>
+<li><strong>Kernel / filter</strong> — the small weight matrix (e.g. 3×3) convolved with the input.</li>
+<li><strong>Feature map</strong> — the output of a convolution (one per filter).</li>
+<li><strong>Stride (S)</strong>** — how many pixels the kernel shifts each step. Larger stride → smaller output, fewer computations, more lost detail.</li>
+<li><strong>Padding (P)</strong>** — border of (usually zero) values added around the input to control output size and preserve edge information.</li>
+<li><strong>ReLU</strong> — <code>max(0, x)</code>. Replaces negatives with 0, injects nonlinearity.</li>
+<li><strong>Pooling (max pooling)</strong> — downsampling that keeps the max value in each window; reduces dimensions.</li>
+<li><strong>Local connectivity</strong> — each hidden unit looks only at a small region of the input, not the whole image.</li>
+<li><strong>Weight sharing</strong> — the <em>same</em> kernel weights are reused across all positions of the input.</li>
+<li><strong>Translation invariance</strong> — because weights are shared, a feature is recognised wherever it appears in the frame.</li>
+<li><strong>Hierarchical learning</strong> — early layers learn edges/lines, middle layers textures, deep layers whole objects.</li>
+<li><strong>Softmax</strong> — output activation converting scores to a probability distribution over classes.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>ANN Computation Pipeline Recap \[CA1\]:</strong></p>
+<ul>
+<li>The forward pass → loss → backprop → weight update is a mechanical, repeatable &quot;block of computation&quot; independent of data.</li>
+<li>Forward pass per hidden node: (Inputs → weights, bias → transfer function) → activation function applied. This block repeats for all nodes and layers.</li>
+<li>Memorize the <code>(transfer function → activation)</code> block, not discrete steps.</li>
+<li><strong>Backpropagation</strong> carries error backward to get gradients.</li>
+<li><strong>Weight update:</strong> <code>w_new = w_old - η * ∂Loss/∂w</code> (gradient descent).</li>
+<li>One full pass = one iteration/epoch.</li>
+</ul>
+<p><strong>Why FC Nets Fail on Images \[CA1\]:</strong></p>
+<ul>
+<li><strong>Parameter Explosion:</strong> A <code>256x256</code> image (65,536 inputs) creates an infeasible number of parameters in an FC layer, leading to overfitting.</li>
+<li><strong>Spatial Structure Loss:</strong> Flattening collapses the 2D/3D image structure, losing crucial adjacency and texture information.</li>
+</ul>
+<p><strong>Flattening Example:</strong></p>
+<ul>
+<li>A <code>3x3x1</code> image flattens to a 9-feature vector, losing all spatial relationships between pixels.</li>
+</ul>
+<p><strong>CNN Pipeline:</strong></p>
+<ul>
+<li><code>input image → [convolution → ReLU → pooling] × N → flatten → fully connected → softmax → output</code></li>
+<li>Preserves spatial structure during feature extraction; flattening only occurs at the end.</li>
+<li>PyTorch recommended for image processing over Keras/TF.</li>
+</ul>
+<p><strong>Convolution Operation \[CA1\]:</strong></p>
+<ul>
+<li>Applies a kernel (filter) across local input regions via element-wise multiply + sum, plus bias.</li>
+<li>Output is a <strong>feature map</strong>, with one map per filter.</li>
+<li><strong>Example:</strong> <code>3x3</code> input, <code>2x2</code> kernel, stride 1, padding 0 results in a <code>2x2</code> output. Dimensionality reduction is a feature.</li>
+</ul>
+<p><strong>Stride \[CA1\]:</strong></p>
+<ul>
+<li>Controls kernel shift (1 pixel = max overlap, finest detail, biggest output).</li>
+<li>Higher stride reduces output size and computation but loses detail/features. A hyperparameter trade-off.</li>
+</ul>
+<p><strong>Padding \[CA1\]:</strong></p>
+<ul>
+<li>Adds border (default 0) to input to control output size and/or preserve edge information.</li>
+<li><code>padding = 1</code> adds a border, growing input by 2 in each dimension, enabling &quot;same&quot; padding to maintain output size.</li>
+</ul>
+<p><strong>Output Dimension Formula \[CA1 — must compute by hand\]:</strong></p>
+<ul>
+<li><code>O = floor( (W - F + 2P) / S ) + 1</code></li>
+<li><strong>Example:</strong> <code>W=32, F=3, S=3, P=1</code> → <code>O = floor((32-3+2)/3) + 1 = floor(31/3)+1 = 10+1 = 11</code>.</li>
+<li><strong>Tip:</strong> PyTorch layer summaries show <code>padding</code> and <code>stride</code>—be ready to explain these using the formula.</li>
+</ul>
+<p><strong>ReLU \[CA1\]:</strong></p>
+<ul>
+<li><code>ReLU(x) = max(0, x)</code>. Applied <em>after</em> convolution.</li>
+<li>Injects necessary nonlinearity; negatives are zeroed out.</li>
+</ul>
+<p><strong>Pooling / Max Pooling \[CA1\]:</strong></p>
+<ul>
+<li>Downsampling technique, keeping the max value in a window (e.g., 2x2).</li>
+<li>Reduces spatial size, computation, retains prominent activations, adds robustness to small shifts.</li>
+</ul>
+<p><strong>Three CNN Principles \[CA1\]:</strong></p>
+<ul>
+<li><strong>Local Connectivity:</strong> Each unit processes a small input region.</li>
+<li><strong>Weight Sharing:</strong> The same kernel weights are reused across all input positions, keeping parameter counts low.</li>
+<li><strong>Translation Invariance:</strong> Feature detection is independent of feature location due to weight sharing.</li>
+</ul>
+<p><strong>Hierarchical Feature Learning \[CA1 — research task\]:</strong></p>
+<ul>
+<li>Early layers: Lines, edges.</li>
+<li>Middle layers: Textures, parts.</li>
+<li>Deep layers: Whole objects.</li>
+<li><strong>Research Task:</strong> Explain what each layer represents in hierarchical learning beyond filter detection.</li>
+</ul>
+<p><strong>Classification Head (Softmax) \[CA1\]:</strong></p>
+<ul>
+<li>After flattening, FC layer feeds into Softmax (multi-class) or Sigmoid (binary).</li>
+<li>Softmax formula: <code>σ(zᵢ) = e^{zᵢ} / Σ_{j=1..K} e^{zⱼ}</code>. Outputs sum to 1, forming a probability distribution.</li>
+<li>The final decision layer uses these probabilities.</li>
+</ul>
+<p><strong>Bias in Convolution (Open Question):</strong></p>
+<ul>
+<li>How is the bias <code>b</code> in <code>output = Σ(input · kernel) + b</code> specified/chosen? (Typically, one learnable bias per filter, updated via backprop).</li>
+</ul>
+<p><strong>1D / 2D / 3D Convolution:</strong></p>
+<ul>
+<li>Covers sequences (1D), images (2D), volumes/video (3D).</li>
+<li>RGB channels handled by kernel depth in 2D, not strictly 3D convolution.</li>
+</ul>
+<p><strong>Computation / Hardware Trade-off (Context):</strong></p>
+<ul>
+<li>CNNs are partly motivated by FC nets&#x27; computational cost on images.</li>
+<li>Hyperparameters (stride, padding) are knobs for compute vs. accuracy.</li>
+<li>Hardware constraints (memory, compute units) limit choices (kernel size, stride).</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<p>\<code>\</code>\`python</p>
+<h1>Output Dimension Formula:</h1>
+<h1>O = floor( (W - F + 2P) / S ) + 1</h1>
+<h1>ReLU:</h1>
+<h1>ReLU(x) = max(0, x)</h1>
+<h1>Softmax for Class i (over K classes):</h1>
+<h1>σ(zᵢ) = e^{zᵢ} / Σ_{j=1..K} e^{zⱼ}</h1>
+<h1>Example problem: W=3, F=2, S=1, P=0</h1>
+<h1>O = floor((3 - 2 + 2*0) / 1) + 1 = floor(1/1) + 1 = 1 + 1 = 2</h1>
+<h1>Output size: 2x2</h1>
+<h1>Note on PyTorch:</h1>
+<h1><code>print(model)</code> or layer summaries show input shape, padding, stride.</h1>
+<h1>Be ready to explain how these numbers lead to output dimensions.</h1>
+<p>\<code>\</code>\`</p>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>Dissertation</strong> — CNNs are a key technique for applied feature extraction and classification, relevant if the dissertation employs image or sequence analysis tasks. The hierarchical learning aspect is particularly pertinent for understanding complex data representations.</li>
+<li><strong>Risk Flag:</strong> The note on &quot;flattening destroying spatial structure&quot; is a critical reminder if any prior work planned to use simple ANNs on image-like data without understanding this limitation.</li>
+<li>Connects to <strong>ANN Computation Pipeline</strong> (Week 5 Recap) — CNNs modify the <em>early</em> layers but retain the fundamental ANN forward/backward/update loop.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>PyTorch padding: Confirm default value and available custom padding modes/values.</li>
+<li>Hierarchical learning: Provide a more developed explanation of what each layer represents in hierarchical CNN feature learning for the dissertation context.</li>
+<li>Convolution bias: How is it practically selected or specified in model implementations?</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: What is the primary problem with using Fully Connected Networks for image data?</li>
+<p>A: Parameter explosion and loss of spatial structure due to flattening.</p>
+<li>Q: What are the three core principles of CNNs?</li>
+<p>A: Local connectivity, weight sharing, and translation invariance.</p>
+<li>Q: What is the formula for calculating the output dimension of a convolution layer?</li>
+<p>A: <code>O = floor( (W - F + 2P) / S ) + 1</code></p>
+<li>Q: What does ReLU stand for and what is its purpose?</li>
+<p>A: Rectified Linear Unit (<code>max(0, x)</code>), injects nonlinearity.</p>
+<li>Q: What is the key benefit of max pooling?</li>
+<p>A: Downsampling that retains the strongest activations and reduces dimensionality.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: \<code>msc-coursework/inputs/course-materials/DL/deep-learning-week-5-convolutional-neural-networks.pdf\</code>; transcript pasted into Codex 2026-06-02</li>
+<li>Dissertation context: \<code>memory/dissertation/status.md\</code></li>
+<li>Reflective journal: \<code>msc-coursework/inputs/reflective-journal.md\</code></li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Explore PyTorch&#x27;s \<code>nn.Conv2d\</code> documentation for padding options.</li>
+<li>[ ] Research and articulate the <em>meaning</em> of different layers in hierarchical CNN feature learning for the dissertation context.</li>
+<li>[ ] Investigate how convolution bias is typically initialized and updated in practice.</li>
+<li>[ ] Practice computing output dimensions by hand for various hypothetical CNN layer configurations.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 17:28 IST - 02 Jun 2026</span></footer></div></body></html>
