@@ -1,0 +1,145 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NLP — Week 4: Unsupervised Learning (Topic Modelling &amp; Clustering)</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>06.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 01:04 IST - 06 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>NLP — Week 4: Unsupervised Learning (Topic Modelling &amp; Clustering)</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Natural Language Processing · msc-coursework/outputs/class-notes/NLP-W4-TopicModellingAndClustering.md</p></div></section><section class="summary-panel"><span class="pill">NLP</span><span class="pill">Week 4</span><span class="pill">msc-coursework/outputs/class-notes/NLP-W4-TopicModellingAndClustering.md</span><p class="meta">Modified 2026-06-06T00:59:09+01:00</p></section><h1>NLP — Week 4: Unsupervised Learning (Topic Modelling &amp; Clustering)</h1>
+<h2>Focus</h2>
+<p>The session pivots from supervised text classification to <strong>unsupervised</strong> methods — topic modelling and clustering — built around one case study: the <strong>Federalist Papers</strong> (anonymous 1787–88 ratification letters under &quot;Publius&quot;). Two practical payloads. First, <strong>topic modelling</strong> as a CA2 research option: LDA is the benchmark, LSA/NMF/BERTopic are the comparators, and you measure quality <em>quantitatively</em> with <strong>coherence</strong> (not just eyeballing) — the lecturer&#x27;s strongest framing is that good NLP research here is a <strong>comparative study</strong> (traditional vs transformer) on the same corpus. Second, <strong>clustering</strong> is &quot;just machine learning on vectors&quot; — once text is vectorised, k-means / hierarchical apply unchanged; the whole game is <strong>which similarity metric</strong> you pick (cosine for text). Directly dissertation-relevant: she walked <strong>cosine similarity → RAG → vector/graph DB (Neo4j)</strong>, which is the retrieval backbone of your grounding-evaluator work. The class also <strong>locked down the CA1 spec</strong> (see its own section — this resolves your open Task-2 questions). One lecturer slip to ignore: she inverted the cosine interpretation mid-explanation (see Flags).</p>
+<hr>
+<h2>CA1 spec — confirmed requirements (resolves the live blocker)</h2>
+<p>Due <strong>end of reading week (Sunday)</strong>. Two parts: <strong>30% paper summary + 70% classification experiment.</strong></p>
+<ul>
+<li><strong>Part 1 (30%) — paper summary.</strong> Same format as the Graph/AI assignment. Send paper for approval first (✅ already done — <em>NorBERTo</em>, PROPOR 2026, approved). Apply prior feedback: cover page; <strong>secondary referencing</strong> for context; state methodology type (systematic literature review vs empirical/experimental); report the <strong>citation count</strong> and pick a paper from a peer-reviewed journal; references in <strong>alphabetical Harvard (last-name) order</strong>.</li>
+<li><strong>Part 2 (70%) — classification experiment.</strong> Hard constraint: <strong>one of two prescribed datasets only</strong> — <strong>blog gender</strong> <em>or</em> <strong>MIMIC (ICD discharge notes)</strong>. A past student lost marks for using their own dataset. MIMIC requires access application + training + data prep — only worth it if you&#x27;ll reuse it for research (e.g. the dissertation/health angle).</li>
+<li><strong>Experimental grid:</strong> <strong>minimum 3 representations × minimum 3 algorithms = 9 models.</strong> Representations span what we covered: BoW counts, BoW TF-IDF, TF-IDF→PCA, embeddings, <strong>BERT</strong>. Algorithms must be <strong>motivated</strong>, not arbitrary. An <strong>RNN is an allowed option</strong> as a representation/model.</li>
+<li><strong>Start with the AI Studio benchmark:</strong> import data into AI Studio, BoW <strong>TF-IDF, 1000 features</strong>, see which algorithms run best — that&#x27;s your floor to beat.</li>
+<li><strong>Report under CRISP-DM headings.</strong> Data understanding = visualisations: <strong>word clouds</strong> (good for showing class separability), <strong>token-length / token-count per example</strong>, <strong>average tokens per class</strong> (e.g. do males write longer blogs than females?). Then data preparation (justify approach), modelling, evaluation.</li>
+<li><strong>Metrics:</strong> it&#x27;s classification → <strong>precision, recall, F1 per class</strong> in a results matrix. She grades the benchmark, the algorithm motivations, the representation choices, and <strong>your interpretation of the results</strong>.</li>
+</ul>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Topic modelling</strong> — unsupervised theme discovery: you specify <em>N topics</em> and <em>M words/topic</em>; the model returns topic 0…N−1 each as its top-weighted tokens, for you to interpret. No labels.</li>
+<li><strong>Document = mixture of topics</strong> — each doc gets a topic-probability distribution (e.g. 20% topic 1, 5% topic 6); assign it the highest-probability topic, but mixtures are normal.</li>
+<li><strong>LDA (Latent Dirichlet Allocation)</strong> — Blei, Ng &amp; Jordan, 2003. Generative probabilistic (3-level hierarchical Bayesian) model; &quot;probability of this collection of words occurring together.&quot; <strong>Words can appear in multiple topics</strong> (fuzziness). The modern <em>baseline</em> to compare against.</li>
+<li><strong>LSA (Latent Semantic Analysis)</strong> — Deerwester et al., 1990. Linear-algebra based: build TF-IDF term×document matrix → <strong>SVD</strong> → keep top topic-importance components. Older, but sometimes wins (it beat LDA on the Troubles-era Irish documents — wordy/descriptive text, longer docs).</li>
+<li><strong>NMF (Non-negative Matrix Factorisation)</strong> — 1994; factorises term×document into term×topic and topic×document (all non-negative). Also common in collaborative-filtering recommenders. Good for compact, clear topics.</li>
+<li><strong>BERTopic</strong> — transformer-based topic modelling (~2020), built on BERT&#x27;s <strong>encoder</strong> side. The dominant transformer option; the headline modern-vs-traditional comparison is <strong>BERTopic vs LDA</strong>.</li>
+<li><strong>Coherence</strong> — quantitative measure of how <em>human-interpretable</em> topics are; the score you use for comparative research. <code>c_v</code>-style guide she gave: 0.4–0.55 acceptable, <strong>0.55–0.65 good (reliable baseline)</strong>, 0.65–0.75 very good, 0.75–0.8 excellent/rare, <strong>&gt;0.9 almost always unrealistic / suspect overfitting</strong>. (UCI = co-occurrence in a sliding window over an external corpus; UMass = document co-occurrence.)</li>
+<li><strong>pyLDAvis</strong> — Sievert &amp; Shirley, 2014. Standard topic visualiser: MDS layout of topics (left) + tunable <strong>relevance</strong> metric reordering top words (right). Default 100% relevance = pure frequency. Exportable to HTML or inline in Jupyter.</li>
+<li><strong>PCA vs SVD</strong> — PCA = dimensionality reduction via orthogonal (uncorrelated) components ordered by explained variance; <strong>PCA is a special case of SVD</strong>. PCA needs normalised input + covariance matrix; SVD doesn&#x27;t and is often more numerically stable.</li>
+<li><strong>Clustering</strong> — unsupervised grouping of vectorised text so intra-cluster items are more similar than inter-cluster. Names are arbitrary (cluster 0/1/2). Uses: exploration, <strong>label generation</strong> for unlabelled corpora, pre-processing for classification.</li>
+<li><strong>k-means</strong> — partitive/centroid method: pick <em>k</em>, assign points to nearest centroid (usually <strong>Euclidean</strong>), recompute centroids, iterate to convergence (max-optimisation); restart <code>max_runs</code> times with new random seeds. Assumes globular clusters, needs <em>k</em> known, sensitive to outliers; <strong>normalise first</strong>.</li>
+<li><strong>Hierarchical (agglomerative) clustering</strong> — merges nearest items first, producing a <strong>dendrogram</strong>; short branches = low variance (merged early), long branches = high variance (merged late).</li>
+<li><strong>Elbow method</strong> — run k-means for k=2…10, plot within-cluster sum of squares vs k; the &quot;elbow&quot; (sharp bend) suggests optimal k.</li>
+<li><strong>Similarity / distance metrics</strong> — Minkowski p-norm (p=2 Euclidean, p=1 Manhattan; absolute values differ by p but <em>relative</em> ordering is stable); Mahalanobis (std-devs from a distribution, rescales by covariance); <strong>Jaccard</strong> (|intersection|/|union| of token sets, 0–1); <strong>Levenshtein</strong> (edit distance between strings, e.g. kitten→sitting = 3 edits); <strong>cosine</strong> (dot product / product of norms — the go-to for text vectors).</li>
+<li><strong>UMAP</strong> — 2020, graph-theory-based dimensionality reduction; projects high-dim embeddings (e.g. 384-d) to 2-D for visualisation; shown to beat t-SNE. Colour points by cluster to sanity-check structure.</li>
+<li><strong>RAG (previewed)</strong> — vectorise the query, store doc/answer vectors in a <strong>vector DB or graph DB (Neo4j)</strong>, retrieve by <strong>cosine similarity</strong>; the LLM supplies language, proprietary knowledge stays in the external store (not fine-tuned in).</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Topic modelling — workflow &amp; LDA demo (20 Newsgroups):</strong></p>
+<ul>
+<li>Same pre-processing as any text: clean punctuation, lowercase, <strong>lemmatise</strong> (not stem — caring→care, keeps meaning), stop-word removal, tokenise.</li>
+<li>Corpus: 18,846 news articles, 20 categories. Built with <strong>Gensim</strong>. <code>filter_extremes</code> (keep tokens in ≥15 docs, drop ultra-common) cut vocabulary <strong>51,144 → 6,221 tokens</strong> before passing to LDA.</li>
+<li><code>LdaModel</code> hyperparameters: <code>num_topics=10</code>, print 8 words/topic; <code>chunksize=100</code> (laptop-friendly, updates per chunk); <code>passes=10</code> (≈ epochs; &gt;50 overfits, 10 is the sweet spot); <code>alpha=&#x27;auto&#x27;</code> (doc-topic prior), <code>eta=&#x27;auto&#x27;</code> (topic-word prior), <code>per_word_topics=True</code> (also returns per-word topic assignment).</li>
+<li>Output is a ranked token list per topic (each token weighted) — &quot;a bit like k-means cluster IDs,&quot; not meaningful names; <strong>you</strong> interpret the theme.</li>
+<li>Coherence: built via Gensim <code>CoherenceModel</code> on the fitted model. Demo scored <strong>0.556</strong> → &quot;solid, above-average baseline&quot; to improve via tuning <em>and</em> by comparing algorithms.</li>
+<li>Visualise with <strong>pyLDAvis</strong> — far more usable than the raw token lists; play with the relevance slider to see which words best characterise each topic.</li>
+</ul>
+<p><strong>Algorithm comparison (the research framing):</strong></p>
+<ul>
+<li>LDA = probabilistic baseline; LSA = SVD/linear-algebra (better for descriptive topics &amp; longer docs); NMF = compact/clear topics; <strong>BERTopic = transformer</strong>. &quot;Different algorithms win on different data — experiment, measure coherence, visualise.&quot;</li>
+<li>Transformers context: she opened <strong>Vaswani et al., 2017 &quot;Attention Is All You Need&quot;</strong> (encoder–decoder). <strong>BERT uses the encoder</strong>; <strong>GPT uses the decoder</strong> (we&#x27;ll build a GPT from scratch later). BERTopic bolts topic modelling onto BERT&#x27;s encoder. Swapping the final layer of the same transformer backbone turns next-word prediction into classification, topic modelling, etc.</li>
+<li><strong>Graph-based topic modelling</strong> (Tietz/co-author et al.): build a <strong>co-occurrence graph</strong> (edges = times two tokens occur within a ~5–10-word context window) and run community detection (Louvain) → topics. Completely novel angle; co-occurrence graph is <em>next week&#x27;s</em> topic. Examiners reward novelty.</li>
+<li><strong>Labelling-by-topic-model research idea</strong> (and its pitfall): use LDA vs BERTopic to <em>label</em> an unlabelled corpus, then classify; <strong>benchmark against true hand-annotated labels</strong>. A past student did the comparison but <strong>had no ground-truth labels</strong>, so the examiner comment was: take a dataset that <em>does</em> have labels, ignore them, label with each method, and benchmark against truth. Do it the right way.</li>
+</ul>
+<p><strong>Federalist Papers — topic results (LDA, 4 topics):</strong></p>
+<ul>
+<li>Each letter turned out to be a <em>single</em> clear theme (no mixing here, small corpus): Paper 18 → topic 0 (Ancient Greece: Macedon, Achaeans, Greece); Paper 17 → topic 1 (federal vs state powers: states, citizens); Paper 14 → topic 2 (forms of government: states, government, union, republic, democracy); Paper 5 → topic 3 (Britain&#x27;s division into nations).</li>
+</ul>
+<p><strong>Clustering:</strong></p>
+<ul>
+<li>&quot;Text is just representation — once vectorised, apply standard ML clustering.&quot; Cluster IDs are arbitrary; use to find structure or <strong>generate labels</strong> for unlabelled corpora.</li>
+<li>Use cases: group medical discharge notes by symptom/disease (ICD option — cluster the notes, see if they split by disease type even though you <em>have</em> the ICD label); group documents by writing style (Federalist authorship).</li>
+<li><strong>k-means mechanics:</strong> pick k random centroids → assign each point to nearest (Euclidean) → recompute centroids (point with min sum-of-squared-error within group) → reassign → iterate (max-optimisation / until centroids stop moving) → score avg within-cluster SSE; restart <code>max_runs</code> times from new random seeds and keep the best. <strong>Normalise</strong> so features share scale.</li>
+<li><strong>Elbow curve</strong> (shown on Iris): plot within-cluster SSE for k=2…10; bend at k=2/3 for Iris. Used to choose k when you don&#x27;t know the number of groups.</li>
+<li><strong>Hierarchical:</strong> dendrogram, nearest pairs merged first; branch length = variance. Different family from centroid-based k-means.</li>
+<li>sklearn offers many more (density-based, spectral, agglomerative) — experiment; interpret which gives the most sensible groups.</li>
+</ul>
+<p><strong>Similarity metrics (the real choice in clustering):</strong></p>
+<ul>
+<li>k-means / kNN typically <strong>Euclidean</strong> (Minkowski p=2) or Manhattan (p=1). Text usually <strong>cosine</strong>. Jaccard for token-set overlap. Levenshtein for string edit distance. Mahalanobis for comparing across distributions/lengths.</li>
+<li><strong>Cosine + RAG (dissertation-relevant):</strong> vectorise a question, store vectors in a vector/graph DB (Neo4j), retrieve the most cosine-similar stored vector, return its answer. RAG keeps proprietary knowledge in the external store, not in the fine-tuned LLM.</li>
+</ul>
+<p><strong>Federalist Papers — authorship via clustering (the case-study payoff):</strong></p>
+<ul>
+<li>Known: Jay wrote 3,4,5; Madison wrote 14; Hamilton wrote 17; <strong>Paper 18 suspected Madison–Hamilton collaboration</strong>. Task: text-mining evidence for the collaboration.</li>
+<li>Method: BoW TF-IDF → k-means with <strong>k=2</strong>. Result: <strong>cluster 0 = Jay&#x27;s papers; cluster 1 = Hamilton + Madison + Paper 18</strong> → evidence Paper 18 was the joint Hamilton–Madison work (similar writing style/tokens cluster together).</li>
+</ul>
+<p><strong>UMAP visualisation:</strong></p>
+<ul>
+<li>Embed sentences (384-d) → UMAP to 2-D → plot; semantically similar texts land together (cats/kittens cluster; coffee/espresso/latte cluster; LLM/BERT/deep-learning cluster). Colour by cluster to judge whether cluster assignments are meaningful. Graph-theory based; outperforms t-SNE (2020 paper).</li>
+</ul>
+<hr>
+<h2>Self-test Q&amp;A</h2>
+<ul>
+<li><strong>Q:</strong> What does topic-modelling coherence measure, and what&#x27;s a &quot;good&quot; baseline?</li>
+<p><strong>A:</strong> How human-interpretable the topics are. ~0.55–0.65 is good/reliable; &gt;0.9 is unrealistic and suggests overfitting.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> LDA vs LSA — different mathematical underpinning?</li>
+<p><strong>A:</strong> LDA = generative probabilistic (Bayesian) &quot;which words co-occur&quot;; LSA = linear algebra, TF-IDF matrix factorised by SVD. LSA can win on longer/descriptive text.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Distinctive feature of LDA vs the others?</li>
+<p><strong>A:</strong> Fuzziness — a word can belong to more than one topic; documents are topic <em>mixtures</em>.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Why normalise before k-means, and which distance does it use?</li>
+<p><strong>A:</strong> So features share scale; k-means typically uses Euclidean (Minkowski p=2) distance.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Cosine similarity = 1 vs 0 vs −1?</li>
+<p><strong>A:</strong> 1 = vectors parallel / most similar; 0 = orthogonal / unrelated; −1 = opposite. (See Flags — lecturer stated this backwards.)</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> How do you turn an unlabelled corpus into a labelling experiment properly?</li>
+<p><strong>A:</strong> Take a dataset that <em>has</em> truth labels, hide them, label with LDA and BERTopic, run the same classifier on each labelling, and benchmark both against the truth labels.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> How did clustering support the Paper-18 authorship claim?</li>
+<p><strong>A:</strong> TF-IDF + k-means (k=2) put Jay alone in one cluster and Hamilton+Madison+Paper 18 in the other → stylistic evidence of Hamilton–Madison collaboration.</p>
+</ul>
+<hr>
+<h2>Flags / corrections</h2>
+<ul>
+<li><strong>Cosine interpretation inverted in lecture.</strong> She said &quot;cosine 0 → parallel/similar … 1 → orthogonal,&quot; then questioned herself (&quot;have I got that right?&quot;). Correct: <strong>cos = 1 → parallel/most similar; cos = 0 → orthogonal/unrelated; cos = −1 → opposite.</strong> Use the correct version in CA1/CA2.</li>
+<li>Transcript garbles author names: <strong>Vaswani</strong> et al. 2017 (not &quot;Viswanyat/Boswani&quot;), <strong>Blei, Ng, Jordan</strong> 2003 (not &quot;Andrew and Gee&quot;).</li>
+</ul>
+<hr>
+<h2>Dissertation hooks</h2>
+<ul>
+<li><strong>Cosine + vector/graph-DB retrieval</strong> is the exact retrieval layer of a RAG grounding evaluator — this lecture is a clean primer for the dissertation&#x27;s pipeline framing.</li>
+<li><strong>Coherence as a reliability metric</strong> parallels the dissertation&#x27;s interest in <em>evaluator reliability</em> — a quantitative, reproducible score over a qualitative judgement. Worth citing the methodology analogy.</li>
+<li>If CA1 Part 2 uses <strong>MIMIC ICD</strong>, the data-access + clustering-by-disease workflow doubles as dissertation-adjacent practice.</li>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>CA1 spec: <code>msc-coursework/inputs/course-materials/natural-language-processing/natural-language-processing-ca1-assessment.pdf</code></li>
+<li>Approved Part-1 paper (NorBERTo): <code>msc-coursework/outputs/assessment-decisions-2026-05-26.md</code></li>
+<li>Papers named in lecture: Blei, Ng &amp; Jordan 2003 (LDA); Deerwester et al. 1990 (LSA); Sievert &amp; Shirley 2014 (pyLDAvis); Vaswani et al. 2017 (transformers); BERTopic (~2020); UMAP (2020); plus a co-occurrence-graph + Louvain topic-modelling paper.</li>
+<li>Demos referenced (on Moodle): <code>LDA demo</code> (20 Newsgroups), <code>text clustering demo</code>, <code>UMAP text demo</code>; 6 Federalist Papers full text on Moodle.</li>
+<li>Source: live-class transcript pasted by Nathan, 2026-06-06.</li>
+<li>Prior week: <code>msc-coursework/outputs/class-notes/NLP-W3-EmbeddingsAndClassification.md</code></li>
+<li>Assessment deadlines: <code>memory/msc-coursework/assessments.md</code></li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[x] <strong>CA1 Part 2 — dataset decided: blog gender</strong> (2026-06-06). MIMIC rejected (clinical overhead not justified for a Portuguese-RAG dissertation).</li>
+<li>[ ] Build the <strong>AI Studio benchmark</strong> first: TF-IDF, 1000 features, log which algorithms top it.</li>
+<li>[ ] Lock the <strong>3×3 grid</strong> (representations × algorithms) with written motivations; consider an RNN as one model.</li>
+<li>[ ] Draft CA1 under <strong>CRISP-DM</strong>; prep data-understanding visuals (word clouds, token-length per class, avg tokens per class).</li>
+<li>[ ] CA1 Part 1: finish the NorBERTo critique scaffold (corpus quality, architecture, eval datasets/metrics, deployment claims, limitations); Harvard-alphabetical refs.</li>
+<li>[ ] <strong>CA2 (form team week 6):</strong> topic modelling is a strong option — plan a comparative study (LDA baseline vs BERTopic, coherence-scored, pyLDAvis-visualised) and consider the graph-based/Louvain angle once next week&#x27;s co-occurrence-graph class lands.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 01:04 IST - 06 Jun 2026</span></footer></div></body></html>

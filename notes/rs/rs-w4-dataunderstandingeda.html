@@ -1,0 +1,130 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RS — Week 4: Data Understanding (EDA &amp; Descriptive Statistics)</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>06.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 01:04 IST - 06 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>RS — Week 4: Data Understanding (EDA &amp; Descriptive Statistics)</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Recommender Systems · msc-coursework/outputs/class-notes/RS-W4-DataUnderstandingEDA.md</p></div></section><section class="summary-panel"><span class="pill">RS</span><span class="pill">Week 4</span><span class="pill">msc-coursework/outputs/class-notes/RS-W4-DataUnderstandingEDA.md</span><p class="meta">Modified 2026-06-06T00:59:09+01:00</p></section><h1>RS — Week 4: Data Understanding (EDA &amp; Descriptive Statistics)</h1>
+<h2>Focus</h2>
+<p>A deliberate detour away from recommender models: the lecturer (Nitya Govindaraju) walked two notebooks — data visualisation and descriptive statistics — to force one discipline before anyone touches a model: <strong>understand your data first, or every downstream choice is guesswork.</strong> Two ideas carry the whole session and will be examined in coming classes. First, <strong>distribution shape dictates your missing-value strategy</strong> — normal → mean/median/mode are interchangeable; skewed → use the median, because the mean is dragged by the tail and will distort the feature space. Second, and hammered repeatedly with the penguin and treadmill data, <strong>correlation is not causation</strong> — a positive scatter slope tells you variables move together, never that one drives the other. Practical CA1 takeaway: run <code>.corr()</code>/heatmap on your chosen dataset <em>before</em> committing — weak correlations everywhere = a weak dataset = garbage-in/garbage-out, and you should check collinearity to drop redundant features. (She explicitly warned that students have failed projects on exactly these EDA mistakes.)</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Variable typing</strong> — numerical splits into <em>continuous</em> (decimals, e.g. <code>total_bill</code>, <code>tip</code> = currency) and <em>discrete</em> (counts, e.g. <code>size</code> = people at a table); categorical splits into <em>nominal</em> (no order: <code>sex</code>, <code>smoker</code>) and <em>ordinal</em> (ordered: <code>day</code>). <code>time</code> (lunch/dinner) can be either — treated nominal here. Typing drives which plots and stats are valid.</li>
+<li><strong><code>.describe()</code></strong> — descriptive (not inferential) stats: count, mean, std, min, 25/50/75th percentile (IQR), max — <strong>numerical columns only</strong>. Add <code>include=&#x27;all&#x27;</code> to also get categorical summaries (count, unique, top, freq).</li>
+<li><strong><code>.info()</code> vs <code>.describe()</code></strong> — <code>.info()</code> = structure (dtypes, non-null counts, memory); <code>.describe()</code> = statistical summary. Different jobs.</li>
+<li><strong>Confidence interval on a bar</strong> — the black cap on a <code>sns.barplot</code> bar is the CI of the estimate, <strong>not</strong> an outlier marker.</li>
+<li><strong>Univariate vs bivariate</strong> — univariate = one variable&#x27;s distribution (histogram, countplot, KDE, boxplot); bivariate = relationship between two (scatter, pairplot off-diagonal, correlation).</li>
+<li><strong>Skew &amp; central tendency order</strong> — normal: mean = median = mode (centre); positive (right) skew: mode &lt; median &lt; mean; negative (left) skew: mean &lt; median &lt; mode. The long tail pulls the mean.</li>
+<li><strong>Box plot anatomy</strong> — box = IQR (25th–75th), centre line = median, whiskers = range, isolated dot = outlier. &quot;A histogram in a different format.&quot;</li>
+<li><strong>Pair plot</strong> — grid over numerical columns; diagonal = histograms (univariate), off-diagonal = scatterplots (bivariate). Discrete×continuous axes give striped scatter columns.</li>
+<li><strong>Correlation coefficient (<code>.corr()</code>)</strong> — range −1 to +1; diagonal = 1 (variable vs itself). |r| near 1 = strong, near 0 = no linear relationship. Working benchmark: <strong>|r| &gt; 0.5 carries weight</strong>.</li>
+<li><strong>Collinearity / multicollinearity</strong> — when one predictor is derivable from others (height + weight ⇒ BMI). Redundant → drop via feature selection/engineering. Checked alongside X→Y correlation.</li>
+<li><strong>Correlation ≠ causation</strong> — co-movement (correlation) must not be read as one variable causing the other; causation needs further investigation / domain knowledge.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Why this session exists:</strong></p>
+<ul>
+<li>&quot;If you don&#x27;t understand your data and jump straight to models, it&#x27;s problematic.&quot; Data understanding decides which model is even applicable.</li>
+<li>Datasets used are built into seaborn (<code>sns.load_dataset</code>): <code>tips</code>, <code>titanic</code>, <code>penguins</code>; plus an uploaded treadmill case-study CSV.</li>
+</ul>
+<p><strong>Inspection workflow (Pandas):</strong></p>
+<ul>
+<li><code>.head()</code> / <code>.tail()</code> → eyeball rows. <code>tips</code> = 244×7; treadmill = 180×9; titanic = 891×15; penguins has missing values.</li>
+<li><code>.shape</code> → (rows, cols). <code>.info()</code> → dtypes + non-null counts. <code>.describe()</code> → numerical stats; <code>.describe(include=&#x27;all&#x27;)</code> → adds categorical (<code>top</code> = most frequent value, <code>freq</code> = its count). For the exercises she drops categoricals and keeps numerical only.</li>
+</ul>
+<p><strong>Visualisation — match the plot to the variable type:</strong></p>
+<ul>
+<li><strong>Bad example to avoid:</strong> <code>tips.plot.bar(x=&#x27;smoker&#x27;, y=&#x27;tip&#x27;)</code> over 244 rows → unreadable wall of bars/noise. (Nathan flagged it: bars too wide/dense to read.) Students do submit plots like this.</li>
+<li><strong>Fix:</strong> <code>groupby(&#x27;smoker&#x27;).mean()</code> then bar-plot the aggregated means (total_bill, tip, size).</li>
+<li>Library ladder: pandas built-in → matplotlib → <strong>seaborn</strong> (cleanest). <code>sns.barplot(data=tips, x=&#x27;smoker&#x27;, y=&#x27;total_bill&#x27;)</code> is a one-liner; matplotlib needs manual value/index assignment first.</li>
+<li>Stale code warning: a matplotlib line that worked 2 years ago now breaks (module changes) — always verify reused GitHub/old code still runs.</li>
+<li><code>hue=</code> adds a second categorical split (e.g. <code>barplot(x=&#x27;smoker&#x27;, y=&#x27;total_bill&#x27;, hue=&#x27;sex&#x27;)</code>) for grouped comparison.</li>
+</ul>
+<p><strong>Count plots (titanic):</strong></p>
+<ul>
+<li><code>sns.countplot(data=titanic, x=&#x27;sex&#x27;)</code> = one-step; matplotlib equivalent needs <code>value_counts().values</code> → values, <code>.index</code> → labels, then <code>plt.bar</code>.</li>
+<li><code>hue=&#x27;class&#x27;</code> → reads as &quot;more males than females, and third-class males dominate.&quot; Counts only — no magnitude.</li>
+</ul>
+<p><strong>Histograms &amp; skew (tips → total_bill):</strong></p>
+<ul>
+<li><code>bins</code> is a tunable hyperparameter (use suggested values or experiment). <code>total_bill</code> spans ~5–50, most bills 10–20 → <strong>positive skew</strong>.</li>
+<li><strong>Why it matters — missing-value imputation:</strong> normal distribution → mean = median = mode, any works. Positive skew → applying the <strong>mean</strong> distorts the feature space; default to the <strong>median</strong> (mode often isn&#x27;t even in <code>.describe()</code>, so median is the safe fallback). Always check distribution shape before imputing.</li>
+</ul>
+<p><strong>Pair plot &amp; the correlation≠causation lesson (penguins):</strong></p>
+<ul>
+<li>4 numerical: <code>bill_length</code>, <code>bill_depth</code>, <code>flipper_length</code>, <code>body_mass</code>. Diagonal histograms → judge skew per variable (bill_length ≈ normal, others slight skew).</li>
+<li>Off-diagonal scatter → slope = correlation direction. <strong>The trap:</strong> a positive <code>body_mass</code> vs <code>bill_length</code> slope does NOT mean mass causes longer bills. Human analogy she used: more body mass doesn&#x27;t make your hand longer. Correlation only; causation needs investigation / being a domain (&quot;penguin&quot;) expert.</li>
+<li><code>hue=&#x27;island&#x27;</code> (Torgersen, Biscoe, Dream) + <code>kind=&#x27;reg&#x27;</code> → per-group regression lines. Correlation <strong>strength varies by group</strong>, and a group can <strong>flip the sign</strong>: <code>bill_depth</code> vs <code>body_mass</code> is positive for Torgersen/Dream but <strong>negative for Biscoe</strong>. Aggregating across groups hides this (a Simpson&#x27;s-paradox flavour). Adding a categorical dimension also changed the per-island skew vs the pooled view.</li>
+</ul>
+<p><strong>Correlation matrix &amp; heatmap (penguins):</strong></p>
+<ul>
+<li><code>df[num_cols].corr()</code> → coefficient table (diagonal 1). <code>sns.heatmap(corr, annot=True)</code> to read visually.</li>
+<li>Strong: <strong><code>flipper_length</code> vs <code>body_mass</code> = 0.87</strong>. Moderate: bill_length vs flipper ≈ 0.66, bill_length vs body_mass ≈ 0.6. Weak/negative: bill_length vs bill_depth ≈ −0.24.</li>
+<li><strong>Why test correlation at all:</strong> (1) linearity check before regression — no linearity ⇒ linear regression is wrong, use non-linear models; (2) X→Y influence direction/strength; (3) X1↔X2 collinearity → drop redundant features (height/weight/BMI example). Class struggled badly to read the heatmap — she stressed this is foundational and a common failure point.</li>
+</ul>
+<p><strong>Treadmill case study (descriptive-statistics notebook):</strong></p>
+<ul>
+<li>180×9: <code>Product</code> (TM195/498/798), gender, age, education(yrs), marital status, usage(/week), fitness(1–5), income, miles.</li>
+<li><code>.describe()</code> / <code>include=&#x27;all&#x27;</code>; histogram per numerical column (pandas <code>.hist()</code>).</li>
+<li><strong>Box plot</strong> <code>sns.boxplot(x=&#x27;gender&#x27;, y=&#x27;age&#x27;)</code>: IQR box, median line (male &amp; female medians ≈ similar), whiskers ≈ ranges, one female <strong>outlier at age 50</strong>.</li>
+<li><strong>Crosstab</strong> <code>pd.crosstab(product, gender)</code> → counts; TM798 skews male, TM195 even. Same info as <code>countplot(x=&#x27;product&#x27;, hue=&#x27;gender&#x27;)</code>.</li>
+<li><strong>Pivot table</strong> <code>pivot_table(index=[&#x27;product&#x27;,&#x27;gender&#x27;], columns=&#x27;marital_status&#x27;, aggfunc=len)</code> → counts (repeated numbers = a tell you used <code>len</code>, not the column&#x27;s real values). Swap to <code>values=&#x27;income&#x27;</code> → actual segment income. <strong>TM798 income ~58–84K (higher, wider spread); TM195/498 below 50K, tighter.</strong></li>
+<li><strong>Interpretation drill → assumptions, then dismantled them:</strong></li>
+<li>Defensible: &quot;TM798 is the premium/expensive model — higher-income buyers self-select; lower-income can&#x27;t afford it.&quot; Plausible <em>correlation</em>-backed read.</li>
+<li>Rejected as causation overreach: &quot;fit people earn more&quot; / &quot;running more → earning more&quot; (reverse-causation just as likely; an unemployed person can still run), and &quot;single males run more&quot; ignored the <strong>count/distribution</strong> (more partnered users overall, but lower per-head miles — averages hide the split).</li>
+<li>Treadmill heatmap: <strong>range 0→+1 (no negative correlations here)</strong> so always read the actual range first, not the textbook −1→1. Strong: <code>fitness</code>–<code>miles</code> ≈ <strong>0.79</strong>, plus <code>usage</code>–<code>miles</code> and <code>usage</code>–<code>fitness</code>. Moderate: <code>age</code>–<code>income</code> ≈ 0.51, <code>miles</code>–<code>income</code> ≈ 0.54. The &quot;fitness-conscious people earn more&quot; hunch sits at only moderate — not worth deeper investigation unless you segment by a category first.</li>
+<li>Closing warning: a past student had ~24 variables all with r ≈ 0.00–0.06 → no signal → model returns garbage. <strong>Test correlation strength to judge whether a dataset is even usable.</strong></li>
+</ul>
+<hr>
+<h2>Self-test Q&amp;A</h2>
+<ul>
+<li><strong>Q:</strong> <code>.info()</code> vs <code>.describe()</code> — difference?</li>
+<p><strong>A:</strong> <code>.info()</code> = structure/dtypes/non-null/memory; <code>.describe()</code> = numerical summary stats (mean, std, percentiles). <code>include=&#x27;all&#x27;</code> extends <code>.describe()</code> to categoricals.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Bar has a black cap — outlier?</li>
+<p><strong>A:</strong> No. Confidence interval of the estimate.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Feature is right-skewed with missing values — impute with mean, median, or mode?</li>
+<p><strong>A:</strong> Median. Mean is pulled by the tail and distorts the distribution; mode is often unavailable in <code>.describe()</code>.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Scatter of body_mass vs bill_length has a positive slope. Valid conclusion?</li>
+<p><strong>A:</strong> They&#x27;re positively correlated. NOT that one causes the other — correlation ≠ causation.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Why run a correlation heatmap before modelling?</li>
+<p><strong>A:</strong> To test linearity (justifies linear vs non-linear regression), gauge each predictor&#x27;s relationship to the target, and detect collinearity so redundant features can be dropped.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Heatmap shows |r| ≈ 0 across all variables — implication?</li>
+<p><strong>A:</strong> Weak dataset, no usable signal; the model will return noise. Reconsider the dataset/features.</p>
+</ul>
+<ul>
+<li><strong>Q:</strong> Box plot — what do box, line, whiskers, and a lone dot mean?</li>
+<p><strong>A:</strong> Box = IQR (25–75th), line = median, whiskers = range, dot = outlier.</p>
+</ul>
+<hr>
+<h2>CA1 / dataset-approval context (from the group check-ins)</h2>
+<ul>
+<li>This class doubled as a dataset-approval checkpoint. Status colours on the shared Google Sheet: <strong>green = approved</strong>, <strong>orange = needs more detail (not a rejection — just elaborate)</strong>. Groups must populate the Sheet with dataset links even if already emailed.</li>
+<li>Recurring lecturer demand: state <strong>what you&#x27;ll actually use</strong> from the dataset and watch <strong>dataset size</strong> (small/low-row datasets flagged: Group 6 travel data, Group 2 at 6 cols × 1,322 rows — provisionally green, revisit if problems).</li>
+<li>Direct relevance to our CA1: she will judge a dataset partly on correlation strength and completeness (missing data). Have the <code>.corr()</code>/heatmap + missing-value check ready as evidence the dataset is viable.</li>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Notebooks (course &quot;Introduction&quot; section, in-platform): data-visualisation notebook + descriptive-statistics case study. The platform has an inline &quot;explain this code&quot; helper per line — she recommended using it.</li>
+<li>Datasets: seaborn built-ins <code>tips</code>, <code>titanic</code>, <code>penguins</code>; uploaded treadmill CSV (TM195/498/798).</li>
+<li>Source: live-class transcript pasted by Nathan, 2026-06-06.</li>
+<li>Prior week: <code>msc-coursework/outputs/class-notes/RS-W3-NPRScoringAndPageRank.md</code></li>
+<li>Assessment deadlines: <code>memory/msc-coursework/assessments.md</code></li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Run <code>.describe(include=&#x27;all&#x27;)</code>, missing-value check, and <code>sns.heatmap(df.corr(), annot=True)</code> on the CA1 dataset; keep the outputs as approval evidence.</li>
+<li>[ ] Confirm CA1 dataset is <strong>green</strong> on the shared Sheet (link populated, intended-use stated, size justified).</li>
+<li>[ ] Decide imputation strategy per feature from its distribution shape (median for skewed columns).</li>
+<li>[ ] Check for collinearity in the CA1 features and drop/engineer redundant ones before modelling.</li>
+<li>[ ] Be ready for cold-call EDA questions next class (skew direction, correlation reading, box-plot anatomy) — she is examining these.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 01:04 IST - 06 Jun 2026</span></footer></div></body></html>
