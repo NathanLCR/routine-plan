@@ -1,0 +1,213 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DL — Week 6: Transfer Learning (VGG16 on CIFAR-10), Callbacks &amp; CA Strategy</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>08.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 19:41 IST - 08 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>DL — Week 6: Transfer Learning (VGG16 on CIFAR-10), Callbacks &amp; CA Strategy</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Deep Learning · msc-coursework/outputs/class-notes/DL-W6-TransferLearningVGG16-CIFAR10.md</p></div></section><section class="summary-panel"><span class="pill">DL</span><span class="pill">Week 6</span><span class="pill">msc-coursework/outputs/class-notes/DL-W6-TransferLearningVGG16-CIFAR10.md</span><p class="meta">Modified 2026-06-08T19:38:03+01:00</p></section><h1>DL — Week 6: Transfer Learning (VGG16 on CIFAR-10), Callbacks &amp; CA Strategy</h1>
+<h2>Focus</h2>
+<p>Two threads. First, a strategic framing for <strong>CA1 dataset selection</strong> — whether a custom CNN is even justified when LLMs (ChatGPT/Gemini) can already do many image tasks, and how to pick a dataset by <em>objective and longevity</em> rather than at random. Second, a hands-on <strong>transfer-learning walkthrough</strong>: load CIFAR-10 from <code>tf.keras.datasets</code>, attach a custom classifier head on a frozen VGG16 base pre-trained on ImageNet, train with callbacks (EarlyStopping / ModelCheckpoint / ReduceLROnPlateau), and evaluate with loss/accuracy curves. Recurring CA1 message: <strong>justify your choices</strong> — dataset, architecture, loss function, and evaluation metric.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Transfer learning</strong> — reuse a model pre-trained on a large benchmark dataset (ImageNet) and its <em>learned weights</em> instead of random initialisation, then bolt on a custom head for your task.</li>
+<li><strong>Frozen base / <code>trainable = False</code></strong> — keep the pre-trained weights fixed (don&#x27;t retrain them) to save computation; only the added head is trained.</li>
+<li><strong>Base model + custom head</strong> — pre-trained convolutional stack (feature extractor) followed by your own pooling/dense/dropout/output layers.</li>
+<li><strong>Benchmark dataset</strong> — ImageNet (~1.2M images, 1000 classes); used to learn the weights that transfer.</li>
+<li><strong>Built-in datasets</strong> — <code>tf.keras.datasets</code>: CIFAR-10, CIFAR-100, MNIST, Fashion-MNIST. Good for <em>demonstrating the concept</em>; cheap and standard.</li>
+<li><strong>One-hot encoding (<code>to_categorical</code>)</strong> — expands a single integer-label column into K columns (one per class), each 0/1.</li>
+<li><strong><code>categorical_crossentropy</code> vs <code>sparse_categorical_crossentropy</code></strong> — same loss; the first expects one-hot targets, the second expects integer targets (Keras one-hots internally).</li>
+<li><strong>Cross-entropy loss</strong> — <code>L = -Σᵢ pᵢ · log(p̂ᵢ)</code> over K classes; with one-hot <code>pᵢ</code>, only the true class term survives.</li>
+<li><strong>Weight initialisation</strong> — the classic deep-learning problem: how to set initial weights. Random sampling from U(0,1) or N(0,1) is <em>ineffective</em>; transfer learning sidesteps it with learned weights.</li>
+<li><strong>Standard uniform U(0,1)</strong> vs <strong>standard normal N(0,1)</strong> — two random-init distributions; conceptually very different (flat PDF on [0,1] vs bell curve centred at 0).</li>
+<li><strong>Empirical (68–95–99.7) rule</strong> — for a normal distribution: ≈68% within 1σ, ≈95% within 2σ, ≈99.7% within 3σ. (Lecturer said &quot;65%&quot; for 1σ — the accepted figure is ~68%.)</li>
+<li><strong>Chebyshev&#x27;s inequality</strong> — distribution-agnostic bound: ≥75% within 2σ, ≥88.9% within 3σ. Weaker than the empirical rule but holds for <em>any</em> distribution.</li>
+<li><strong>Learning rate (α)</strong> — step size in the weight update <code>w ← w − α · ∂L/∂w</code>.</li>
+<li><strong>Vanishing weights / network collapse</strong> — if α is too large, weights can be driven toward 0; once weights are 0 the signal dies (0 × anything = 0) and learning stalls.</li>
+<li><strong>Callbacks</strong> — training-loop hooks: EarlyStopping, ModelCheckpoint, ReduceLROnPlateau.</li>
+<li><strong>EarlyStopping</strong> — monitor <code>val_loss</code>; stop if no improvement after <code>patience</code> epochs.</li>
+<li><strong>ModelCheckpoint</strong> — save the best weights (by monitored metric) during training.</li>
+<li><strong>ReduceLROnPlateau</strong> — shrink the learning rate when the monitored metric stops improving, to squeeze out further gains.</li>
+<li><strong>Validation set as test set</strong> — during <code>fit</code>, the validation split is used for evaluation each epoch; compile/fit does both backprop (train) and evaluation (val).</li>
+<li><strong>Metric choice</strong> — accuracy alone is insufficient for detection tasks; use <strong>recall</strong> (and precision) when misses are costly.</li>
+<li><strong>Argmax decoding</strong> — softmax outputs K probabilities; <code>argmax</code> over them gives the predicted class index.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>CA1 Strategy — Do you actually need a CNN? \[CA1 — frame your objective\]:</strong></p>
+<ul>
+<li>Litmus test: can ChatGPT / Gemini perform the <em>same</em> task on your dataset? If <strong>yes</strong>, the validity of your custom model is &quot;at least close&quot; to the LLM — which means the research question partly answers itself and a heavy custom CNN may not be justified.</li>
+<li>LLMs are strong at <strong>OCR</strong> and <strong>context recognition</strong> in images (text, scene gist), but weak at <strong>fine-grained feature recognition in a specific part of an image</strong> (e.g. telling apart low-res CIFAR classes, or judging authenticity in a medical scan). That gap is where a CNN earns its place.</li>
+<li>Loose framing the lecturer used: an LLM is effectively a subclass of these vision/API models — fine for &quot;buddy&quot;/general tasks, not for the specific discriminative feature you care about.</li>
+</ul>
+<p><strong>CA1 Strategy — Choose the dataset by objective and longevity \[CA1 — do not pick at random\]:</strong></p>
+<ul>
+<li><strong>Have a practical objective first.</strong> A practical objective → a practical solution → something genuinely CV-worthy (&quot;I solved a real practical question&quot;).</li>
+<li><strong>Some datasets expire.</strong> COVID/pneumonia detection is no longer a live problem (&quot;it&#x27;s gone&quot;) — the data was valid for a particular moment and has passed.</li>
+<li><strong>Some datasets are evergreen.</strong> Financial transactions, AML/KYC, fraud / account-freezing analysis, graph networks, crypto-wallet address sequences — these keep generating <em>new</em> kinds of data and tens of thousands of research works exist on them.</li>
+<li><strong>Motivation (digital finance context):</strong> the EU digital-euro programme (prerequisites being laid ~2027, fuller implementation toward ~2029) pushes a transition to digital finance. That transition <em>requires</em> AI for AML, KYC and fraud/&quot;frozen&quot; analysis, and creates new data structures (e.g. long wallet-address sequences) — a strong position for an ML/DL practitioner. (Treat the specific euro/cash figures the lecturer mentioned as illustrative, not exact.)</li>
+<li><strong>Takeaway:</strong> don&#x27;t grab a random dataset and retrofit a CA around it — pick with care, objective-first.</li>
+</ul>
+<p><strong>Presentation / process expectations:</strong></p>
+<ul>
+<li>Initial presentations are scheduled (a date around <strong>27 July</strong> was mentioned); ordering already agreed with several students. Nathan&#x27;s group is ahead of others.</li>
+<li>Expectation is <strong>genuine reflection</strong>, not repetition. In the ML module the final presentation was &quot;just repetition&quot; with little reflection — they want to see you understand and <em>modify</em> the structure (architecture, balance, optimisation), even if that takes more time.</li>
+<li>For the CNN CA specifically: be happy with your <strong>structure, balance, and optimisation</strong> choices and able to defend them.</li>
+</ul>
+<p><strong>Loading CIFAR-10 \[CA1\]:</strong></p>
+<ul>
+<li><code>load_data()</code> returns four arrays: <code>(x_train, y_train), (x_test, y_test)</code> — same idea as a train/test split.</li>
+<li>CIFAR-10: <strong>50,000 train</strong>, <strong>10,000 test</strong>, images <strong>32×32×3</strong> (the trailing 3 = RGB colour channels), <strong>10 classes</strong>. Labels arrive as a single column of integers.</li>
+<li>CIFAR-100 = 100 classes; ImageNet = ~1000 classes (the transfer-learning benchmark — you&#x27;ll likely cite it in one line rather than train on it).</li>
+<li>Plot a sample grid (e.g. first 20 in a 5×5 subplot). Resolution is so low that even a human or an LLM can struggle (horse vs. ? ) — which is exactly what makes these good challenge datasets.</li>
+</ul>
+<p><strong><code>to_categorical</code> — why one-hot? \[CA1 — be ready to justify\]:</strong></p>
+<ul>
+<li><code>to_categorical</code> expands the one integer-label column into 10 columns of 0/1.</li>
+<li><strong>Lecturer&#x27;s framing:</strong> it&#x27;s not about backprop/computation, it&#x27;s about <strong>evaluation</strong> — with integer labels the confusion matrix is sparse / &quot;ill-defined&quot;, and accuracy can wobble for reasons unrelated to the model.</li>
+<li><strong>Accurate clarification (flag for reflection):</strong> the operational reason is simpler — <code>categorical_crossentropy</code> <em>requires</em> one-hot targets, while <code>sparse_categorical_crossentropy</code> accepts integer targets and one-hots internally. The two losses are mathematically equivalent; the choice is just about label format. Worth phrasing it this way in your write-up rather than leaning on &quot;ill-defined matrix&quot;.</li>
+<li>So: one-hot labels → <code>categorical_crossentropy</code>; integer labels → <code>sparse_categorical_crossentropy</code> (lets you skip the explicit <code>to_categorical</code> call).</li>
+</ul>
+<p><strong>Weight initialisation &amp; the σ rules \[CA1 — context for why transfer learning\]:</strong></p>
+<ul>
+<li>Default init samples weights randomly from <strong>U(0,1)</strong> (standard uniform) or <strong>N(0,1)</strong> (standard normal). A standard scaler maps inputs to roughly <strong>[-3, 3]</strong>.</li>
+<li>Normal-distribution coverage (empirical rule): ~68% within ±1σ, ~95% within ±2σ, ~99.7% within ±3σ; beyond ±3σ is &lt;1%. (Chebyshev gives the weaker, distribution-free version.)</li>
+<li>Either way, random init is <strong>just simulation</strong> — not informed by data, hence ineffective. <strong>Transfer learning</strong> replaces it: estimate weights on ImageNet via VGG16, save them, freeze them (<code>trainable=False</code>), and start your model from those learned weights instead of randomness.</li>
+</ul>
+<p><strong>VGG16 as base model \[CA1\]:</strong></p>
+<ul>
+<li><strong>16 weight layers = 13 convolutional + 3 fully-connected.</strong> Input shape must match your data: <strong>32×32×3</strong> here (VGG16&#x27;s native default is 224×224 — adapt the input).</li>
+<li>The convolution layers live <em>inside</em> the frozen base — so when asked &quot;where is your conv layer?&quot; in a custom model, the answer is: in the VGG16 base.</li>
+<li><strong>Customisable parts of your head:</strong> pooling type (avg/max), number and width of dense layers, activation functions, dropout rates, number of hidden layers, and the <code>trainable</code> flag. In ~99% of cases keep the base <strong>frozen</strong>.</li>
+<li><strong>MobileNetV2</strong> is preferable for very large data / faster inference (pairs well with TensorFlow Lite — large drop in processing time).</li>
+</ul>
+<p><strong>Custom classifier head (example structure) \[CA1\]:</strong></p>
+<ul>
+<li><code>base_model output → GlobalAveragePooling2D → BatchNormalization → Dense(ReLU) → Dropout(0.5) → Dense(ReLU) → Dropout(0.3) → Dense(num_classes, softmax)</code>.</li>
+<li>Build with <code>Model(inputs=base_model.input, outputs=head_output)</code>; <code>model.summary()</code> shows the VGG16 structure already baked in plus your added layers.</li>
+</ul>
+<p><strong>Callbacks \[CA1\]:</strong></p>
+<ul>
+<li><strong>EarlyStopping</strong> — <code>monitor=&#x27;val_loss&#x27;</code>, <code>patience=5</code>: if you set 20 epochs, it checks the window (e.g. 20→25); if accuracy/loss doesn&#x27;t improve over those 5 epochs, it rolls back to the best (e.g. 20). Always monitor <strong>validation</strong> loss, not training loss.</li>
+<li><strong>ModelCheckpoint</strong> — saves the best weights (the optimal estimated weights from the trainable phase); can specify a save period.</li>
+<li><strong>ReduceLROnPlateau</strong> — when <code>val_loss</code> flattens, lower α to try to make further progress.</li>
+</ul>
+<p><strong>Learning rate &amp; vanishing weights \[CA1 — &quot;the 2-million-euro question&quot;\]:</strong></p>
+<ul>
+<li>Weight update: <code>wⱼ = wⱼ₋₁ − α · ∂L/∂w</code>.</li>
+<li>If α is <strong>too large</strong>, the subtracted term grows, weights shrink toward 0, and the network can collapse — once a weight is 0 it stops contributing (0 × anything = 0), so no gradient flows: <strong>vanishing weights</strong>.</li>
+<li>When <code>val_loss</code> goes flat after ~10 epochs, weights have effectively converged/vanished — no further learning. Careful α control (or ReduceLROnPlateau) is how you manage it.</li>
+<li><strong>Open conceptual question the lecturer posed:</strong> what is the relationship between the <strong>learning rate</strong> and the <strong>objective</strong> (loss) — i.e. how does tuning α trade against the optimisation goal?</li>
+</ul>
+<p><strong>Compile, fit &amp; evaluate \[CA1\]:</strong></p>
+<ul>
+<li><code>compile(optimizer, loss, metrics)</code>; <code>fit(..., validation_split=0.2, epochs=20, callbacks=[...])</code>. The validation split is used as the test set for per-epoch evaluation — compile/fit runs <strong>both backprop (train) and evaluation (val)</strong>.</li>
+<li><strong>Loss curves:</strong> plot train vs validation loss; you want val loss to decrease then go minimal/flat. <strong>Accuracy curves:</strong> plot train vs validation accuracy. <strong>Stop at the divergence point</strong> — where validation stops tracking training (overfitting begins).</li>
+<li><strong>Metric choice:</strong> for detection tasks accuracy alone is misleading — add <strong>recall</strong> (and precision).</li>
+<li><strong>Predict:</strong> <code>model.evaluate(x_test, y_test)</code> then <code>model.predict(...)</code> returns 10 softmax probabilities per image; <code>argmax</code> gives the predicted class index → map back to the class name.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code>import tensorflow as tf
+from tensorflow.keras import layers, Model
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras.applications.vgg16 import preprocess_input
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
+
+# --- Data: 50,000 train / 10,000 test, 32x32x3, 10 classes ---
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+x_train = preprocess_input(x_train.astype(&quot;float32&quot;))
+x_test  = preprocess_input(x_test.astype(&quot;float32&quot;))
+# y_train stays integer -&gt; use sparse_categorical_crossentropy
+# OR: y_train = tf.keras.utils.to_categorical(y_train, 10) -&gt; use categorical_crossentropy
+
+# --- Frozen VGG16 base (13 conv + 3 FC = 16 weight layers) ---
+base = VGG16(weights=&quot;imagenet&quot;, include_top=False, input_shape=(32, 32, 3))
+base.trainable = False  # keep ImageNet weights; ~99% of the time
+
+# --- Custom head ---
+x = layers.GlobalAveragePooling2D()(base.output)
+x = layers.BatchNormalization()(x)
+x = layers.Dense(256, activation=&quot;relu&quot;)(x)
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(128, activation=&quot;relu&quot;)(x)
+x = layers.Dropout(0.3)(x)
+out = layers.Dense(10, activation=&quot;softmax&quot;)(x)
+model = Model(inputs=base.input, outputs=out)
+
+# --- Compile (integer labels -&gt; sparse) ---
+model.compile(optimizer=&quot;adam&quot;,
+              loss=&quot;sparse_categorical_crossentropy&quot;,
+              metrics=[&quot;accuracy&quot;])  # add Recall/Precision for detection tasks
+
+callbacks = [
+    EarlyStopping(monitor=&quot;val_loss&quot;, patience=5, restore_best_weights=True),
+    ModelCheckpoint(&quot;best.keras&quot;, monitor=&quot;val_loss&quot;, save_best_only=True),
+    ReduceLROnPlateau(monitor=&quot;val_loss&quot;, patience=3, factor=0.5),
+]
+
+history = model.fit(x_train, y_train, validation_split=0.2,
+                    epochs=20, callbacks=callbacks)
+
+# --- Predict: softmax over 10 classes -&gt; argmax = class index ---
+import numpy as np
+probs = model.predict(x_test)
+preds = np.argmax(probs, axis=1)</code></pre>
+<pre><code># Cross-entropy (K classes): L = -Σ_i  p_i * log(p̂_i)
+#   one-hot p_i  -&gt; categorical_crossentropy
+#   integer y    -&gt; sparse_categorical_crossentropy   (Keras one-hots internally)
+
+# Weight update: w_j = w_{j-1} - α * ∂L/∂w
+#   α too large -&gt; weights -&gt; 0 -&gt; network collapse (vanishing weights)
+
+# Normal coverage (empirical rule): 1σ≈68%, 2σ≈95%, 3σ≈99.7%
+# Chebyshev (any distribution):     2σ≥75%, 3σ≥88.9%</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>Week 5 (CNNs)</strong> — VGG16 <em>is</em> a deep CNN; this week is about <em>reusing</em> one rather than building from scratch. The conv layers from W5 now sit frozen inside the base.</li>
+<li>Connects to <strong>Dissertation</strong> — the &quot;do you even need the heavy model, or does an LLM already solve it?&quot; test mirrors the dissertation&#x27;s grounding-evaluator question: is a specialised evaluator justified over an off-the-shelf LLM? The dataset-longevity argument (evergreen vs expired) is also relevant when defending corpus choices.</li>
+<li>Connects to <strong>NLP CA1</strong> — same evaluation discipline: choose the metric for the task (recall/precision, not just accuracy) and justify the loss function.</li>
+<li><strong>Risk flag:</strong> the lecturer&#x27;s &quot;confusion-matrix is ill-defined&quot; justification for one-hot is shaky — in your write-up lead with the correct framing (loss-function label format), not the matrix story.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li><strong>Learning rate ↔ objective:</strong> articulate the relationship between α and the loss/optimisation goal (the lecturer&#x27;s &quot;2-million-euro question&quot;).</li>
+<li><strong>σ rule figures:</strong> confirm 1σ ≈ 68% (not 65%) and state Chebyshev vs empirical rule precisely in any written justification.</li>
+<li><strong>VGG16 input shape:</strong> native VGG16 expects 224×224; confirm whether to resize CIFAR-10 up or use <code>include_top=False</code> with 32×32 (feature maps get small fast at 32×32 — check it doesn&#x27;t collapse before the head).</li>
+<li><strong>CA dataset:</strong> does an evergreen, objective-first dataset (fraud / graph / transactions) fit the CNN brief better than an image benchmark — or is CIFAR-style fine for demonstrating the <em>concept</em>?</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: When is a custom CNN <em>not</em> justified for a CA?</li>
+<p>A: When an LLM (ChatGPT/Gemini) does the same task on your dataset to &quot;at least close&quot; validity — the question partly answers itself.</p>
+<li>Q: What do LLMs do well vs poorly on images?</li>
+<p>A: Well: OCR and context/scene recognition. Poorly: fine-grained feature recognition in a specific region.</p>
+<li>Q: VGG16 layer breakdown?</li>
+<p>A: 16 weight layers = 13 convolutional + 3 fully-connected.</p>
+<li>Q: <code>categorical_crossentropy</code> vs <code>sparse_categorical_crossentropy</code>?</li>
+<p>A: Same loss; first expects one-hot targets, second expects integer targets (one-hots internally).</p>
+<li>Q: What causes &quot;vanishing weights&quot; / network collapse?</li>
+<p>A: Too-large learning rate drives weights toward 0; 0 × anything = 0, so the signal dies.</p>
+<li>Q: What does EarlyStopping monitor and how does patience work?</li>
+<p>A: <code>val_loss</code>; if no improvement after <code>patience</code> epochs it stops and restores the best weights.</p>
+<li>Q: Why prefer recall over accuracy for detection tasks?</li>
+<p>A: Accuracy hides missed positives; recall measures how many true positives you catch.</p>
+<li>Q: Why pick a dataset by objective/longevity?</li>
+<p>A: Evergreen, objective-first data (fraud, graph, transactions) yields a practical, CV-worthy solution; expired data (COVID detection) does not.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides/notebook: <code>msc-coursework/inputs/course-materials/deep-learning/</code> (VGG16 + CIFAR-10 follow-up notebook); transcript pasted 2026-06-08.</li>
+<li>Prior note: <code>msc-coursework/outputs/class-notes/DL-W5-ConvolutionalNeuralNetworks.md</code></li>
+<li>Dissertation context: <code>dissertation/</code> (grounding-evaluator vs LLM framing)</li>
+<li>Reflective journal: <code>msc-coursework/inputs/reflective-journal.md</code></li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Decide the CNN CA1 dataset <em>objective-first</em> — sanity-check it against the &quot;could an LLM just do this?&quot; test before committing.</li>
+<li>[ ] Confirm VGG16 input handling for 32×32 (resize vs small feature maps) and run the transfer-learning notebook end-to-end.</li>
+<li>[ ] In the write-up, justify loss choice via label format (one-hot → categorical, integer → sparse), not the &quot;ill-defined matrix&quot; story.</li>
+<li>[ ] Add recall/precision to <code>metrics</code> and plot train-vs-val loss and accuracy; identify the divergence/early-stop point.</li>
+<li>[ ] Prepare a reflection (not repetition) on structure / balance / optimisation choices for the presentation (~27 July slot).</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 19:41 IST - 08 Jun 2026</span></footer></div></body></html>
