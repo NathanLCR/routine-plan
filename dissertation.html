@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dissertation · DBS MSc AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}
+.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:8px;padding:22px 28px 28px;box-shadow:var(--shadow-outer),inset 0 0 0 2px #c8785a30;display:flex;flex-direction:column;gap:14px}
+.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px}
+.script{font-family:'Pacifico',cursive;color:var(--red)}
+.letters{display:flex;gap:1px}
+.letters span{font-family:'Oswald',Impact,sans-serif;font-size:26px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}
+.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}
+.postmark b{font-family:'Oswald';font-size:7px}
+.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}
+.regen{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);margin-top:4px}
+.mono{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}
+.card{border:2px solid var(--ink);border-radius:4px;box-shadow:var(--shadow-card);overflow:hidden}
+.strip{background:var(--teal);padding:8px 18px;display:flex;justify-content:space-between;align-items:center;color:white;gap:12px;flex-wrap:wrap}
+.strip b{font-family:'Oswald';font-size:16px;letter-spacing:.04em;-webkit-text-stroke:.5px var(--teal-dk)}
+.strip .mono{color:rgba(255,255,255,.75)}
+.thesis{background:#c8901018;padding:12px 18px;display:flex;gap:12px;align-items:baseline;border-bottom:1px solid #18100a20}
+.thesis p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:15px;line-height:1.5;margin:0}
+.statrow{display:grid;grid-template-columns:repeat(4,1fr);padding:12px 18px;gap:12px}
+.stat{text-align:center}
+.big{font-family:'Oswald';font-size:28px;font-weight:700;line-height:1}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.inner{border:2px solid var(--ink);border-radius:4px;box-shadow:var(--shadow-card);padding:13px 16px}
+.inner h3{font-family:'Oswald';font-size:13px;margin:0 0 8px;letter-spacing:.06em;text-transform:uppercase}
+.inner-title{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #18100a25;padding-bottom:6px;margin-bottom:8px}
+.stamp{border:1.5px solid currentColor;padding:2px 7px;font-family:'Oswald';font-weight:700;font-size:9px;letter-spacing:.08em;display:inline-block;white-space:nowrap}
+.rq{border-bottom:1px solid #18100a15;padding:9px 0}
+.rq:last-child{border-bottom:0}
+.rq-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.rq-id{font-family:'Oswald';font-size:13px;font-weight:700;color:var(--red)}
+.rq-text{font-size:12px;font-weight:500;margin:5px 0 3px}
+.rq-note{font-size:10.5px;color:var(--ink-fnt);margin:0;line-height:1.45}
+.ds{border-bottom:1px solid #18100a15;padding:9px 0}
+.ds:last-child{border-bottom:0}
+.ds-head{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.ds-head b{font-family:'Oswald';font-size:12px}
+.ds-role{font-size:11px;margin:4px 0 3px}
+.ds-caveat{font-size:10.5px;color:var(--red);margin:0;line-height:1.45}
+.od{display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #18100a15;padding:8px 0}
+.od:last-child{border-bottom:0}
+.od b{font-size:11.5px}
+.od-detail{font-size:10.5px;color:var(--ink-fnt);margin:2px 0 0;line-height:1.45}
+.vd-list{margin:4px 0 0;padding-left:18px}
+.vd-list li{font-size:11px;margin:5px 0;color:var(--red)}
+.pa{display:grid;grid-template-columns:240px 1fr;gap:10px;border-bottom:1px solid #18100a15;padding:7px 0;font-size:11px}
+.pa:last-child{border-bottom:0}
+.pa-paper{font-weight:500}
+.pa-role{color:var(--ink-fnt);line-height:1.45}
+.hc-list{margin:4px 0 0;padding-left:18px}
+.hc-list li{font-size:11px;margin:5px 0}
+.footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px}
+@media(max-width:820px){.frame{padding:14px}.grid2{grid-template-columns:1fr}.statrow{grid-template-columns:repeat(2,1fr)}.pa{grid-template-columns:1fr}.letters span{font-size:18px}.mast{align-items:flex-start}}
+</style>
+</head>
+<body>
+<svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg>
+<div class="frame">
+
+  <header class="mast">
+    <div>
+      <div class="script" style="font-size:13px">deep dive</div>
+      <div class="letters"><span style="color:#3a8080">D</span><span style="color:#c89010">I</span><span style="color:#b82010">S</span><span style="color:#3a5c20">S</span><span style="color:#3a8080">E</span><span style="color:#c89010">R</span><span style="color:#b82010">T</span><span style="color:#3a5c20">A</span><span style="color:#3a8080">T</span><span style="color:#c89010">I</span><span style="color:#b82010">O</span><span style="color:#3a5c20">N</span></div>
+    </div>
+    <div style="text-align:right">
+      <div class="postmark"><b>DBS MSc AI</b><i></i>10.06.26<i></i><b>DUBLIN IE</b></div>
+      <div class="regen">regen 14:00 IST · 10 Jun 2026</div>
+    </div>
+  </header>
+
+  <section class="card">
+    <div class="strip">
+      <div><b>RUBRIC DECOMPOSITION, LLM-JUDGE BIAS, AND INTER-JUDGE AGREEMENT IN BRAZILIAN PORTUGUESE RAG EVALUATION</b></div>
+      <a class="mono" href="index.html">‹ back to week</a>
+    </div>
+    <div class="strip" style="background:var(--teal-dk)">
+      <span class="mono">Design phase · pre-methods-chapter</span>
+      <span class="mono">deadline November 2026</span>
+    </div>
+    <div class="thesis"><span class="script">thesis</span><p>Agreement ≠ accuracy. Inter-judge consistency can increase (e.g., via rubric decomposition) without corresponding gains in correctness against a known label. Primary novelty claim — never blur agreement, bias, and accuracy into one construct.</p></div>
+    
+<div class="statrow">
+  <div class="stat"><div class="big" style="color:#b82010">4</div><div class="mono">corpus papers</div></div>
+  <div class="stat"><div class="big" style="color:#b82010">15</div><div class="mono">lit matrix</div></div>
+  <div class="stat"><div class="big" style="color:#3a5c20">0</div><div class="mono">stale rows</div></div>
+  <div class="stat"><div class="big" style="color:#b82010">4</div><div class="mono">verification debt</div></div>
+</div>
+  </section>
+
+  <div class="grid2">
+    <section class="inner">
+      <div class="inner-title"><h3>Research questions</h3><span class="mono">4 RQs</span></div>
+      
+<div class="rq">
+  <div class="rq-head">
+    <span class="rq-id">RQ1</span>
+    <span class="stamp" style="color:#3a8080">EMPIRICAL</span>
+  </div>
+  <p class="rq-text">Measure cross-lingual judge bias magnitude via controlled perturbations.</p>
+  <p class="rq-note">Perturbation precedents: ReEval (primary), FaithEval typology, RAGEval (domain framing). Risk-paper noise must be addressed via manual validation of a perturbation sample.</p>
+</div>
+
+<div class="rq">
+  <div class="rq-head">
+    <span class="rq-id">RQ2</span>
+    <span class="stamp" style="color:#3a8080">EMPIRICAL</span>
+  </div>
+  <p class="rq-text">Test whether rubric decomposition improves inter-judge agreement on PT-BR RAG faithfulness.</p>
+  <p class="rq-note">Prompt-richness confound is the live design threat — drives the two-vs-three conditions decision.</p>
+</div>
+
+<div class="rq">
+  <div class="rq-head">
+    <span class="rq-id">RQ3</span>
+    <span class="stamp" style="color:#c89010">CONCEPTUAL</span>
+  </div>
+  <p class="rq-text">Critically examine whether agreement gains constitute accuracy gains.</p>
+  <p class="rq-note">Conceptual/critical, not empirical — no PT-BR gold labels. MEMERAG&#x27;s AC1 ≈ 0.45 with trained annotators is the cited ground for rejecting a self-annotated anchor.</p>
+</div>
+
+<div class="rq">
+  <div class="rq-head">
+    <span class="rq-id">RQ4</span>
+    <span class="stamp" style="color:#b82010">SCOPE OPEN</span>
+  </div>
+  <p class="rq-text">Assess external validity against existing benchmarks.</p>
+  <p class="rq-note">Standalone RQ vs fold into discussion — undecided.</p>
+</div>
+    </section>
+    <section class="inner">
+      <div class="inner-title"><h3>Datasets · committed</h3><span class="mono">with caveats</span></div>
+      
+<div class="ds">
+  <div class="ds-head"><b>BR-TaxQA-R</b><span class="mono">arXiv:2505.15916</span></div>
+  <p class="ds-role">Primary spine for RAG-triple work</p>
+  <p class="ds-caveat">⚠ Only natively PT-BR RAG pipeline dataset with explicit citations. Juridical/fiscal terminology may complicate RQ1 perturbation design.</p>
+</div>
+
+<div class="ds">
+  <div class="ds-head"><b>Quati</b><span class="mono">arXiv:2404.06976 / ACL 2024.stil-1.19 — identity unresolved</span></div>
+  <p class="ds-role">Secondary IR insumo</p>
+  <p class="ds-caveat">⚠ IR-relevance, not a faithfulness substrate. GPT-4 qrels ~50/200 queries. κ=0.31 citable for agreement≠accuracy but scoped to relevance only. EP contamination unverified.</p>
+</div>
+      <div class="inner-title" style="margin-top:14px"><h3>Hard constraints</h3></div>
+      <ul class="hc-list"><li>No human-annotated PT-BR RAG faithfulness dataset exists — documentable field gap and novelty justification, not a personal limitation</li><li>API-driven methodology only; no GPU</li><li>Single annotator (Nathan)</li></ul>
+    </section>
+  </div>
+
+  <div class="grid2">
+    <section class="inner">
+      <div class="inner-title"><h3>Open decisions</h3><span class="mono">carry into methods</span></div>
+      
+<div class="od">
+  <span class="stamp" style="color:#b82010">TOP</span>
+  <div><b>Two vs three judging conditions</b><p class="od-detail">Needed to isolate decomposition from prompt elaboration (prompt-richness confound). Highest-priority design decision.</p></div>
+</div>
+
+<div class="od">
+  <span class="stamp" style="color:#c89010">OPEN</span>
+  <div><b>RQ4 scope</b><p class="od-detail">Standalone RQ or fold into discussion.</p></div>
+</div>
+
+<div class="od">
+  <span class="stamp" style="color:#c89010">OPEN</span>
+  <div><b>Clustered inference</b><p class="od-detail">Unresolved statistical design problem in agreement-metric calculations.</p></div>
+</div>
+
+<div class="od">
+  <span class="stamp" style="color:#3a5c20">NATHAN-ONLY</span>
+  <div><b>Prosa gap-positioning paragraph</b><p class="od-detail">Drafted by Nathan, not generated.</p></div>
+</div>
+    </section>
+    <section class="inner">
+      <div class="inner-title"><h3>Verification debt</h3><span class="mono">viva-critical</span></div>
+      <ul class="vd-list"><li>Fu &amp; Liu arXiv ID (2505.12201 vs 2603.28005 confusion with Zhang)</li><li>Zhang (2603.28005) vs Shen et al. (2602.05125) collision as cited in Prosa</li><li>Quati European Portuguese contamination check</li><li>Quati citation identity (arXiv vs ACL Anthology)</li></ul>
+      <div class="inner-title" style="margin-top:14px"><h3>Tooling</h3></div>
+      <p style="font-size:11px;margin:0 0 4px">GPT-4.1 · Sabiá-3 (Maritaca researcher credits) · DeepSeek V4</p>
+      <p style="font-size:10.5px;color:var(--ink-fnt);margin:0;line-height:1.45">Keshav three-pass + extraction grid; Obsidian structured template; Consensus.app + targeted arXiv</p>
+    </section>
+  </div>
+
+  <section class="inner">
+    <div class="inner-title"><h3>Prior art map</h3><span class="mono">decided positioning</span></div>
+    
+<div class="pa">
+  <span class="pa-paper">Prosa (Malaquias Junior et al., arXiv:2605.01630)</span>
+  <span class="pa-role">Most significant collision: decomposition-driven agreement in PT-BR, never establishes accuracy. Dual use — threat to RQ2, strongest exhibit for RQ3. Citable critique: generator-judge circularity.</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">Fu &amp; Liu (arXiv:2505.12201, EMNLP 2025 Findings)</span>
+  <span class="pa-role">Empirical grounding for agreement≠accuracy (avg Fleiss&#x27; κ ≈ 0.3). Portuguese absent. arXiv ID needs independent verification — viva-critical.</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">MEMERAG (Cruz Blandón et al., ACL 2025)</span>
+  <span class="pa-role">Multilingual RAG meta-eval, no Portuguese → strengthens novelty. AC1 ≈ 0.45 grounds rejecting self-annotation.</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">Wallat et al., &quot;Correctness is not Faithfulness&quot; (arXiv:2412.18004)</span>
+  <span class="pa-role">Conceptual sibling to RQ3.</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">Dorner et al. (arXiv:2410.13341, ICLR 2025)</span>
+  <span class="pa-role">Debiasing relevance. Do not overstate as a general theorem.</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">CheckEval / Lee et al. (EMNLP 2025)</span>
+  <span class="pa-role">Confirmed, in scope.</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">Sheth et al. (arXiv:2603.18557)</span>
+  <span class="pa-role">Close prior art. Differentiators: PT-BR + agreement-vs-accuracy critique.</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">HateBRXplain (Salles et al., 2025, COLING)</span>
+  <span class="pa-role">Narrow RQ3 support only — not an object of study; migration rejected.</span>
+</div>
+  </section>
+
+  <footer class="footer">
+    <span class="script">nathan-os</span>
+    <span class="mono">source: dissertation/data/handoff-2026-06-10.md · corpus-status.json · lit-review-stats.json</span>
+  </footer>
+
+</div>
+</body>
+</html>
