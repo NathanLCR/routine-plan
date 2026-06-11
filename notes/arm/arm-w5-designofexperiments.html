@@ -1,0 +1,200 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARM — Week 5: Design of Experiments (Chapter 2)</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>11.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 12:22 IST - 11 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>ARM — Week 5: Design of Experiments (Chapter 2)</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Applied Research Methods · msc-coursework/outputs/class-notes/ARM-W5-DesignOfExperiments.md</p></div></section><section class="summary-panel"><span class="pill">ARM</span><span class="pill">Week 5</span><span class="pill">msc-coursework/outputs/class-notes/ARM-W5-DesignOfExperiments.md</span><p class="meta">Modified 2026-06-11T12:20:07+01:00</p></section><h1>ARM — Week 5: Design of Experiments (Chapter 2)</h1>
+<h2>Focus</h2>
+<p>Chapter 2 (methodology) is a <strong>recipe book</strong>: someone who has never seen your project must be able to reproduce it exactly — every method, every setting, every measurement. No theorizing (that was Chapter 1), no results (that&#x27;s Chapter 3+). The core of the week is <strong>Design of Experiments (DOE)</strong>: experiments are <em>designed</em>, never random. You anchor every hyperparameter range in literature, name your design type (the lecturer recommends <strong>full factorial</strong>, the formal equivalent of grid search), and reduce bias through <strong>randomization, replication, and blocking</strong>. Deliverable: a <strong>DOE table per algorithm</strong> (hyperparameters × levels, ranges justified with ≥3 paper references) — due <strong>next week, fully done, for all algorithms</strong>, pasted in the Google Doc. Ethics lecture was swapped to after this one. Also: Google Doc audit happened live — 2 &quot;no/minimum work&quot; comments cap you below 70%, 3 = automatic fail.</p>
+<hr>
+<h2>Assessments (unchanged)</h2>
+<p>| Assessment | Task | Weight | Submission | |---|---|---|---| | CA1 | Research Proposal | 80% | Week 9 (Moodle) | | CA2 | Research Presentation | 20% | Week 12 (Moodle) |</p>
+<p>Dataset deadline: <strong>Week 7</strong> — but &quot;deadline means the last person in&quot;; one focused hour is enough to find one. <strong>No Kaggle as a reference</strong> — trace the original source or build your own (with documented, justified protocol + ethics discussion).</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Chapter 2 = recipe</strong> — exact methods, exact settings, exact measurements; reproducible by a stranger; no theory, no results, no Python graphs</li>
+<li><strong>Experiment</strong> — a <em>controlled</em>, named technique testing a hypothesis; if you can&#x27;t name the design type, it&#x27;s not controlled</li>
+<li>Four definitions (pick the one that speaks to you): controlled technique / manipulate independent → observe dependent variables / cause-and-effect with other variables held constant (→ explainable AI) / structured strategy to advance understanding + find causal linkages</li>
+<li>Five reasons to experiment: find causal linkages (EDA), evaluate/disprove theories (fair algorithm comparison), empirical evidence for decisions, uncover factors for optimization, refine hypotheses (cyclic — go back and redesign)</li>
+<li><strong>Bias reduction triad</strong> — randomization (run order not hand-picked), replication (≥3 runs, report mean ± std; cross-validation is replication), blocking (same machine, same conditions). <strong>All three must appear in the proposal</strong></li>
+<li>Degrees of freedom — number of independent things you can change; know yours</li>
+<li><strong>Full factorial design</strong> — all combinations; 3 factors × 3 levels = 3³ = 27 experiments; grid search <em>is</em> full factorial — but report all 27 results and effects, not just the winner</li>
+<li><strong>Fractional factorial</strong> ≈ random search — faster, and by not chasing the absolute optimum it can avoid overfitting</li>
+<li>Other named designs: response surface, Plackett–Burman, central composite, Taguchi, Latin square, randomized complete block (each has rules — pick one, follow it, name it)</li>
+<li>Grid-search trap — optimizing accuracy alone hides overfitting; plotting effects (epochs vs accuracy, trees vs accuracy) lets you trade a little training accuracy for generalization</li>
+<li><strong>Defaults are not an excuse</strong> — a student failed for not knowing sklearn&#x27;s default tree count/depth; even unchanged settings must be known, reported, and justified</li>
+<li>Three experiment families for the thesis: hyperparameter tuning (everyone), feature engineering (some), algorithm comparison (everyone — fairness must be designed)</li>
+<li><strong>3 algorithms = sweet spot</strong> (worst / middle / best); fewer needs heavy justification, more = unmastered work</li>
+<li>Feature reduction reasons: model efficiency (noise/correlated features), memory/training time, <strong>deployment cost</strong> (MRI vs age+gender), practicality (long surveys get abandoned)</li>
+<li>Novelty via DOE — extend the literature&#x27;s design space (they stopped at 500 trees, you test up to 1,000) and report the effect, even a null one</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Chapter 2 tone and content:</strong></p>
+<ul>
+<li>You are no longer theorizing or introducing. You state exactly what you&#x27;ll do, how, and how it&#x27;s measured.</li>
+<li>Problem statement, motivation, literature = Chapter 1. Results, graphs = later chapters. Neither belongs here.</li>
+<li>Methods: which algorithms, why selected, how they work, how they&#x27;ll be tuned. Selection rationale was seeded in Ch.1 (what the literature uses); here it&#x27;s operational.</li>
+<li>If a reader can&#x27;t reproduce your work from Chapter 2 alone, the chapter is badly written — that&#x27;s on you, not the reader.</li>
+</ul>
+<p><strong>The experiment cycle:</strong></p>
+<ul>
+<li>Hypothesis → theory around it → phenomenon (run it) → results → <em>back</em> to refine hypothesis/design. Most students treat it as one-shot; submitting a 50% accuracy with no iteration loop visible = likely fail. Low accuracy is acceptable only after demonstrably exhausting the design space.</li>
+</ul>
+<p><strong>Engineering view:</strong></p>
+<ul>
+<li>Process with inputs → outputs. Inputs split into <strong>controllable factors</strong> (you manipulate) and <strong>uncontrollable factors</strong> (you must at least know them). Anything you <em>don&#x27;t</em> control needs a stated reason.</li>
+</ul>
+<p><strong>Bias reduction (must be in next week&#x27;s proposal):</strong></p>
+<ul>
+<li><em>Randomization</em> — don&#x27;t pick experiment order; matters most in physical experiments (don&#x27;t sample all men first), still state it.</li>
+<li><em>Replication</em> — run everything ≥3 times. K-fold CV is replication. The meticulous version: report <code>60% ± 2%</code>. A single Python number is not a result.</li>
+<li><em>Blocking</em> — remove batch/day/shift effects; for us: same computer, same processing conditions for every run, so nothing gets an advantage.</li>
+</ul>
+<p><strong>Full factorial worked example (random forest):</strong></p>
+<ul>
+<li>From 4–6 papers, harvest the tuned hyperparameters: n_trees, max_depth, min_samples_leaf.</li>
+<li>Find the literature range (e.g. trees 1–100, best ≈50, below 20 useless) → design your own informed range (20–200), pick 3–5 equally spaced levels.</li>
+<li>3 factors × 3 levels = 27 experiments — the <em>minimum</em> start. Aim for 5×5 if you can explain it. Don&#x27;t invent 20×20 — if no paper does it, there&#x27;s a reason.</li>
+<li>Grid search hands you 1 result; you actually generated 27. Analyzing the other 26 (effect plots, interactions, R²) is where explainability and novelty live.</li>
+<li>Possible finding: &quot;trees don&#x27;t affect accuracy here&quot; → use the fewest trees → smaller, cheaper, faster model at equal accuracy. You only learn this by looking at all combinations.</li>
+<li>Worst case: nothing is significant → back to the drawing board, choose factors that matter.</li>
+</ul>
+<p><strong>Full factorial — pros/cons:</strong></p>
+<ul>
+<li>Pros: comprehensive; identifies significant factors without oversight; robust general conclusions; quantifies interactions (R²); flexible.</li>
+<li>Cons: large sample needs (cheap for simulations, expensive for gold nanoparticles); demands time; requires careful planning (decide what stays constant, maybe via preliminary runs); higher-order nonlinear interactions may need SHAP/LIME-style explanation.</li>
+</ul>
+<p><strong>The in-class task (due complete next week):</strong></p>
+<ol>
+<li>Go to your paper folders (relevance tree branches). Per algorithm, open methods sections — Ctrl-F &quot;hyperparameter&quot;.</li>
+<li>Build a table: hyperparameter | levels/range | source papers. ≥3 references per algorithm backing the ranges.</li>
+<li>One table per algorithm, all algorithms, pasted in the Google Doc. Takes ~2h per design done properly; ~1.5h owed beyond class time.</li>
+</ol>
+<ul>
+<li>&quot;Everything in AI can be tuned.&quot; If a paper used 50 layers without saying why, they tuned in the background and didn&#x27;t report it — you start at 50 and tune around it. If you keep defaults, you must still list them.</li>
+<li>Goal is not maximum accuracy — it&#x27;s understanding <em>why</em>. &quot;Don&#x27;t focus on the result and neglect why it&#x27;s happening.&quot;</li>
+</ul>
+<p><strong>Google Doc audit (grading mechanics):</strong></p>
+<ul>
+<li>Comments: &quot;no work done&quot; / &quot;minimum work done&quot;. <strong>Two → grade capped below 70%. Three → fail, file no longer read.</strong> No access shared = zero regardless of content.</li>
+<li>Required in the Doc by now: background (1–2 pp), research questions + aims (≈3, not 9) + objectives, Gantt chart, relevance tree, anchor paper, review paper, half the lit review with references, group discussion, reflective diary entries.</li>
+<li>Only 1–2 people in the class are fully on track. The lecturer has failed 8/20 in a class before and will do it again.</li>
+<li>Email policy: questions answered in class/recording get no email reply; in-class feedback benefits everyone.</li>
+<li>Workflow tip he endorsed: write in Word locally, copy-paste over the Google Doc at the end of every session — never leave it stale.</li>
+</ul>
+<p><strong>Datasets / misc:</strong></p>
+<ul>
+<li>Kaggle dataset visible in someone&#x27;s doc → called out. Find the original origin or generate your own (justified, repeatable protocol; AI-generated synthetic data is acceptable <em>if</em> the generation method is documented and verifiable; ethics discussion required).</li>
+<li>Pre-processing/EDA this semester strengthens Chapter 2: know every column, distributions, augmentation percentages — plans can change next semester, but they must be solid now.</li>
+<li>For unfamiliar algorithms: papers are for advanced readers — go to a textbook chapter first (he named Library Genesis), then papers.</li>
+<li>Writing: draft yourself, then use AI to correct — &quot;give it an 8/10 to make a 10/10, not a 1/10.&quot; Especially if you want a PhD (grant applications are supervised writing).</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code>Full factorial size:  n_experiments = levels ^ factors
+  3 factors × 3 levels  → 3³  = 27   (&quot;3×3 full factorial DOE&quot; — minimum)
+  5 factors × 5 levels  → 5⁵  = 3,125 (fine for simulation; must be analyzable)
+
+Replication: every cell run k≥3 times → report mean ± std (CV counts).
+
+DOE table template (one per algorithm):
+  | Hyperparameter      | Levels (equally spaced)   | Literature range | Refs    |
+  |---------------------|---------------------------|------------------|---------|
+  | n_estimators        | 20, 65, 110, 155, 200     | 1–100, best ≈50  | [1][2][3]|
+  | max_depth           | 2, 4, 6, 8, 10            | 2–10             | [1][4]  |
+  | min_samples_leaf    | 2, 5, 9, 12, 15           | 2–15             | [2][3]  |
+
+Design name to state in Ch.2: &quot;k×n full factorial design of experiments,
+3 replicates per cell, randomized run order, fixed hardware (blocking).&quot;</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li><strong>Dissertation DOE table maps directly</strong> — the factors for &quot;Rubric Decomposition, LLM-Judge Bias, and Inter-Judge Agreement in BR-PT RAG Evaluation&quot; are: judging condition (holistic vs decomposed — the open two-vs-three-conditions question is literally a DOE <em>levels</em> decision), judge model (the judge panel), rubric dimension, dataset (BR-TaxQA-R / Quati). This lecture gives the formal frame to resolve the two-vs-three blocker: the prompt-richness confound is an <em>uncontrolled factor</em> — either control it (third condition) or justify why not.</li>
+<li><strong>Replication ± std ↔ clustered inference blocker</strong> — &quot;report mean ± deviation over ≥3 runs&quot; is the lecturer&#x27;s simple version of what the dissertation needs properly (clustered SEs over repeated judgments). Non-deterministic judges at temperature &gt; 0 make replication non-optional.</li>
+<li><strong>Blocking ↔ judge setup</strong> — pin API model versions, temperature, prompts across all conditions; that&#x27;s the dissertation&#x27;s blocking statement.</li>
+<li><strong>Defaults rule ↔ judge configs</strong> — every judge parameter (temperature, max tokens, system prompt) must be reported even if &quot;default&quot;. Same standard the failed-student story enforces.</li>
+<li><strong>RL CA1</strong> — brief explicitly requires ≥2 model/hyperparameter variants; build the DOE table once the topic is chosen and it satisfies both modules&#x27; logic.</li>
+<li><strong>Dataset deadline W7</strong> — corpus already committed (BR-TaxQA-R + Quati); show it to the lecturer rather than waiting. The &quot;no Kaggle / trace the origin&quot; rule reinforces the open verification debt (Quati EP contamination, citation identity) — provenance must be airtight.</li>
+<li><strong>3-algorithms sweet spot</strong> — for the ARM proposal framing, three judging conditions / three judges echoes the same worst-middle-best comparative structure.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>Which DOE name fits the dissertation design — full factorial over (condition × judge × dataset), or a randomized complete block design with dataset as block? Decide and <em>name it</em> in Chapter 2.</li>
+<li>Does &quot;all algorithms tabled by next week&quot; apply 1:1 to the dissertation&#x27;s judging conditions (the two-vs-three question is unresolved) — table both candidate designs?</li>
+<li>Replication for LLM judges: is k=3 runs per item enough, or does the agreement analysis demand more? (Cost vs statistics trade-off.)</li>
+<li>Where exactly do randomization/replication/blocking statements go in the proposal template — methods subsection or a dedicated DOE section?</li>
+<li>Ethics lecture is next week — the synthetic/LLM-data ethics discussion he flagged will matter for the corpus.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: What is the purpose of Chapter 2 in one image?</li>
+<p>A: A recipe book — a stranger must be able to reproduce the work exactly: every method, setting, and measurement. No theory, no results.</p>
+</ul>
+<ul>
+<li>Q: What two things are banned from Chapter 2?</li>
+<p>A: Theorizing/problem motivation (Chapter 1) and results/graphs (Chapter 3+).</p>
+</ul>
+<ul>
+<li>Q: Name the bias-reduction triad and what each means for a computational thesis.</li>
+<p>A: Randomization (run order not hand-picked), replication (≥3 runs / CV, report mean ± std), blocking (same machine and conditions for every run).</p>
+</ul>
+<ul>
+<li>Q: Grid search is formally which DOE type? Random search?</li>
+<p>A: Grid search = full factorial (all combinations). Random search ≈ fractional factorial (a sampled fraction — faster, can avoid overfitting).</p>
+</ul>
+<ul>
+<li>Q: How many experiments in a 3×3 full factorial? Formula?</li>
+<p>A: levels^factors = 3³ = 27.</p>
+</ul>
+<ul>
+<li>Q: Why is taking only the grid-search winner a mistake?</li>
+<p>A: You ran 27 experiments and ignored 26 — the effects, interactions, and overfitting signals. The winner on training accuracy may generalize worse than a slightly weaker setting.</p>
+</ul>
+<ul>
+<li>Q: Why did the random-forest student fail?</li>
+<p>A: They used sklearn defaults without knowing them — couldn&#x27;t state n_trees or max_depth. Even unchanged settings must be known, reported, justified.</p>
+</ul>
+<ul>
+<li>Q: How do you set hyperparameter ranges without being random?</li>
+<p>A: Harvest ranges from ≥3 papers&#x27; methods sections, start at their best region, then extend the design space (that extension is novelty — even a null result counts).</p>
+</ul>
+<ul>
+<li>Q: How many algorithms should a thesis compare and why?</li>
+<p>A: ~3 (sweet spot: worst/middle/best). Fewer needs heavy justification; many = none mastered.</p>
+</ul>
+<ul>
+<li>Q: Give three business reasons to drop features beyond accuracy.</li>
+<p>A: Deployment cost (MRI vs age+gender), inference practicality (long surveys abandoned), memory/training efficiency.</p>
+</ul>
+<ul>
+<li>Q: What&#x27;s the Google Doc strike rule?</li>
+<p>A: 2 &quot;no/minimum work&quot; comments → capped below 70%. 3 → automatic fail, file no longer read. Unshared file = zero.</p>
+</ul>
+<ul>
+<li>Q: What&#x27;s due next week (W6)?</li>
+<p>A: All prior required items in the Google Doc + completed DOE tables (hyperparameters, levels, literature-backed ranges, ≥3 refs) for every algorithm.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Lecture: ARM W5 live lecture 2026-06-10 (Dr. Anesu Nyabadza, DBS) — slides &quot;Design of Experiments&quot; (Chapter 2 recap of ethics deferred to W6)</li>
+<li>DOE background: any <em>Design of Experiments</em> textbook chapter (full factorial, fractional, Taguchi, Plackett–Burman, etc.)</li>
+<li>Prior notes: <code>ARM-W1</code> → <code>ARM-W4</code> in this folder</li>
+<li>Transcript: provided by Nathan, 2026-06-10</li>
+</ul>
+<hr>
+<h2>Week 5 Tasks</h2>
+<ul>
+<li>[ ] <strong>Build DOE tables for all dissertation judging conditions/judges</strong> — factors, 3–5 levels each, literature-backed ranges, ≥3 refs per table → paste in Google Doc (due W6, complete, not half)</li>
+<li>[ ] <strong>Add randomization / replication / blocking statements</strong> to the proposal methods section (lecturer checks next week)</li>
+<li>[ ] <strong>State the design name</strong> in Chapter 2 draft (&quot;full factorial&quot; or chosen alternative) — resolve the two-vs-three-conditions question as a DOE levels decision</li>
+<li>[ ] <strong>List every judge default</strong> (temperature, max tokens, prompts, model versions) — known and reported even if unchanged</li>
+<li>[ ] <strong>Verify Google Doc state</strong> — all 9 required items present and shared with the lecturer&#x27;s email; paste latest Word draft over it</li>
+<li>[ ] <strong>Show the dataset (BR-TaxQA-R + Quati) to the lecturer</strong> before the W7 deadline — confirm provenance documentation is sufficient</li>
+<li>[ ] <strong>Week 5 reflective diary entry</strong> → <code>tasks/REFLECTIVE_JOURNAL.md</code></li>
+<li>[ ] <strong>~4 hours independent study</strong> owed (2:1 rule) — ≈2h of it is the DOE tables</li>
+</ul>
+<hr>
+<h2>Upcoming Deadlines</h2>
+<p>| Deadline | Item | |---|---| | Week 6 (~2026-06-17) | DOE tables for ALL algorithms in Google Doc + all prior items; ethics lecture | | Week 7 (~2026-06-24) | Dataset submission to lecturer | | Week 9 (~2026-07-08) | CA1 — Research Proposal (80%, Moodle) | | Week 12 (~2026-07-29) | CA2 — Research Presentation (20%, Moodle) |</p><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 12:22 IST - 11 Jun 2026</span></footer></div></body></html>

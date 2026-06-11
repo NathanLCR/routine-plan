@@ -1,0 +1,178 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RL — Week 4: Deep Q-Networks, Intro to Policy Methods &amp; CA1 Problem-Finding</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>11.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 12:22 IST - 11 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>RL — Week 4: Deep Q-Networks, Intro to Policy Methods &amp; CA1 Problem-Finding</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Reinforcement Learning · msc-coursework/outputs/class-notes/RL-W4-DeepQNetworksAndPolicyIntro.md</p></div></section><section class="summary-panel"><span class="pill">RL</span><span class="pill">Week 4</span><span class="pill">msc-coursework/outputs/class-notes/RL-W4-DeepQNetworksAndPolicyIntro.md</span><p class="meta">Modified 2026-06-11T12:20:07+01:00</p></section><h1>RL — Week 4: Deep Q-Networks, Intro to Policy Methods &amp; CA1 Problem-Finding</h1>
+<h2>Focus</h2>
+<p>Two threads. First, <strong>CA1 mechanics</strong>: teams of 3–5, <strong>submission Week 7 = 5 July</strong>, presentation + feedback <strong>Week 8 (~8 July)</strong> — and the core of the CA is <strong>deep Q-learning (DQN), not policy methods</strong>. The in-class exercise was problem-finding: pick a <em>domain</em> → list its top business problems → then search for RL articles, rather than starting from whatever articles exist. Second, <strong>theory</strong>: from the tabular Q-table (W3) to <strong>DQN</strong> — a neural net that maps state → Q-value per action — and a first look at <strong>policy-based methods</strong> (π outputs action <em>probabilities</em> via softmax; continuous spaces parameterized by μ and σ). Homework: <strong>find ≥5 deep Q-learning articles in your domain</strong> (policy methods excluded for now), read the code artifacts, note PyTorch vs TensorFlow, and study the <strong>loss function</strong>. Next lecture: DQN coding in TensorFlow.</p>
+<hr>
+<h2>CA1 (Group Project) — confirmed details</h2>
+<p>| Item | Detail | |---|---| | Team size | 3–5 students | | Submission | <strong>Week 7 — 5 July 2026</strong> | | Presentation + feedback | <strong>Week 8 — ~8 July 2026</strong> | | Core requirement | Deep Q-learning is what you present (&quot;at least the Q — that&#x27;s what you need to present&quot;) | | Topic | Identify a <em>real business problem</em> in a domain of interest, then apply RL | | Contact | Email lecturer once topic is chosen; email with questions/ideas welcome |</p>
+<p>(Per the W3 brief: 40% weight, RL from scratch — no RL libraries, ≥2 model/hyperparameter variants, 5-min defence + 15-min individual Q&amp;A.)</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Problem-first topic selection</strong> — domain → top 10–12 problems in that domain (e.g. Oracle&#x27;s &quot;12 major healthcare challenges&quot;) → pick one → search &quot;deep reinforcement learning + &lt;problem&gt;&quot;. Article-first search only finds problems people already solved; problem-first can hit untouched, more important ones</li>
+<li><strong>DQN (Deep Q-Network)</strong> — neural net replaces the Q-table: input = state, output = one Q-value per action; pick argmax; train on the Bellman target</li>
+<li><strong>Frame stacking</strong> — a single Atari screenshot gives position only; ~4–5 stacked frames let the CNN infer direction, speed, acceleration (temporal information)</li>
+<li><strong>DQN loss</strong> — minimize the difference between predicted Q(s,a) and target <code>r + γ·max_a&#x27; Q(s&#x27;,a&#x27;)</code>; structurally like supervised learning (predicted vs &quot;real&quot; value)</li>
+<li><strong>DQN fit</strong> — discrete, limited action spaces (output layer = one neuron per action); breaks down as action space grows or becomes continuous</li>
+<li><strong>Atari result (Mnih et al.)</strong> — DQN beat human performance on &gt;50% of Atari games; also found non-obvious optimal policies humans miss (tunnel-the-ball strategy)</li>
+<li><strong>Policy-based methods</strong> — network outputs π(a|s): a <em>probability distribution</em> over actions (softmax, sums to 1) instead of Q-values; e.g. up 0.9, stay 0.1, left 0</li>
+<li><strong>Continuous action spaces</strong> — describe the action distribution with <strong>μ and σ</strong> (normal distribution); policy = f(s) → distribution parameters; this is why policy methods handle continuous control where DQN can&#x27;t</li>
+<li><strong>PPO (Proximal Policy Optimization)</strong> — the policy-side counterpart in the DQN-vs-PPO comparison activity; details deferred</li>
+<li><strong>Actor-critic</strong> — mentioned only as &quot;an actor plus someone assessing the actions&quot;; not covered yet</li>
+<li><strong>PyTorch vs TensorFlow</strong> — lecturer&#x27;s heuristic: PyTorch dominates research, TensorFlow production; CA can use either (Keras on TF likely)</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Worked CA-style example — Sahara satellite rescue:</strong></p>
+<ul>
+<li>Real news problem: truck broke down in the desert, found too late despite satellites existing → humanitarian framing.</li>
+<li>Classic-CV team split (4–5 students): (1) integrate free NASA/open satellite data + radar remote sensing (metal reflects a distinct spectrum), (2) YOLO + transfer learning (adapt drone-photo cargo models to satellite scale), (3) anomaly detection triggering paid high-res commercial imagery (a few dollars per image) only on candidate anomalies, (4) dashboard with alerts (object static ≥3 days on a desert road = warning), (5) integration.</li>
+<li>RL/agents framing of the same problem: agents wired to image, radar, and commercial-satellite sources; the RL agent is rewarded for <em>timely</em> flagging of the anomaly. Same problem, two methodological approaches — &quot;three subjects converged to solve the problem.&quot;</li>
+</ul>
+<p><strong>Student business problems dissected (problem → environment → actions → reward):</strong></p>
+<ul>
+<li><em>Perishable inventory (Deep Q-network article)</em> — problem: short shelf life → waste vs stockouts; state: stock levels + days-to-expiry + demand; actions: order 1…10 units; objective: minimize waste + lost sales (balance spoiling against under-ordering).</li>
+<li><em>Healthcare IoT cybersecurity (lecturer&#x27;s found article, Mar 2025)</em> — environment: Microsoft <strong>CyberBattleSim</strong>; network of medical devices (patient monitors, imaging, gateways); actions: switch firewall port, shut device, alert, monitor; DQN + actor-critic compared; &quot;robust cybersecurity&quot; via simulated attacks.</li>
+<li><em>Clinical-notes summarization (EHR)</em> — long-term records lose mid-context when summarized; state = clinical context representation; actions = prescribe/treatment choices in the article&#x27;s framing. Lecturer&#x27;s caveat: student searched domain-first articles, not domain-problems-first.</li>
+<li><em>Insider-threat detection</em> — state: (account × table × encryption/rights settings) combinations; actions the system watches: open table, change encryption, change rights, export; reward = +1 for catching a flagged state-action combination. Lecturer pushed: rewards must be <em>numbers</em>, and you need a <strong>cumulative reward graph</strong> during training or you can&#x27;t see learning.</li>
+<li><em>Optimal trade execution</em> — liquidating 100M NVIDIA shares at once crashes the price → split execution over time; actions: sell/buy x% per step; environment: the (sector) market including competitors reacting; found article: multi-agent market simulator. Multi-agent = other agents react to your sells — interesting but beyond CA1 scope (&quot;you can go over it in the CA, but at least the Q is what you present&quot;).</li>
+</ul>
+<p><strong>DQN mechanics (Atari walk-through):</strong></p>
+<ul>
+<li>Screenshot → CNN → state representation; stack ~5 frames for velocity/acceleration.</li>
+<li>For each state, the net outputs Q for each action (left/right/stay). Going left and missing the ball → negative reward → that (s,a) gets pushed down; iterate back and forth until the net converges.</li>
+<li>Q-function = for a (state, action) pair, the maximum reward obtainable; final layer returns max over Q-values for action selection.</li>
+<li>Training target: <code>r + γ·max Q(s&#x27;,·)</code> (discounted future value); minimize predicted-vs-target error — the formula-heavy slides will be re-presented with pictures in a follow-up.</li>
+<li>Grid worked example (textbook p. 2018 figure): Q-values for up/left/down, highest ≈4, applying discount + reward → current position value ≈2.6.</li>
+</ul>
+<p><strong>Policy methods (preview):</strong></p>
+<ul>
+<li>Architecture nearly identical to DQN: input layer (e.g. CartPole: position, velocity, angle, angular velocity) → FC layers → <strong>softmax</strong> → action probabilities summing to 1.</li>
+<li>Instead of &quot;value of each action&quot;, you get &quot;probability each action is the right one&quot; → sample (stochastic) or argmax (deterministic).</li>
+<li>Continuous spaces: output μ and σ of a normal distribution over the action — recap normal distribution and Z-scores before next classes.</li>
+<li>Open question he left us: what do we supply to the network when training a <em>policy</em> (state? action?) — to be worked through in Python.</li>
+</ul>
+<p><strong>Class activity (unfinished, carries over): DQN vs PPO pros/cons.</strong></p>
+<ul>
+<li>Seeds given: one suits discrete environments, the other continuous; one trains faster on weaker GPUs; finish the comparison table ourselves.</li>
+</ul>
+<p><strong>Misc:</strong></p>
+<ul>
+<li>Lecturer praised the class for finding problems via different routes (article-first, domain-first, problem-first) — but CA marking favors <em>finding the business problem and solving it</em>, not just finding an article.</li>
+<li>Quick sanity check during break: building a 2×64 Keras MLP (6 inputs, 2 outputs) is assumed easy by now.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code>Tabular → Deep Q:
+  W3: Q[s,a] += α(r + γ·max_a&#x27; Q[s&#x27;,a&#x27;] − Q[s,a])      (table)
+  W4: Q(s,a;θ) ≈ neural net.  Loss = E[(r + γ·max_a&#x27; Q(s&#x27;,a&#x27;;θ) − Q(s,a;θ))²]
+      — same Bellman backup, function approximator swapped in.
+
+DQN architecture (discrete actions only):
+  state (stacked frames → CNN, or feature vector → FC)
+  → hidden layers (ReLU/tanh)
+  → output: |A| neurons, one Q-value per action → argmax
+
+Policy network:
+  state → FC layers → softmax → π(a|s), Σ_a π(a|s) = 1
+  Continuous: net outputs μ, σ → a ~ N(μ, σ²)
+
+CartPole state (policy example): [position, velocity, angle, angular_velocity]
+
+DQN vs PPO (to complete):
+  DQN — discrete/limited action spaces; sample-efficient on small problems;
+        struggles with continuous/huge action spaces.
+  PPO — continuous + discrete; policy directly optimized; (fill in pros/cons
+        incl. GPU/training-cost claims from the activity)</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li><strong>CA1 calendar mapping partially resolved</strong> — the open blocker &quot;week-number → calendar-date&quot; now has anchors: <strong>W7 = 5 July (submission), W8 = ~8 July (presentation + feedback)</strong>. Working backwards, idea approval (W3 per the brief) is already past/now — team + topic choice is urgent, not background.</li>
+<li><strong>Core CA = DQN</strong> — this narrows topic choice: pick a problem with a <strong>discrete, limited action space</strong> (inventory ordering, security actions, flag/don&#x27;t-flag) so DQN fits naturally. Avoid continuous-control problems (they&#x27;d force policy methods the CA doesn&#x27;t center on).</li>
+<li><strong>From-scratch constraint (W3 brief) × this lecture</strong> — articles found for the ≥5-article homework will mostly use stable-baselines/RL libraries; read them for environment/reward design, but the implementation must be hand-rolled (Gymnasium environments allowed, RL algorithms not).</li>
+<li><strong>Reward-design lesson ↔ ARM DOE (same day)</strong> — &quot;rewards must be numbers, plot cumulative reward&quot; is the RL version of ARM&#x27;s &quot;report all 27 experiments, not just the winner&quot;. The ≥2-variants requirement is a small factorial design: γ, ε-decay, α, network width as factors → build the DOE table once for both modules.</li>
+<li><strong>Problem-first method ↔ dissertation framing</strong> — domain → top problems → then methods is exactly the gap-positioning logic from ARM W4 (the hard-to-find branch is the novelty).</li>
+<li><strong>Team formation</strong> — 3–5 people; the multi-role split he sketched (data integration / model / anomaly-detection / dashboard) is a usable template for dividing CA1 work.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>Team: who? (3–5, still unformed — now the critical path.)</li>
+<li>Topic: which domain + business problem? Needs a discrete action space and a buildable environment (CyberBattleSim-style simulators are allowed as environments?Confirm vs the no-RL-libraries rule).</li>
+<li>Was idea approval (Week 3 per the brief) formally due already, or does emailing the topic now satisfy it?</li>
+<li>DQN vs PPO pros/cons table — finish it (discrete vs continuous, GPU/training cost, sample efficiency, stability).</li>
+<li>What exactly is supplied to the network when training a policy (state only? state+action?) — he flagged it as the tricky bit for next time.</li>
+<li>Confirm &quot;5 July&quot; (a Sunday in 2026 — likely Moodle midnight) and the Week 8 presentation date.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: What replaces the Q-table in deep Q-learning, and what stays the same?</li>
+<p>A: A neural net mapping state → one Q-value per action. The Bellman backup/target (r + γ·max Q(s&#x27;)) stays the same.</p>
+</ul>
+<ul>
+<li>Q: Why stack ~4–5 frames as the DQN input for Atari?</li>
+<p>A: One frame gives position only; consecutive frames let the CNN infer direction, velocity, and acceleration (temporal information).</p>
+</ul>
+<ul>
+<li>Q: What is the DQN loss conceptually?</li>
+<p>A: Squared error between predicted Q(s,a) and the target r + γ·max_a&#x27; Q(s&#x27;,a&#x27;) — supervised-style predicted-vs-real minimization.</p>
+</ul>
+<ul>
+<li>Q: When is DQN a good fit, and when does it break?</li>
+<p>A: Good: discrete, limited action spaces (one output neuron per action). Breaks: large or continuous action spaces → policy methods.</p>
+</ul>
+<ul>
+<li>Q: How does a policy network&#x27;s output differ from DQN&#x27;s?</li>
+<p>A: Probabilities over actions (softmax, sums to 1) rather than values — π(a|s); sample or take argmax.</p>
+</ul>
+<ul>
+<li>Q: How do policy methods handle continuous action spaces?</li>
+<p>A: Output distribution parameters (μ, σ of a normal); sample the action from N(μ, σ²).</p>
+</ul>
+<ul>
+<li>Q: What was the Atari DQN milestone?</li>
+<p>A: DQN exceeded human performance on &gt;50% of Atari games and discovered non-obvious optimal strategies (e.g. tunneling the ball).</p>
+</ul>
+<ul>
+<li>Q: What&#x27;s the lecturer&#x27;s problem-finding method for CA1?</li>
+<p>A: Domain → list the domain&#x27;s top 10–12 business problems (reputable source) → pick one → then search for RL articles. Problem-first, not article-first.</p>
+</ul>
+<ul>
+<li>Q: Insider-threat example — state, action, reward?</li>
+<p>A: State: account × table × settings combination; actions: open/change-encryption/change-rights/export; reward +1 for catching a flagged combination. Rewards must be numeric and plotted cumulatively.</p>
+</ul>
+<ul>
+<li>Q: CA1 key dates and team size?</li>
+<p>A: Teams 3–5; submission Week 7 = 5 July 2026; presentation + feedback Week 8 ≈ 8 July. Core deliverable centers on deep Q-learning.</p>
+</ul>
+<ul>
+<li>Q: PyTorch vs TensorFlow per the lecturer?</li>
+<p>A: PyTorch → research environments; TensorFlow → production. Either acceptable for the CA; next lecture codes DQN in TensorFlow.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Lecture: RL W4 live lecture 2026-06-10 (DBS) — DQN slides + policy-methods preview (picture-based re-explanation promised as follow-up)</li>
+<li>Mnih et al., DQN/Atari (Nature 2015) — human-level control through deep RL</li>
+<li>Microsoft CyberBattleSim — simulated network-attack environment (healthcare IoT article, Mar 2025)</li>
+<li>Oracle — &quot;12 major challenges in healthcare&quot; (domain-problems exemplar)</li>
+<li>Prior notes: <code>RL-W1-Introduction.md</code>, <code>RL-W2-ValueAndQFunctions.md</code>, <code>RL-W3-QLearningAndFrozenLake.md</code></li>
+<li>CA1 brief: <code>msc-coursework/outputs/rl-ca1/</code> workspace</li>
+</ul>
+<hr>
+<h2>Week 4 Tasks</h2>
+<ul>
+<li>[ ] <strong>Form the CA1 team (3–5)</strong> — critical path; everything else waits on this</li>
+<li>[ ] <strong>Pick domain + business problem</strong> problem-first (domain → top-10 problems → RL fit); favor discrete action spaces for DQN</li>
+<li>[ ] <strong>Email the lecturer the topic</strong> once chosen (counts toward idea approval)</li>
+<li>[ ] <strong>Find ≥5 deep Q-learning articles</strong> in the chosen domain (no policy-method papers) — note business problem, environment, actions, reward design, and library (PyTorch vs TensorFlow)</li>
+<li>[ ] <strong>Study the DQN loss function</strong> before next lecture (TensorFlow DQN coding session)</li>
+<li>[ ] <strong>Finish the DQN vs PPO pros/cons table</strong> from the class activity</li>
+<li>[ ] <strong>Recap normal distribution + Z-scores</strong> ahead of policy-methods lectures</li>
+<li>[ ] <strong>Map remaining week numbers to calendar dates</strong> in <code>rl-ca1/</code> (W7 = 5 Jul, W8 ≈ 8 Jul confirmed today)</li>
+</ul>
+<hr>
+<h2>Upcoming Deadlines</h2>
+<p>| Deadline | Item | |---|---| | ASAP | Team formation + topic email (idea approval was Week 3 per brief) | | Week 7 — 5 Jul 2026 | CA1 submission (40%) | | Week 8 — ~8 Jul 2026 | CA1 presentation + feedback (5-min defence + 15-min individual Q&amp;A) |</p><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 12:22 IST - 11 Jun 2026</span></footer></div></body></html>
