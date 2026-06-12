@@ -1,0 +1,178 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NLP — Week 5: Visualizing Text &amp; Intro to RNNs</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>12.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 13:59 IST - 12 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>NLP — Week 5: Visualizing Text &amp; Intro to RNNs</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Natural Language Processing · msc-coursework/outputs/class-notes/NLP-W5-VisualizingTextAndRNNIntro.md</p></div></section><section class="summary-panel"><span class="pill">NLP</span><span class="pill">Week 5</span><span class="pill">msc-coursework/outputs/class-notes/NLP-W5-VisualizingTextAndRNNIntro.md</span><p class="meta">Modified 2026-06-12T12:20:00+01:00</p></section><h1>NLP — Week 5: Visualizing Text &amp; Intro to RNNs</h1>
+<h2>Focus</h2>
+<p>Two payloads. First: <strong>text visualization</strong> for both CA1 data understanding <em>and</em> model diagnostics — word clouds per class, frequency-distribution bar charts (Yellowbrick), UMAP/t-SNE separability plots, co-occurrence graphs, classification heatmaps, confusion matrices, and <strong>SHAP</strong> for model interpretability. Second: the pivot into <strong>sequencing</strong> — RNN mechanics, vanishing/exploding gradients, and why that limitation motivated LSTMs → GRUs → transformers (next week: build a GPT from scratch). The lecturer&#x27;s sharpest warning: <strong>&quot;Accuracy doesn&#x27;t tell me anything&quot;</strong> — interpret per-class precision/recall/F1 and the confusion matrix; balanced sensitivity <em>and</em> specificity matter equally for blog gender, unlike fraud/churn.</p>
+<hr>
+<h2>CA1 guidance from this lecture (Task 2 — blog gender)</h2>
+<p>She walked the CA1 spec again, with new specifics:</p>
+<ul>
+<li><strong>Dataset is one of the two prescribed only</strong> (blog gender or MIMIC disease code). &quot;Don&#x27;t make the mistake of just using some other data set.&quot; MIMIC needs an MIT-affiliated access request she personally verifies — nobody in this class has requested except Nadisha. You&#x27;re on <strong>blog gender</strong> (locked 2026-06-06). ✅</li>
+<li><strong>AI Studio benchmark first</strong>: it does tokenization → <strong>TF-IDF, top 1,000 tokens</strong>. Copy each algorithm&#x27;s metrics into the <strong>auto-modelling benchmark sheet</strong> (format cells: number, 2 decimal places). This is your floor to beat in Python.</li>
+<li><strong>Pick your 3 algorithms motivated by the benchmark results</strong> — e.g. her sample run showed Naive Bayes failing male recall while the ANN was balanced on both classes. <strong>Include a deep learning model as one of the three</strong>: sklearn <code>MLPClassifier</code>, H2O, TensorFlow or PyTorch ANN — &quot;I don&#x27;t mind what you use.&quot; DL for text &quot;seems to be doing actually okay for blog gender.&quot;</li>
+<li><strong>Representations to vary (≥3)</strong>: BoW TF-IDF (benchmark); count vectorization; TF-IDF + n-grams (1,2) + more features; <strong>TF-IDF → PCA</strong> (fewer, orthogonal/uncorrelated features — &quot;a little bit like normalizing&quot;); embeddings (Word2Vec, BERT, GloVe — GloVe is matrix-factorisation, not deep learning). Trade-off stated explicitly: <strong>embeddings gain meaning/performance but lose the token → no SHAP possible</strong>; SHAP needs BoW features.</li>
+<li><strong>Python is the harder problem than AI Studio</strong>: you split/generalise (test error), AI Studio reports training performance with clever regularisation. But Python lets you use all data and richer embeddings.</li>
+<li><strong>Report under CRISP-DM.</strong> Data understanding visuals she expects: <strong>word cloud per class</strong> (can you eyeball separability?); <strong>token-frequency bar chart</strong> (&quot;visualization fundamentalists&quot; reject word clouds — sizes can&#x27;t be compared exactly; bar chart of tokens × counts is more defensible); <strong>text length per class</strong> (do men write longer blogs than women, post-cleaning?); <strong>UMAP</strong> of high-dim vectors to 2-D coloured by class to check separability. Remove stop words <em>before</em> frequency plots.</li>
+<li><strong>Modelling must include cross-validation and hyperparameter tuning</strong> — &quot;once you&#x27;ve represented your text, it&#x27;s just a machine learning problem&quot;; all best practices apply.</li>
+<li><strong>Metrics</strong>: ignore accuracy except as a descriptive aside. Blog gender has no privileged positive class (unlike fraud/churn) → <strong>sensitivity AND specificity equally important</strong>, per-class precision/recall/F1 from the classification report, <strong>AUC</strong>, and the confusion matrix. Balance the data first. Her COVID-test analogy: a test can look &quot;accurate&quot; while drowning in false positives — you need the whole confusion matrix.</li>
+<li><strong>Deployment section</strong>: a small web app, or just applying the trained model to unseen text in Python and showing the output, suffices.</li>
+<li>3 representations × 3 algorithms = <strong>9 result rows</strong> presented under CRISP-DM headings.</li>
+</ul>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Co-occurrence graph</strong> — tokens are nodes; edge between two tokens that appear within N words of each other; edge weight = co-occurrence count. Built with NLTK (tokenize, extract keywords, <code>combinations</code> of keyword pairs) + NetworkX (<code>add_edge</code> with weight).</li>
+<li><strong>Graph-based topic modelling</strong> — run <strong>Louvain</strong> community detection over a co-occurrence graph → topics. Novel comparator vs LDA (probabilistic) and BERTopic (transformer) for research.</li>
+<li><strong>Knowledge graph / GraphRAG</strong> — Neo4j now auto-builds a knowledge graph from a PDF; enables comparing vector-RAG vs graph-RAG for QA chatbots.</li>
+<li><strong>Word cloud</strong> — per-class token clouds for quick visual separability check (her Amharic-sentiment student example: classes visibly differed even when she couldn&#x27;t read the script).</li>
+<li><strong>Frequency distribution</strong> — Yellowbrick <code>FreqDistVisualizer</code> + sklearn <code>CountVectorizer</code>; plots top-50 tokens. Expects count-vectorized input (no normalisation done for you); strip stop words first (<code>stop_words=&#x27;english&#x27;</code>). Hobbies corpus: cooking → pasta/pan/broccoli/pepper; gaming → players/developers/character/support.</li>
+<li><strong>PosTagVisualizer</strong> (Yellowbrick) — colours text by part of speech; quality is domain-dependent (decent on a recipe, poor on a nursery rhyme). Key-phrase extraction = POS tags + a grammar (regex found by heuristics; fails on ungrammatical text).</li>
+<li><strong>Dimensionality reduction for text</strong> — PCA, Linear Discriminant Analysis, Doc2Vec compress dimensions; cost: you lose the original features (terms/phrases) for interpretation.</li>
+<li><strong>t-SNE</strong> — nonlinear 2-D/3-D embedding via pairwise-similarity probability distributions; the classic &quot;published-paper&quot; projection. Computationally heavy → run <strong>SVD/PCA first</strong> (Yellowbrick <code>TSNEVisualizer</code> does TruncatedSVD→50 components by default; <code>decompose=&quot;pca&quot;</code> available). Feed <code>KMeans.labels_</code> or <code>corpus.target</code> into <code>fit()</code> to colour by cluster/class.</li>
+<li><strong>UMAP</strong> — graph-theory-based reduction; outperforms t-SNE in many contexts; use for class-separability checks (see Flags re: year).</li>
+<li><strong>Classification heatmap</strong> (Yellowbrick <code>ClassificationReport</code>) — per-class precision/recall/F1 as a colour grid; spots weak classes at a glance (GaussianNB struggled with &quot;books&quot; false negatives; SGD with &quot;gaming&quot; false positives).</li>
+<li><strong>Confusion matrix heatmap</strong> (Yellowbrick <code>ConfusionMatrix</code>) — predicted × actual counts; shows <em>which</em> classes confuse the model (LogReg fine on sports/gaming, weak elsewhere). Set application-specific benchmarks, not headline F1.</li>
+<li><strong>SHAP</strong> — model-agnostic interpretability for black-box models (ensembles, deep learning); &quot;almost standard now&quot; for paper submissions. SHAP value ≈ 0 → feature inert; sum of per-feature SHAP values moves the raw score, converted to probability via sigmoid <code>1/(1+e^(−raw))</code>. Plots: <strong>beeswarm</strong> (global, per-example dots), mean-|SHAP| feature importance, <strong>force plot</strong> (single prediction decomposed feature by feature), dependence plot (e.g. capital gains &gt; ~$5–6k → SHAP jumps). For text: works on <strong>BoW token features</strong> (&quot;absolutely fantastic movie&quot; → per-token contribution to sentiment).</li>
+<li><strong>Entity resolution</strong> — Dorothy&#x27;s &quot;Toto&quot;/&quot;little dog&quot;/&quot;dog&quot; are one entity; must be resolved before character co-occurrence networks make sense. A separate, real problem.</li>
+<li><strong>Spring layout</strong> (NetworkX) — heavier-weighted edges pull nodes closer (Wizard of Oz character network); Neo4j&#x27;s D3 view spaces everything equally, so NetworkX wins for this.</li>
+<li><strong>RNN</strong> — recurrent net for sequences: output at step t mixes current input with memory of previous steps. Problem shapes: many-to-one (sentiment), one-to-many (image captioning), many-to-many (translation). Handles variable-length input, order, long-term dependencies, shared parameters across positions.</li>
+<li><strong>tanh</strong> — standard RNN activation, maps to (−1, 1) (vs ReLU in feed-forward ANNs).</li>
+<li><strong>Vanishing / exploding gradients</strong> — backprop-through-time products blow up or shrink to zero → effective context window is tiny; the central RNN failure mode.</li>
+<li><strong>Fixes timeline</strong> — gradient clipping + better initialisation + ReLU (2010s); <strong>LSTM 1997</strong> (forget gate, additive gradient path); <strong>GRU 2014</strong> (simplified, cheaper LSTM); <strong>Transformers 2017</strong> (Vaswani et al., &quot;Attention Is All You Need&quot;) drop recurrence and convolution entirely → wide context.</li>
+<li><strong>Temperature</strong> — divides logits before softmax: low (0.2–0.5) → near-deterministic, repetitive; ~0.7–0.9 → &quot;Shakespeare-like&quot;; ≥1.3 → creative/noisy. The char-RNN demo generated at 0.85.</li>
+<li><strong>Logits → softmax</strong> — model outputs a raw score per vocabulary item; softmax converts to next-token probabilities; largest logit = most probable token. Classification with an LLM = same backbone + a trained classification head (spam/ham demo coming).</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Co-occurrence graphs:</strong></p>
+<ul>
+<li>Tokenize + lowercase → extract keywords → <code>itertools.combinations(keywords, 2)</code> → NetworkX nodes/edges, weight = co-occurrence count within the window.</li>
+<li>Run Louvain over the graph → effective topic modelling. Research framing: LDA (probabilistic) vs BERTopic (transformer) vs co-occurrence+Louvain (graph) on one corpus = &quot;quite novel.&quot;</li>
+<li>Same idea powers character networks (Wizard of Oz): edge = characters within N words; spring layout pulls Dorothy/Toto/Tin Woodman tight, Monkey King far. Underneath it&#x27;s just a big co-occurrence <strong>matrix</strong> → linear algebra (factorisation) and matrix heat maps (characters alphabetical, darker = more interactions) apply.</li>
+<li>Caveat before plotting: <strong>entity resolution</strong> (Toto = &quot;little dog&quot; = &quot;dog&quot;).</li>
+</ul>
+<p><strong>Model diagnostics:</strong></p>
+<ul>
+<li>Pipeline she showed: TF-IDF vectorize → SVD → t-SNE → k-means (k=5) → colour points by cluster; clusters separate nicely on the hobbies corpus. For labelled data (gender), colour by class label instead → separability check.</li>
+<li>Yellowbrick <code>ClassificationReport</code> and <code>ConfusionMatrix</code>: instantiate with the sklearn model + class names, then <code>fit / score / poof</code>. Heat-mapped report &gt; printed report for spotting per-class failures fast.</li>
+<li>Cross-validation is &quot;the gold standard&quot;; report mean ± std across splits.</li>
+</ul>
+<p><strong>SHAP walkthrough (UCI Adult, XGBoost, 200 trees depth 5, AUC 93.04):</strong></p>
+<ul>
+<li><code>explainer = shap.TreeExplainer(model)</code> → <code>shap_values = explainer(X_test)</code>. Plain <code>shap.Explainer</code> auto-picks.</li>
+<li>Beeswarm: wide spread around 0 = influential feature (capital gain, relationship, age, education); tight at 0 = inert (race, country, sex).</li>
+<li>Single example: expected base value −1.189 (≈23–24% positive via sigmoid); per-feature contributions stack to +7.657 → P(income&gt;50k) ≈ 99.8%. Force plot shows the same horizontally.</li>
+<li>Dependence plot: capital gains ≤ ~$5k ≈ flat; above $5–6k SHAP jumps.</li>
+<li>For text: apply to a BoW model and you get per-token impact on the prediction — exactly the interpretability story for CA1 (and why keeping one BoW representation in the grid is strategically smart).</li>
+</ul>
+<p><strong>RNN mechanics:</strong></p>
+<ul>
+<li>Memory <code>a_t</code> is &quot;just a really complex matrix of weights&quot;: current input weighted + previous activation weighted, through tanh. Noun-tagging example: seeing &quot;my name is ___&quot; → previous context pushes y₄ → 1 (noun).</li>
+<li>Trained by backprop through time → vanishing/exploding gradients; practically can&#x27;t unroll far (she said ~4 steps before it degrades — heuristic, not a law). That ceiling on context is <strong>the</strong> reason transformers won.</li>
+<li>History: n-gram language models (P(wₙ | n−1 previous)) → ANNs (no order) → CNNs (spatial) → RNNs (order) → LSTM &#x27;97 → GRU &#x27;14 → attention &#x27;17.</li>
+</ul>
+<p><strong>PyTorch char-RNN demo:</strong></p>
+<ul>
+<li><code>torch.nn.RNN</code> (also <code>.LSTM</code>, <code>.GRU</code> — same API). Character-level: raw text of 604 chars, vocab 40 (letters + punctuation).</li>
+<li>Hyperparams: sequence length 64 (input = chars 1–64, target = next char — same scheme LLMs train on), batch 64, hidden layer 128 neurons, 40 epochs.</li>
+<li>Output = tensor of 40 logits → softmax → sample with <strong>temperature 0.85</strong> → 300-char generation. Result was passable fake Shakespeare (&quot;sounds like Shakespeare, even if it&#x27;s meaningless&quot;).</li>
+<li>Karpathy&#x27;s 2015 blog post (&quot;The Unreasonable Effectiveness of Recurrent Neural Networks&quot;) as background: char-RNNs generating Paul Graham essays, Shakespeare, Wikipedia, LaTeX, Linux source.</li>
+</ul>
+<p><strong>Next week (flagged):</strong></p>
+<ul>
+<li>Deep dive into LLMs/transformers: <strong>build a GPT from scratch in Python</strong>, train on a small dataset (it&#x27;ll be bad), then load OpenAI pre-trained weights (it&#x27;ll be good). Then add a classification head: spam/ham, then instruction following. DL module is at CNNs; RNNs land there next — NLP is running ahead.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># RNN cell (per timestep t):
+#   a_t = tanh(W_aa @ a_{t-1} + W_ax @ x_t + b_a)   # memory: previous activation + current input
+#   y_t = softmax(W_ya @ a_t + b_y)                  # prediction at position t
+# BPTT over long sequences -&gt; gradients vanish/explode -&gt; limited context -&gt; LSTM/GRU/transformers.
+
+# Temperature sampling (the char-RNN generator):
+#   p = softmax(logits / T)    # T&lt;1 sharpens (repetitive), T~0.85 &quot;Shakespeare&quot;, T&gt;1.3 chaotic
+
+# SHAP for a tree ensemble:
+import shap
+explainer = shap.TreeExplainer(xgb_model)        # or shap.Explainer(model) to auto-select
+sv = explainer(X_test)
+shap.plots.beeswarm(sv)                          # global: spread around 0 = influence
+# P(positive) = 1 / (1 + exp(-raw_score))        # base -1.189 -&gt; ~23%; +contribs -&gt; 7.657 -&gt; ~99.8%
+
+# Slide&#x27;s F1 formula is WRONG (inverted). Correct:
+#   F1 = 2 * (precision * recall) / (precision + recall)</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>NLP CA1 (due end of reading week)</strong> — this lecture is effectively the data-understanding + evaluation chapters of your report: word clouds per gender, stop-word-stripped frequency bar charts, blog-length-by-gender, UMAP separability, classification-report heatmaps, confusion matrices, CV + tuning. The SHAP-needs-BoW constraint argues for keeping TF-IDF in your grid alongside embeddings so you can interpret at least one model.</li>
+<li>Connects to <strong>Dissertation</strong> — GraphRAG vs vector-RAG (Neo4j auto-KG from PDF) is directly adjacent to your BR-TaxQA-R RAG-evaluation framing: retrieval architecture is a variable your judges sit downstream of, and worth one line in the methods context. Also: her &quot;agreement on accuracy ≠ accuracy&quot; instinct (confusion matrix over headline accuracy) is the classification-metrics cousin of your core thesis that <strong>agreement ≠ accuracy</strong> for LLM judges — same epistemic move, citable as framing.</li>
+<li>Connects to <strong>DL CA01 (hateful memes, ~2026-07-04)</strong> — identical evaluation discipline applies: per-class P/R/F1 + confusion matrix, not accuracy; hateful-memes is imbalanced, so the &quot;balance the data, check both classes&quot; warning bites harder there.</li>
+<li><strong>Risk flag — Karpathy demo dependency:</strong> next week builds a GPT from scratch in PyTorch, but the lecturer confirmed this class hasn&#x27;t done PyTorch yet (DL is at CNNs, TensorFlow). Budget 1–2h to skim PyTorch basics before Thursday or the transformer build will be syntax-fog.</li>
+<li><strong>Risk flag — CA1 collision:</strong> &quot;end of reading week&quot; still has no confirmed date while the 07-04 → 07-10 crunch (DL/RL/ARM/RS) looms. If NLP CA1 lands inside that window, the 9-model grid needs to start now, not in week 7.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li><strong>Exact NLP CA1 due date</strong> — &quot;end of reading week (Sunday)&quot;, still TBC on Moodle. Time-sensitive given the July crunch.</li>
+<li>Is the <strong>auto-modelling benchmark sheet</strong> template on Moodle, or do you build your own spreadsheet from her sample?</li>
+<li>Word count / page limit for the CA1 report — not stated in either lecture.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: What is a co-occurrence graph and what clustering algorithm turns it into topics?</li>
+<p>A: Nodes = tokens, weighted edges = times two tokens appear within N words; Louvain community detection over it ≈ topic modelling.</p>
+<li>Q: Why does the lecturer dismiss accuracy as a metric?</li>
+<p>A: It&#x27;s (TP+TN)/all — a model can miss virtually every positive case and still score high if negatives dominate; interpret per-class precision/recall/F1 + confusion matrix instead.</p>
+<li>Q: For blog gender, which metrics matter and why?</li>
+<p>A: Sensitivity AND specificity equally (plus per-class P/R/F1 and AUC) — there&#x27;s no privileged positive class, unlike fraud or churn.</p>
+<li>Q: What&#x27;s the interpretability trade-off between BoW and embeddings?</li>
+<p>A: BoW keeps tokens as features → SHAP per-token analysis possible; embeddings capture meaning and usually perform better but lose the token, so no SHAP.</p>
+<li>Q: What does a SHAP value near zero mean, and what plot shows global feature influence?</li>
+<p>A: The feature barely affects that prediction; the beeswarm plot — wide spread around 0 = influential feature.</p>
+<li>Q: Write the RNN update equations.</li>
+<p>A: a_t = tanh(W_aa·a_{t−1} + W_ax·x_t + b); y_t = softmax(W_ya·a_t + b_y).</p>
+<li>Q: Why do plain RNNs fail on long contexts, and name the fixes in order.</li>
+<p>A: Vanishing/exploding gradients in backprop through time; gradient clipping/better init/ReLU → LSTM (1997, forget gate) → GRU (2014, simplified) → transformers (2017, no recurrence).</p>
+<li>Q: What does temperature do at generation time?</li>
+<p>A: Divides logits before softmax — low T sharpens toward the top token (repetitive), high T flattens the distribution (more creative/noisy).</p>
+<li>Q: Why run SVD/PCA before t-SNE?</li>
+<p>A: t-SNE is computationally expensive; reduce dimensions first (Yellowbrick&#x27;s TSNEVisualizer defaults to TruncatedSVD, 50 components).</p>
+<li>Q: Correct F1 formula?</li>
+<p>A: F1 = 2·(precision·recall)/(precision+recall) — the slide had it inverted.</p>
+</ul>
+<hr>
+<h2>Flags / corrections</h2>
+<ul>
+<li><strong>Slide F1 formula is inverted</strong>: slide shows <code>2<em>(P+R)/(P</em>R)</code>; correct is <code>2<em>(P</em>R)/(P+R)</code>. Don&#x27;t copy it into CA1.</li>
+<li><strong>Slide copy-paste error</strong>: the cooking/gaming comparison slide says &quot;cooking corpus&quot; twice; the second list (players, developers, character, support) is the <strong>gaming</strong> corpus.</li>
+<li><strong>UMAP is 2018, not 2020</strong> (McInnes, Healy &amp; Melville, arXiv:1802.03426). She said &quot;2020 algorithm&quot; again (also in W4 notes) — cite 2018.</li>
+<li><strong>&quot;PCA is just a type of LDA&quot;</strong> — garbled. Slides list PCA, Linear Discriminant Analysis and Doc2Vec as <em>separate</em> compression techniques; PCA is unsupervised variance-maximising, LDA is supervised class-separating. (PCA is a special case of SVD — W4.)</li>
+<li><strong>&quot;Karpathy now working for Cloud/Claude&quot;</strong> — verify before repeating; he left OpenAI in 2024 and founded Eureka Labs. The blog post itself (2015, char-RNN) is the citable artefact.</li>
+<li><strong>&quot;RNNs can&#x27;t roll out more than four&quot;</strong> — heuristic shorthand, not a theorem; the real claim is BPTT degrades quickly with depth/length.</li>
+<li><strong>GPT vocab &quot;45,000-odd&quot;</strong> — GPT-2&#x27;s BPE vocabulary is 50,257.</li>
+<li>Transcript garbles: &quot;uvein clustering&quot; = <strong>Louvain</strong>; &quot;Swanee et al&quot; = <strong>Vaswani et al. 2017</strong>; &quot;TISNI&quot; = t-SNE; &quot;GLAVE&quot; = GloVe; &quot;H201&quot; = H2O.</li>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>msc-coursework/inputs/course-materials/natural-language-processing/natural-language-processing-lecture-5-visualizing-text.pdf</code>; transcript pasted into Codex 2026-06-12 (class held 2026-06-11)</li>
+<li>Slide sources: Bengfort, Bilbro &amp; Ojeda (2019) <em>Applied Text Analysis with Python</em>, O&#x27;Reilly; Kucher &amp; Kerren (2015) <em>Text Visualization Techniques</em>, IEEE PacificVis.</li>
+<li>Karpathy (2015) &quot;The Unreasonable Effectiveness of Recurrent Neural Networks&quot; (blog).</li>
+<li>Vaswani et al. (2017) &quot;Attention Is All You Need&quot;; Hochreiter &amp; Schmidhuber (1997) LSTM; Cho et al. (2014) GRU; McInnes et al. (2018) UMAP.</li>
+<li>CA1 spec: <code>msc-coursework/inputs/course-materials/natural-language-processing/natural-language-processing-ca1-assessment.pdf</code></li>
+<li>Assessment status: <code>msc-coursework/inputs/assessments.md</code></li>
+<li>Dissertation context: <code>memory/dissertation/status.md</code></li>
+<li>Prior week: <code>msc-coursework/outputs/class-notes/NLP-W4-TopicModellingAndClustering.md</code></li>
+<li>Reflective journal: <code>msc-coursework/inputs/reflective-journal.md</code></li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] <strong>Run the AI Studio benchmark now</strong> (TF-IDF, 1,000 features) and fill the benchmark sheet, 2-dp formatting — it&#x27;s the prerequisite for motivating your 3 algorithms and it&#x27;s been open since W4.</li>
+<li>[ ] Lock the <strong>3×3 grid</strong> with written motivations: keep one BoW/TF-IDF representation (enables SHAP), one TF-IDF→PCA, one embedding (BERT or GloVe); include <code>MLPClassifier</code> or a small TF/PyTorch ANN as one algorithm.</li>
+<li>[ ] Build the data-understanding visuals: word cloud per gender, Yellowbrick frequency bar chart (stop words removed), blog-length-by-gender, UMAP coloured by class.</li>
+<li>[ ] Plan <strong>SHAP</strong> on the best BoW model — per-token beeswarm is a cheap, examiner-pleasing interpretability section.</li>
+<li>[ ] <strong>Confirm the NLP CA1 due date on Moodle</strong> — if it falls in the 07-04→07-10 crunch, re-sequence the week.</li>
+<li>[ ] Before next Thursday: 1–2h PyTorch syntax primer (tensors, <code>nn.Module</code>, training loop) so the GPT-from-scratch session isn&#x27;t lost time.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 13:59 IST - 12 Jun 2026</span></footer></div></body></html>
