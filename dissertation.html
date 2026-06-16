@@ -73,8 +73,8 @@ a{color:inherit;text-decoration:none}
       <div class="letters"><span style="color:#3a8080">D</span><span style="color:#c89010">I</span><span style="color:#b82010">S</span><span style="color:#3a5c20">S</span><span style="color:#3a8080">E</span><span style="color:#c89010">R</span><span style="color:#b82010">T</span><span style="color:#3a5c20">A</span><span style="color:#3a8080">T</span><span style="color:#c89010">I</span><span style="color:#b82010">O</span><span style="color:#3a5c20">N</span></div>
     </div>
     <div style="text-align:right">
-      <div class="postmark"><b>DBS MSc AI</b><i></i>15.06.26<i></i><b>DUBLIN IE</b></div>
-      <div class="regen">regen 09:15 IST · 15 Jun 2026</div>
+      <div class="postmark"><b>DBS MSc AI</b><i></i>16.06.26<i></i><b>DUBLIN IE</b></div>
+      <div class="regen">regen 09:15 IST · 16 Jun 2026</div>
     </div>
   </header>
 
@@ -84,7 +84,7 @@ a{color:inherit;text-decoration:none}
       <a class="mono" href="index.html">‹ back to week</a>
     </div>
     <div class="strip" style="background:var(--teal-dk)">
-      <span class="mono">Design phase · pre-methods-chapter</span>
+      <span class="mono">Design ratified (D-1…D-10) · literature-review drafting</span>
       <span class="mono">deadline November 2026</span>
     </div>
     <div class="thesis"><span class="script">thesis</span><p>Agreement ≠ accuracy. Inter-judge consistency can increase (e.g., via rubric decomposition) without corresponding gains in correctness against a known label. Primary novelty claim — never blur agreement, bias, and accuracy into one construct.</p></div>
@@ -93,7 +93,7 @@ a{color:inherit;text-decoration:none}
   <div class="stat"><div class="big" style="color:#b82010">4</div><div class="mono">corpus papers</div></div>
   <div class="stat"><div class="big" style="color:#b82010">15</div><div class="mono">lit matrix</div></div>
   <div class="stat"><div class="big" style="color:#3a5c20">0</div><div class="mono">stale rows</div></div>
-  <div class="stat"><div class="big" style="color:#b82010">4</div><div class="mono">verification debt</div></div>
+  <div class="stat"><div class="big" style="color:#b82010">5</div><div class="mono">verification debt</div></div>
 </div>
   </section>
 
@@ -107,7 +107,7 @@ a{color:inherit;text-decoration:none}
     <span class="stamp" style="color:#3a8080">EMPIRICAL</span>
   </div>
   <p class="rq-text">Measure cross-lingual judge bias magnitude via controlled perturbations.</p>
-  <p class="rq-note">Perturbation precedents: ReEval (primary), FaithEval typology, RAGEval (domain framing). Risk-paper noise must be addressed via manual validation of a perturbation sample.</p>
+  <p class="rq-note">PT-BR-only bias magnitude (D-9); English subset is a stretch goal only. Perturbation precedents: ReEval (primary), FaithEval typology. Judge-bias grounding: Zheng et al. (MT-Bench) — position/verbosity/self-enhancement. Risk-paper noise addressed via manual validation of a perturbation sample.</p>
 </div>
 
 <div class="rq">
@@ -116,7 +116,7 @@ a{color:inherit;text-decoration:none}
     <span class="stamp" style="color:#3a8080">EMPIRICAL</span>
   </div>
   <p class="rq-text">Test whether rubric decomposition improves inter-judge agreement on PT-BR RAG faithfulness.</p>
-  <p class="rq-note">Prompt-richness confound is the live design threat — drives the two-vs-three conditions decision.</p>
+  <p class="rq-note">Prompt-richness confound now controlled by the three-condition design (D-1): C1 bare-holistic / C2 elaborated-holistic (content-matched) / C3 decomposed. Zhang (arXiv:2603.28005) is the prompt-controlled correctness study grounding the confound.</p>
 </div>
 
 <div class="rq">
@@ -125,31 +125,31 @@ a{color:inherit;text-decoration:none}
     <span class="stamp" style="color:#c89010">CONCEPTUAL</span>
   </div>
   <p class="rq-text">Critically examine whether agreement gains constitute accuracy gains.</p>
-  <p class="rq-note">Conceptual/critical, not empirical — no PT-BR gold labels. MEMERAG&#x27;s AC1 ≈ 0.45 with trained annotators is the cited ground for rejecting a self-annotated anchor.</p>
+  <p class="rq-note">Conceptual/critical, not empirical — no PT-BR gold labels. MEMERAG AC1 ≈ 0.45 with trained annotators is the cited ground for rejecting a self-annotated anchor (figure still to be located in-paper, body-check #2). Wallat (correctness ≠ faithfulness) is the conceptual sibling.</p>
 </div>
 
 <div class="rq">
   <div class="rq-head">
     <span class="rq-id">RQ4</span>
-    <span class="stamp" style="color:#b82010">SCOPE OPEN</span>
+    <span class="stamp" style="color:#3a8080">DISCUSSION</span>
   </div>
   <p class="rq-text">Assess external validity against existing benchmarks.</p>
-  <p class="rq-note">Standalone RQ vs fold into discussion — undecided.</p>
+  <p class="rq-note">Folded into Discussion (D-2, 14 Jun); no longer a standalone empirical RQ. BERTScore descriptive-only.</p>
 </div>
     </section>
     <section class="inner">
       <div class="inner-title"><h3>Datasets · committed</h3><span class="mono">with caveats</span></div>
       
 <div class="ds">
-  <div class="ds-head"><b>BR-TaxQA-R</b><span class="mono">arXiv:2505.15916</span></div>
+  <div class="ds-head"><b>BR-TaxQA-R</b><span class="mono">arXiv:2505.15916 (verified 2026-06-16)</span></div>
   <p class="ds-role">Primary spine for RAG-triple work</p>
   <p class="ds-caveat">⚠ Only natively PT-BR RAG pipeline dataset with explicit citations. Juridical/fiscal terminology may complicate RQ1 perturbation design.</p>
 </div>
 
 <div class="ds">
-  <div class="ds-head"><b>Quati</b><span class="mono">arXiv:2404.06976 / ACL 2024.stil-1.19 — identity unresolved</span></div>
-  <p class="ds-role">Secondary IR insumo</p>
-  <p class="ds-caveat">⚠ IR-relevance, not a faithfulness substrate. GPT-4 qrels ~50/200 queries. κ=0.31 citable for agreement≠accuracy but scoped to relevance only. EP contamination unverified.</p>
+  <div class="ds-head"><b>Quati</b><span class="mono">STIL 2024 — ACL 2024.stil-1.19 (cite STIL/Oliveira record, NOT arXiv/Bueno)</span></div>
+  <p class="ds-role">Lit-review only — removed from Methods (D-6)</p>
+  <p class="ds-caveat">⚠ IR-relevance, not a faithfulness substrate. κ=0.31 citable for agreement≠accuracy but scoped to relevance only. EP-contamination now lit-only / low-stakes since D-6.</p>
 </div>
       <div class="inner-title" style="margin-top:14px"><h3>Hard constraints</h3></div>
       <ul class="hc-list"><li>No human-annotated PT-BR RAG faithfulness dataset exists — documentable field gap and novelty justification, not a personal limitation</li><li>API-driven methodology only; no GPU</li><li>Single annotator (Nathan)</li></ul>
@@ -162,27 +162,22 @@ a{color:inherit;text-decoration:none}
       
 <div class="od">
   <span class="stamp" style="color:#b82010">TOP</span>
-  <div><b>Two vs three judging conditions</b><p class="od-detail">Needed to isolate decomposition from prompt elaboration (prompt-richness confound). Highest-priority design decision.</p></div>
-</div>
-
-<div class="od">
-  <span class="stamp" style="color:#c89010">OPEN</span>
-  <div><b>RQ4 scope</b><p class="od-detail">Standalone RQ or fold into discussion.</p></div>
-</div>
-
-<div class="od">
-  <span class="stamp" style="color:#c89010">OPEN</span>
-  <div><b>Clustered inference</b><p class="od-detail">Unresolved statistical design problem in agreement-metric calculations.</p></div>
+  <div><b>Reference numbering reconciliation</b><p class="od-detail">Two-to-three incompatible numbering schemes in play (Background draft vs ARM docx §10 vs the 16 Jun expanded draft). Unify before the lit review cites by number (handoff §5).</p></div>
 </div>
 
 <div class="od">
   <span class="stamp" style="color:#3a5c20">NATHAN-ONLY</span>
-  <div><b>Prosa gap-positioning paragraph</b><p class="od-detail">Drafted by Nathan, not generated.</p></div>
+  <div><b>Four branch synthesis paragraphs</b><p class="od-detail">Nathan writes the 4 syntheses. Order: Branch 3 gap paragraph first (with Prosa Table-3 pre-emption), then Branch 1 (Zhang prompt-richness confound).</p></div>
+</div>
+
+<div class="od">
+  <span class="stamp" style="color:#3a5c20">NATHAN-ONLY</span>
+  <div><b>Prosa gap-positioning paragraph</b><p class="od-detail">Drafted by Nathan, not generated. Single most-examined paragraph.</p></div>
 </div>
     </section>
     <section class="inner">
       <div class="inner-title"><h3>Verification debt</h3><span class="mono">viva-critical</span></div>
-      <ul class="vd-list"><li>Fu &amp; Liu arXiv ID (2505.12201 vs 2603.28005 confusion with Zhang)</li><li>Zhang (2603.28005) vs Shen et al. (2602.05125) collision as cited in Prosa</li><li>Quati European Portuguese contamination check</li><li>Quati citation identity (arXiv vs ACL Anthology)</li></ul>
+      <ul class="vd-list"><li>Prosa Table-3 rank agreement: 14/16 (handoff) vs 7/16 (secondary summary) pre-filter — reconcile against the paper before citing.</li><li>Shen et al. (arXiv:2602.05125) independent verification — Zhang (2603.28005) confirmed; cite the abs-page title.</li><li>Fu &amp; Liu: confirm whether Portuguese is among the 25 languages (body-check #1) before any &#x27;Portuguese absent&#x27; claim.</li><li>MEMERAG: locate the AC1 ≈ 0.45 figure in-paper and confirm language coverage (body-check #2).</li><li>Quati EP-contamination — lit-only since D-6, low stakes.</li></ul>
       <div class="inner-title" style="margin-top:14px"><h3>Tooling</h3></div>
       <p style="font-size:11px;margin:0 0 4px">GPT-4.1 · Sabiá-3 (Maritaca researcher credits) · DeepSeek V4</p>
       <p style="font-size:10.5px;color:var(--ink-fnt);margin:0;line-height:1.45">Keshav three-pass + extraction grid; Obsidian structured template; Consensus.app + targeted arXiv</p>
@@ -194,22 +189,32 @@ a{color:inherit;text-decoration:none}
     
 <div class="pa">
   <span class="pa-paper">Prosa (Malaquias Junior et al., arXiv:2605.01630)</span>
-  <span class="pa-role">Most significant collision: decomposition-driven agreement in PT-BR, never establishes accuracy. Dual use — threat to RQ2, strongest exhibit for RQ3. Citable critique: generator-judge circularity.</span>
+  <span class="pa-role">Most significant collision: rubric decomposition raises inter-judge agreement in PT-BR, never establishes accuracy. Dual use — threat to RQ2, strongest exhibit for RQ3. Table-3 pre-emption MUST be acknowledged (pre-filter ranks already largely agree — exact figure unresolved, see verification debt). Citable critique: generator-judge circularity.</span>
 </div>
 
 <div class="pa">
-  <span class="pa-paper">Fu &amp; Liu (arXiv:2505.12201, EMNLP 2025 Findings)</span>
-  <span class="pa-role">Empirical grounding for agreement≠accuracy (avg Fleiss&#x27; κ ≈ 0.3). Portuguese absent. arXiv ID needs independent verification — viva-critical.</span>
+  <span class="pa-paper">Fu &amp; Liu (EMNLP 2025 Findings — ACL 2025.findings-emnlp.587)</span>
+  <span class="pa-role">Empirical grounding for agreement≠accuracy: avg Fleiss&#x27; κ ≈ 0.3 across 5 models, 5 tasks, 25 languages (verified 2026-06-16). Whether Portuguese is among the 25 still unverified (body-check #1) — do NOT claim &#x27;Portuguese absent&#x27; yet. arXiv-vs-venue ID resolved: cite the ACL Findings record.</span>
 </div>
 
 <div class="pa">
-  <span class="pa-paper">MEMERAG (Cruz Blandón et al., ACL 2025)</span>
-  <span class="pa-role">Multilingual RAG meta-eval, no Portuguese → strengthens novelty. AC1 ≈ 0.45 grounds rejecting self-annotation.</span>
+  <span class="pa-paper">MEMERAG (Cruz Blandón et al., ACL 2025 — 2025.acl-long.1101)</span>
+  <span class="pa-role">Multilingual RAG meta-eval built on MIRACL; no Portuguese → strengthens novelty (coverage to confirm, body-check #2). AC1 ≈ 0.45 grounds rejecting self-annotation.</span>
 </div>
 
 <div class="pa">
   <span class="pa-paper">Wallat et al., &quot;Correctness is not Faithfulness&quot; (arXiv:2412.18004)</span>
-  <span class="pa-role">Conceptual sibling to RQ3.</span>
+  <span class="pa-role">Conceptual sibling to RQ3. Up to 57% of citations post-rationalised (verified 2026-06-16).</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">Zheng et al., &quot;Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena&quot; (NeurIPS 2023 — arXiv:2306.05685)</span>
+  <span class="pa-role">Foundational judge-bias reference (position, verbosity, self-enhancement biases) — grounds RQ1&#x27;s bias framing. Was missing from the bibliography; added 2026-06-16.</span>
+</div>
+
+<div class="pa">
+  <span class="pa-paper">Lewis et al., &quot;Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks&quot; (NeurIPS 2020 — arXiv:2005.11401)</span>
+  <span class="pa-role">Foundational RAG reference for Chapter 2 background. Was missing; added 2026-06-16.</span>
 </div>
 
 <div class="pa">
@@ -224,7 +229,7 @@ a{color:inherit;text-decoration:none}
 
 <div class="pa">
   <span class="pa-paper">Sheth et al. (arXiv:2603.18557)</span>
-  <span class="pa-role">Close prior art. Differentiators: PT-BR + agreement-vs-accuracy critique.</span>
+  <span class="pa-role">Close prior art. Differentiators: PT-BR + agreement-vs-accuracy critique. Independent verification still pending.</span>
 </div>
 
 <div class="pa">
@@ -235,7 +240,7 @@ a{color:inherit;text-decoration:none}
 
   <footer class="footer">
     <span class="script">nathan-os</span>
-    <span class="mono">source: dissertation/data/handoff-2026-06-10.md · corpus-status.json · lit-review-stats.json</span>
+    <span class="mono">source: dissertation/data/handoff-2026-06-15-litreview.md (+ citation verification 2026-06-16) · corpus-status.json · lit-review-stats.json</span>
   </footer>
 
 </div>
