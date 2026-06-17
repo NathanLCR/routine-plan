@@ -1,0 +1,182 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARM — Week 6: Ethics, Formatting and the Final Presentation</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>17.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 14:13 IST - 17 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>ARM — Week 6: Ethics, Formatting and the Final Presentation</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Applied Research Methods · msc-coursework/outputs/class-notes/ARM-W6-EthicsFormattingAndPresentation.md</p></div></section><section class="summary-panel"><span class="pill">ARM</span><span class="pill">Week 6</span><span class="pill">msc-coursework/outputs/class-notes/ARM-W6-EthicsFormattingAndPresentation.md</span><p class="meta">Modified 2026-06-17T14:10:35+01:00</p></section><h1>ARM — Week 6: Ethics, Formatting and the Final Presentation</h1>
+<h2>Focus</h2>
+<p>Ethics is the <strong>first thing industry looks at and the last thing students think about</strong> — the lecturer&#x27;s central warning. It now lives inside every module (the standalone Ethics module was dissolved at the last 5-year revalidation and spread across the programme), so it must appear in your <strong>Chapter 2</strong> and your proposal. Two things he wants distinguished forever: <strong>everyone must have ethical _considerations_</strong> (you thought about it); ethical _issues_ (problems that actually arise) are optional. Two concrete deliverables fall out of this lecture: (1) a <strong>risk assessment table + likelihood/severity matrix</strong> for your project, due at the <strong>next ARM class</strong> (no class next week → ~2026-07-01), and (2) <strong>ethics written into Chapter 2</strong>. He also previewed the <strong>final presentation</strong> (starts ~Week 10): 5 minutes, hard-stopped, ~5–7 slides, opening-statement formula. Slide deck title says &quot;Lecture 7&quot;; in class he called it Week 6.</p>
+<hr>
+<h2>Assessments (unchanged from W5)</h2>
+<p>| Assessment | Task | Weight | Submission | |---|---|---|---| | CA1 | Research Proposal | 80% | Week 9 (Moodle) | | CA2 | Research Presentation | 20% | Week 12 (Moodle) — <strong>but he said presentations _start_ Week 10</strong>; confirm exact date on Moodle |</p>
+<p>Risk assessment + matrix → <strong>next class (~2026-07-01)</strong>, in the Google Doc. Ethics section → Chapter 2, started now, expanded next semester.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Considerations vs issues</strong> — _considerations_ = you actively thought about ethics (mandatory for everyone); _issues_ = problems that actually surfaced (you can legitimately have none if you considered everything). Saying &quot;no ethical considerations&quot; = admitting you ignored ethics.</li>
+<li><strong>Research ethics (4 framing definitions)</strong> — (1) moral precepts governing research on human/animal subjects; (2) honesty, respect for participants&#x27; rights, harm avoidance; (3) <strong>guidelines and practices</strong> — a real rulebook you must find, not invent; (4) ML-specific: societal implications, fairness, accountability of deployed models. Pick the angle that fits your project.</li>
+<li><strong>Guidelines exist — you don&#x27;t make them up</strong> — every field (robotics, surveys, manual handling, medical data) has published international guidelines/handbooks. Not knowing them = not knowing the rulebook. DBS has survey-ethics guidance on its site.</li>
+<li><strong>Consent ≠ availability</strong> — a dataset being downloadable does <strong>not</strong> mean you have consent. You must check the dataset description: is it open-source / licensed, or leaked / mistakenly public? &quot;Open source&quot; stated = consent; silence = you may not have consent.</li>
+<li><strong>Reverse-identification harm</strong> — combining quasi-identifiers (job + age + gender + region) can re-identify individuals. Anonymisation/pseudonymisation must survive a malicious reverse-engineer, and outputs must never be traceable to a person.</li>
+<li><strong>Fairness / bias</strong> — biased or imbalanced data → discriminatory models. Decide your imbalance strategy (SMOTE, over/under-sampling, augmentation for images) <strong>this semester, in the plan</strong>, not reactively next semester.</li>
+<li><strong>Accountability + explainable AI</strong> — for any wrong decision (denied loan, accident) you must be able to explain <em>why</em>. &quot;The AI said no&quot; is not accountability. Set an <strong>acceptable accuracy/error threshold _in advance_, justified by references/guidelines</strong> — never accept a random post-hoc accuracy.</li>
+<li><strong>Transparency / security</strong> — can stakeholders understand the model&#x27;s judgments? Are there adversarial weaknesses that could rig results?</li>
+<li><strong>Beneficence / societal good</strong> — must beat what already exists. Copying or under-performing an existing product is unethical (no societal good; ties to IP). Novelty can be small (combine datasets, better features) but must add value.</li>
+<li><strong>Social &amp; environmental impact</strong> (slide in red — emphasised) — simulate 1M+ users: jobs displaced, inequality, energy/compute footprint. Balance upside vs downside; if downside ≥ upside, don&#x27;t do the project. Don&#x27;t hide negatives in the proposal.</li>
+<li><strong>Risk assessment</strong> — table of risks × <strong>likelihood</strong> × <strong>severity</strong>, each with a <strong>mitigation / contingency</strong>. High-severity + low-likelihood is fine if justified. Exposing risks shows you thought it through; funders reject proposals whose risks they spot but you didn&#x27;t.</li>
+<li><strong>Assessment cycle</strong> — ethics/risk is iterative (Define → Select/Design → Implement → Gather → Analyse → Identify gaps → Make decisions → redefine). New risks surface as you read more (papers&#x27; &quot;future work&quot; / failures = your risks).</li>
+<li><strong>Presentation = anti-AI verification</strong> — the viva exists so he can confirm the work is yours. Expect &quot;what is overfitting?&quot;, &quot;what does recall mean and why use it?&quot; — fundamentals that expose ghostwriting/ChatGPT.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Why ethics matters (the industry frame):</strong></p>
+<ul>
+<li>At company scale ethics is the <em>first</em> gate. His Enterprise-Ireland blood/breath project took <strong>6+ months of ethics approval</strong> (40-page document, safety board, recruitment ages, data handling) before any data collection.</li>
+<li>University ethics boards fast-track no-human-subject work but scrutinise human-subject work heavily. Failure → lawsuits, reputational collapse. &quot;It&#x27;s usually one person who sinks the company.&quot;</li>
+<li>The self-checkout example: the tech existed for decades; deployment waited on the <strong>ethics/societal calculus</strong> (jobs vs efficiency), not the technology.</li>
+</ul>
+<p><strong>Data sourced from the internet (applies directly to you):</strong></p>
+<ul>
+<li>Data Privacy &amp; Consent — respect privacy even for public data; confirm explicit authorisation/licence.</li>
+<li>Fairness &amp; Bias in Data — online sources are biased/inaccurate by nature (platform demographics, curation). Identify and reduce. Also check the data wasn&#x27;t <strong>synthetically manipulated/poisoned</strong> by whoever uploaded it — you inherit responsibility for conclusions drawn from it.</li>
+<li>Beneficence &amp; Social Good — produce insight that helps, not a show-off reproduction.</li>
+<li>Retaining Trust &amp; Integrity — adoption of findings depends on trust built by ethical conduct.</li>
+</ul>
+<p><strong>Special ethics for ML (slide 7):</strong> Fairness &amp; Bias; Openness &amp; Definability (explainability to users/regulators); Security (adversarial robustness, result integrity); <strong>Impact on Social &amp; Environmental Domains</strong> (red — environment, inequality, employment; mitigation strategies); Ongoing Assessment (continuous monitoring, retraining, feedback).</p>
+<p><strong>Imbalance — class question worked through live:</strong> 80/20 male/female training data → model under-learns the minority class → real-world misclassification skews toward the majority. Accuracy/confusion matrix can look fine on the small test sample but fails at 1M-user scale; even a 60/40 imbalance surfaces in deployment. Fixes: SMOTE, over/under-sampling, deliberately discarding majority samples, image augmentation (rotation, flips, crops) — <strong>all decided in the plan, with reasons.</strong></p>
+<p><strong>Beneficence examples:</strong> house-price prediction where real prices are already public = no societal good; a movie recommender competing with Netflix needs a niche/differentiator. &quot;Masters means you produce something novel others can learn from,&quot; not an undergrad reproduction.</p>
+<p><strong>Risk assessment mechanics (the deliverable):</strong></p>
+<ul>
+<li>Start as a <strong>table</strong>, then a <strong>likelihood × severity matrix</strong> (red/amber/green). Each row: risk → cause → mitigation → severity → likelihood.</li>
+<li>Example row — <em>risk: not finishing on time</em>; severity <strong>high</strong>; likelihood <strong>low</strong> (you have the time); mitigation: follow the Gantt chart + regular supervisor meetings. (Saying likelihood &quot;medium&quot; implies you&#x27;re planning to fail.)</li>
+<li>Example row — <em>algorithms don&#x27;t work / underfit</em>; severity high; likelihood low <strong>because</strong> chosen from literature with 10–15 supporting references (random choices = high likelihood). This is why &quot;why these algorithms?&quot; matters.</li>
+<li>Mitigations that double as method: 3 algorithms (hedge underfitting), cross-validation + balanced data (overfitting), early start (timeline). <strong>Overfitting is a guaranteed viva question.</strong></li>
+<li>High-risk projects aren&#x27;t banned — they just need <em>more rigorous</em> risk assessment and contingencies.</li>
+</ul>
+<p><strong>Formatting (Ch.2, echoing W5):</strong></p>
+<ul>
+<li>Include the <strong>equations</strong> behind every algorithm you use. Absent equations = &quot;you don&#x27;t know them&quot; → you&#x27;ll be questioned. Popular algorithms (e.g. decision trees) may omit equations in papers because they&#x27;re assumed — get them from a textbook.</li>
+<li>Use <strong>pseudocode</strong> for complex/novel procedures; <strong>never screenshot code</strong> in the report (undergrad habit). Code goes to an appendix / GitHub. Reason: the report must be language-agnostic (an R reader shouldn&#x27;t be thrown by Python).</li>
+<li>Tables for hyperparameters and per-module settings (the W5 DOE tables). EDA to justify the data.</li>
+</ul>
+<p><strong>Communication skills (slide 10):</strong> Oral (presentation skills, audience awareness, critical listening, body language), Written (academic writing, revision/editing, critical reading, data presentation), Non-verbal (audience awareness, personal presentation, body language). Non-verbal <strong>is graded</strong> in the presentation (e.g. on your phone while presenting = marked down).</p>
+<p><strong>Presentation skills — the script (his personal recipe, the high-value part):</strong></p>
+<ul>
+<li><strong>Timing is everything.</strong> 5 minutes = hard stop at 5:00. If he stops you before results/conclusion, those sections score <strong>zero</strong>. Record and rehearse; first attempt always overruns (~2×).</li>
+<li><strong>1-minute-per-slide rule</strong> → a 5-min talk = <strong>5–7 slides</strong>. More slides = useless/confusing.</li>
+<li><strong>Opening statement (first ~30–60s):</strong> state <strong>problem → motivation → solution → conclusion</strong>, high-level, no jargon/acronyms. Like a trailer / court opening statement — someone who steps out and returns still knows what it&#x27;s about. Don&#x27;t hide the conclusion for suspense.</li>
+<li><strong>Hook</strong> — explain the problem well and <em>why it must be solved</em>; remind throughout. 80% of failures come from skipping this and rushing to the solution.</li>
+<li><strong>Literature backing</strong> (the most-violated item — likely going red next year): even 5–10 seconds. Name a lead author + where they&#x27;re from (&quot;Frank and colleagues, 2025&quot;); a table of &quot;what the literature said → gap → my RQs&quot; works. ~30 seconds, but it must be there.</li>
+<li><strong>Methods shorter than results+discussion.</strong> Use tables for methods/hyperparameters. Spend most time on <strong>results &amp; discussion together</strong> (you have no results yet → talk about the <em>proposed</em> solution, evaluation metrics, ethics, what a good result looks like).</li>
+<li><strong>Slides = mostly figures/tables, not text.</strong> Unlike a lecture deck, the audience should <em>need you</em> to interpret them.</li>
+<li><strong>Conclusion</strong> (graded column) — reinforce the opening: &quot;the problem I said mattered, I solved.&quot; Not bullet points read aloud. Psychologically ties the marker to a high score.</li>
+<li>Academic grading = <strong>rubric columns</strong> (problem, literature, methods, results, conclusion, delivery), not &quot;good vibes&quot; — introverts can score 10/10 by ticking boxes. (5 Ps from the slide: Project voice, Pronounce, Pace slightly faster, Pitch varied, Pause for emphasis.)</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code>Soft lecture — no algorithm maths. Two structures to operationalise:
+
+RISK MATRIX (build this for the dissertation — due next ARM class):
+  severity ─────────────►
+  likelihood │  Low      Medium    High
+        High │  amber    red       red
+      Medium │  green    amber     red
+         Low │  green    green     amber
+  Each cell = a named project risk + mitigation/contingency.
+
+PRESENTATION TIME BUDGET (5 min, ~6 slides):
+  Opening statement (problem+motivation+solution+conclusion)  ~0:40
+  Literature backing (1 named author + gap)                   ~0:30
+  Methods (tables, why these choices)                         ~0:50
+  Proposed solution + evaluation metrics + ethics             ~2:30   ← most time
+  Conclusion (tie back to opening)                            ~0:30</code></pre>
+<p>Dissertation metric tie-in: your &quot;acceptable performance set in advance, justified by references&quot; maps to pre-registering your <strong>inter-judge agreement thresholds</strong> (e.g. what Cohen&#x27;s/Krippendorff&#x27;s κ counts as adequate) — and grounding them in cited precedents (MEMERAG AC1 ≈ 0.45; Quati κ = 0.31) rather than reporting whatever you get.</p>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li><strong>Dissertation — consent/provenance is a live ethics _issue_, not just a consideration.</strong> The &quot;online ≠ consent, trace the origin&quot; rule lands directly on your verification debt: <strong>Quati EP contamination</strong> and <strong>Quati citation identity</strong>, plus the W5 &quot;no Kaggle&quot; rule. BR-TaxQA-R (arXiv:2505.15916) and Quati (arXiv:2404.06976) need an airtight licence/consent paragraph in Chapter 2 — confirm both are explicitly open/licensed for research reuse, and document it. This is exactly the kind of thing the viva will probe.</li>
+<li><strong>Dissertation — fairness/bias _is your RQ1._</strong> &quot;Cross-lingual judge bias&quot; is an algorithmic-fairness ethics question: LLM judges may systematically disadvantage <strong>Brazilian Portuguese</strong> (a lower-resource language) relative to English. Frame RQ1 explicitly as a fairness/equity concern in the ethics section, not only as a measurement.</li>
+<li><strong>Dissertation — accountability/explainability ↔ LLM-as-judge opacity.</strong> &quot;Our AI said no&quot; with no explanation is precisely the accountability gap; your core thesis (<strong>agreement ≠ accuracy</strong>) is an accountability argument — high inter-judge agreement can manufacture false confidence without correctness. Use the ethics section to state this risk.</li>
+<li><strong>Dissertation — environmental impact applies even with no GPU.</strong> API-driven evaluation still consumes compute/energy. State a brief compute/cost footprint (calls × model × tokens) — cheap to write, and the slide flags environment in red.</li>
+<li><strong>Dissertation — risk register (build now).</strong> Candidate rows: (1) <strong>judge non-determinism</strong> at temperature &gt; 0 → severity high, mitigate with replication + clustered inference + pinned model versions; (2) <strong>no PT-BR gold labels</strong> → severity high (RQ3 conceptual by design — already mitigated by framing); (3) <strong>single annotator (Nathan)</strong> → bias risk, mitigate with documented protocol; (4) <strong>API cost / rate limits / model deprecation</strong> → mitigate with budget cap + version pinning; (5) <strong>prompt-richness confound</strong> (two-vs-three conditions) → the unresolved top-priority decision <em>is</em> a risk-mitigation choice; (6) <strong>timeline</strong> (RL 07-05 / DL ~07-04 / ARM proposal W9 collision) → severity high, likelihood non-trivial.</li>
+<li><strong>Connects to ARM-W5 (DOE)</strong> — &quot;acceptable accuracy set in advance via references&quot; = the same anti-arbitrariness logic as literature-backed hyperparameter ranges. Defaults/thresholds must be known, reported, justified.</li>
+<li><strong>Connects to NLP CA1 / DL CA01</strong> — both use online datasets (BLOG GENDER, hateful-memes) with obvious bias and consent dimensions; the imbalance-strategy and consent points are reusable across all three ethics sections.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li><strong>Risk assessment due date</strong> — &quot;next time we meet&quot; with no class next week ⇒ ~<strong>2026-07-01</strong>. Confirm on Moodle; this is the nearest deliverable.</li>
+<li><strong>Presentation week</strong> — he said presentations <em>start</em> Week 10 (~2026-07-15), but the W5 note has CA2 at Week 12. Confirm the exact ARM presentation slot/submission date on Moodle (collides with the early-July crunch).</li>
+<li><strong>Corpus licensing</strong> — are BR-TaxQA-R and Quati each <em>explicitly</em> licensed for research reuse? Need the licence text cited in Chapter 2, not an assumption.</li>
+<li><strong>Ethics-section scope this semester</strong> — how much is expected now vs next semester? He said &quot;start it now, expand next semester&quot; — define a minimum (considerations + data consent + fairness + accountability + environment + risk table).</li>
+<li><strong>Does single-annotator design need a formal limitation/ethics statement</strong> beyond the documented field gap? Likely yes — phrase as a considered, mitigated decision.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: Difference between ethical _considerations_ and ethical _issues_?</li>
+<p>A: Considerations = you actively thought about ethics (mandatory for everyone). Issues = problems that actually arose (you can have none if you considered everything). &quot;No considerations&quot; = you ignored ethics.</p>
+</ul>
+<ul>
+<li>Q: Does a downloadable dataset imply consent to use it?</li>
+<p>A: No. Check the description/licence — &quot;open source/licensed&quot; = consent; silence could mean leaked or mistakenly public. Provenance must be traced.</p>
+</ul>
+<ul>
+<li>Q: What&#x27;s wrong with accepting whatever accuracy your model gives?</li>
+<p>A: No accountability. Set an acceptable accuracy/error threshold <em>in advance</em>, justified by references/guidelines.</p>
+</ul>
+<ul>
+<li>Q: Why is an 80/20 class imbalance an ethics problem, not just a metrics problem?</li>
+<p>A: The model under-learns the minority class → discriminatory misclassification at scale, even when test-set accuracy looks fine. Decide a balancing strategy in the plan.</p>
+</ul>
+<ul>
+<li>Q: What three things does each risk-matrix row need?</li>
+<p>A: Likelihood, severity, and a mitigation/contingency (plus cause). High-severity + low-likelihood is acceptable if justified.</p>
+</ul>
+<ul>
+<li>Q: 1-minute-per-slide rule → how many slides for a 5-minute talk?</li>
+<p>A: 5–7 slides. More = useless/confusing.</p>
+</ul>
+<ul>
+<li>Q: What four things go in the opening statement, and in how long?</li>
+<p>A: Problem, motivation, solution, conclusion — ~30–60 seconds, high-level, no jargon. Like a trailer / court opening.</p>
+</ul>
+<ul>
+<li>Q: Which presentation section do students most often skip, costing the most marks?</li>
+<p>A: Literature backing — name one lead author + the gap, ~30 seconds; never present as if you&#x27;re the first to study it.</p>
+</ul>
+<ul>
+<li>Q: Where should most of the 5 minutes go?</li>
+<p>A: Results &amp; discussion together (or, pre-results, the proposed solution + evaluation metrics + ethics). Methods should be shorter.</p>
+</ul>
+<ul>
+<li>Q: Why does the viva/presentation exist at all &quot;these days&quot;?</li>
+<p>A: To verify the work is yours (anti-ghostwriting/anti-AI). Expect fundamentals: &quot;what is overfitting?&quot;, &quot;what does recall mean and why use it?&quot;</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>Ethics.pdf</code> — &quot;Lecture 7: Formatting, Ethics and Final Presentation&quot;, Dr Anesu Nyabadza, DBS (15 slides). <strong>Uploaded by Nathan; file manually into <code>msc-coursework/inputs/course-materials/applied-research-methods/</code> — I won&#x27;t auto-write to <code>inputs/</code> per the workspace rule.</strong></li>
+<li>Transcript: provided by Nathan, 2026-06-17.</li>
+<li>Dissertation context: <code>memory/dissertation/status.md</code>; methodology <code>memory/dissertation/methodology.md</code>.</li>
+<li>Prior notes: <code>ARM-W5-DesignOfExperiments.md</code> (DOE, Chapter 2 = recipe), <code>ARM-W1</code>→<code>ARM-W4</code> in this folder.</li>
+<li>Reflective journal: <code>tasks/REFLECTIVE_JOURNAL.md</code>.</li>
+</ul>
+<hr>
+<h2>Week 6 Deliverable</h2>
+<p>Two items, by the next ARM class (~2026-07-01) / into Chapter 2:</p>
+<ol>
+<li><strong>Risk assessment table + likelihood/severity matrix</strong> for the dissertation — see the candidate rows under Connections. Format: table (risk | cause | mitigation | severity | likelihood) + a coloured matrix.</li>
+<li><strong>Ethics section drafted in Chapter 2</strong> — minimum: ethical considerations statement; data privacy/consent + provenance for BR-TaxQA-R and Quati; fairness/bias (RQ1 cross-lingual judge bias); accountability/explainability (agreement ≠ accuracy); environmental/compute footprint; social good (the PT-BR evaluation gap as the contribution).</li>
+</ol>
+<h2>Homework (slide 15)</h2>
+<ul>
+<li><strong>Reflective diary entry, 100–200 words</strong>, using the Box 1.4 checklist: what went well / not well (and why → so what for my research), adjustments made, key themes across entries, how I&#x27;ll apply it. Write personally — not generated.</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] <strong>Build the dissertation risk table + matrix</strong> (6 candidate rows above) → Google Doc / Chapter 2, before the next ARM class (~2026-07-01).</li>
+<li>[ ] <strong>Draft the Chapter 2 ethics section</strong> (considerations + consent/provenance + fairness + accountability + environment + social good) — you draft, AI only polishes per programme AI-use policy.</li>
+<li>[ ] <strong>Verify corpus licences</strong> — cite explicit research-reuse licence for BR-TaxQA-R and Quati; resolve Quati EP-contamination + citation-identity debt as part of the provenance paragraph.</li>
+<li>[ ] <strong>Confirm presentation date</strong> on Moodle (W10 vs W12) and block rehearsal time given the early-July collision.</li>
+<li>[ ] <strong>Add equations</strong> for your evaluation metrics (κ variants, agreement/bias measures) to Chapter 2; use pseudocode for the judging pipeline, never code screenshots.</li>
+<li>[ ] <strong>Write the 100–200 word reflective entry</strong> → <code>tasks/REFLECTIVE_JOURNAL.md</code>.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 14:13 IST - 17 Jun 2026</span></footer></div></body></html>
