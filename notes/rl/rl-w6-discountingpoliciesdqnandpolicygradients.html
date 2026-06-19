@@ -1,0 +1,129 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RL — Week 6: Return &amp; Discounting, Policies, DQN &amp; Policy Gradients</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>19.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 01:06 IST - 19 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>RL — Week 6: Return &amp; Discounting, Policies, DQN &amp; Policy Gradients</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Reinforcement Learning · msc-coursework/outputs/class-notes/RL-W6-DiscountingPoliciesDQNAndPolicyGradients.md</p></div></section><section class="summary-panel"><span class="pill">RL</span><span class="pill">Week 6</span><span class="pill">msc-coursework/outputs/class-notes/RL-W6-DiscountingPoliciesDQNAndPolicyGradients.md</span><p class="meta">Modified 2026-06-18T14:29:19+01:00</p></section><h1>RL — Week 6: Return &amp; Discounting, Policies, DQN &amp; Policy Gradients</h1>
+<h2>Focus</h2>
+<p>Pre-reading-week consolidation lecture: the lecturer ran the <strong>first ~45 slides fast</strong> (recap of MDP → Return/discounting → policies → Q-value update) and reserved focus for the <strong>last ~30 slides on Deep Q-Networks and Policy Gradients</strong>, skipping ~60 pages of the full &quot;Big 6&quot; deck to be read at home. Core arc: tabular Q-learning <em>doesn&#x27;t scale</em> to real-world state spaces → replace the table with a neural net (<strong>DQN</strong>, two networks + experience replay) → then a second paradigm that learns the policy directly (<strong>Policy Gradients / PPO</strong>). Sharpest warnings, both <strong>CA1-critical</strong>: deadline is now <strong>7 July 2026</strong> (extended), <strong>−2 marks/day</strong> late, <strong>zero after 14 days</strong>; and the CA must be <strong>coded from scratch</strong> — step-by-step, no RL libraries (Ray/Stable-Baselines etc. are off-limits for the build, fine as reference).</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Return (discounted)</strong> — <code>G = r₀ + γr₁ + γ²r₂ + … + γⁿrₙ</code>. The agent maximises <em>total</em> discounted return, not the biggest immediate reward.</li>
+<li><strong>Discount factor γ</strong> — down-weights later rewards by <code>γ^(step)</code>. Two reasons: (1) prefer faster paths to the same reward (fewer steps ⇒ less discounting ⇒ higher value); (2) <strong>but not always</strong> — a longer path with a higher <em>total</em> return still wins (chess example: a fast capture isn&#x27;t the best move if it doesn&#x27;t lead to mate).</li>
+<li><strong>Policy (π)</strong> — the strategy mapping state → action. Variants: greedy (always highest known reward), safe (avoid negative reward), random, and <strong>ε-greedy</strong> (mix of random exploration + greedy exploitation).</li>
+<li><strong>Deterministic vs stochastic policy</strong> — deterministic: one action gets probability 1, all others 0. Stochastic: a probability distribution over actions (e.g. 0.7/0.3).</li>
+<li><strong>V vs Q</strong> — State Value <code>V(s)</code> = expected return from being in state s; State-Action Value <code>Q(s,a)</code> = expected return from taking action a in state s. Q is the basis for action selection.</li>
+<li><strong>Optimal policy</strong> — finding it <em>is</em> the RL problem. Defined by states + actions + rewards; &quot;optimal&quot; is the recurring word (optimal control, optimal models…).</li>
+<li><strong>DQN</strong> — neural net replaces the Q-table; maps state → Q-value per action. Needed because real-world state×action spaces explode (the in-class binning example: 4 params × ~10 bins ⇒ ~100M combinations).</li>
+<li><strong>Experience replay</strong> — store <code>(s, a, r, s&#x27;)</code> tuples, train on <strong>random batches</strong> to break the sequential correlation that breaks standard NN training assumptions.</li>
+<li><strong>Target network</strong> — a second, frozen copy of the Q-network that predicts the target Q-value; Q-network weights are <strong>copied to it every T steps</strong>. Stabilises training (avoids chasing a moving target).</li>
+<li><strong>Policy Gradients</strong> — a net that learns the <strong>optimal policy directly</strong>: input state → output probability distribution over actions; sample an action from it. No Q-table, no argmax.</li>
+<li><strong>PPO (Proximal Policy Optimization)</strong> — the policy-gradient method demoed on CartPole via an MLP policy; the lecturer flagged it has <strong>multiple hyperparameters</strong> to tune (relevant to the CA&#x27;s &quot;≥2 variants&quot; requirement).</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Return &amp; discount (slides 8–18):</strong></p>
+<ul>
+<li><code>Return = r₀ + γr₁ + γ²r₂ + … + γⁿrₙ</code>. With γ=0.5 the second-step reward is halved, third quartered, etc.</li>
+<li>Worked intuition: 2 doors, one 2 steps away, one 20 steps away, same reward → the near door has higher discounted return.</li>
+<li>Counter-case: rewards <code>[2, 0]</code> vs <code>[0, 2]</code> over two steps — early reward wins <em>under discounting</em>, but if a longer path yields a higher <strong>total</strong> (20 here, 0 there summing to 150) the longer path is better. Discounting biases toward early reward; it is <strong>not</strong> always the optimum.</li>
+</ul>
+<p><strong>Policies (slides 11–21):</strong></p>
+<ul>
+<li>Policy = lookup table of which action to pick per state when states/actions are few.</li>
+<li>Stochastic policy = distribution per state (e.g. P(left)=0.7, P(right)=0.3); deterministic = a single action with P=1.</li>
+<li>Optimal policy after training is the deliverable of the whole RL problem.</li>
+</ul>
+<p><strong>Q-value update (slides 22–40):</strong></p>
+<ul>
+<li>Why &quot;Q-tables&quot;: Q = quality/value of the next step. Fill them in Python via iteration over episodes.</li>
+<li>Notation shorthand on slides: <code>Q2</code>, <code>Q6</code> instead of <code>Q(2,2)</code>, <code>Q(6,4)</code>.</li>
+<li>The update is <strong>TD/bootstrapping</strong>: step back from the terminal state, propagate reward to earlier state-actions over many episodes; different episodes (shown in colours) give better/worse estimates that converge.</li>
+<li>Worked example (slide &quot;Update the Q&quot;): S1 →(a1, R1=2)→ S2; S2 has a2/a3/a4 with Q2=3, Q3=4, Q4=7; the current Q(S1,a1) cell gets updated from the max of S2.</li>
+</ul>
+<p><strong>DQN (slides 43–69):</strong></p>
+<ul>
+<li>Workflow: replay picks an ε-greedy action → execute → save <code>(s,a,r,s&#x27;)</code> to replay memory → sample random batch → <strong>Q-network</strong> predicts Q(s,a) on current state, <strong>target network</strong> predicts <code>r + γ max Q(s&#x27;,a&#x27;)</code> on next state → compute loss → backprop to Q-network only → every T steps copy Q-net weights → target net.</li>
+<li>Difference vs a normal NN: standard supervised data is i.i.d.; here you must <strong>simulate/replay the environment</strong> and decorrelate samples, hence replay + a separate target net.</li>
+<li>Lecturer&#x27;s framing: DQN &quot;uses a loss function rather than&quot; a hand-derived table update — structurally supervised-learning-like.</li>
+</ul>
+<p><strong>Policy Gradients / PPO (slides 70–92):</strong></p>
+<ul>
+<li>Net outputs a probability distribution over actions; action chosen by sampling.</li>
+<li>Training data gathered from actual experience; at episode end the whole episode batch is fed in; <strong>policy net weights stay fixed during loss computation</strong>.</li>
+<li>Discounted Return per sample = weighted sum of rewards; take <code>log P(action actually taken)</code>, weight by the discounted return, <strong>sum the negative quantities</strong> across states → that&#x27;s the loss (maximise return ⇒ minimise negative log-prob × return).</li>
+<li>Code demos: <strong>Q-learning</strong> (Gymnasium Taxi-v3, ε-greedy, prints Q-table); <strong>stock trading</strong> (TensorFlow/Keras dense layers, agent looks back 5 days → buy/hold/sell — &quot;random prices, not a business tool&quot;); <strong>PPO on CartPole</strong> (MLP policy, tune ≥2 hyperparameters).</li>
+</ul>
+<p><strong>CA1 admin (top of lecture + Q&amp;A):</strong></p>
+<ul>
+<li><strong>Deadline: 7 July 2026</strong>, &quot;extended a bit&quot; — Week 7 = the Sunday <em>after</em> that week&#x27;s Friday.</li>
+<li>Late penalty: <strong>−2 marks/day</strong>; <strong>14 days late ⇒ 0</strong> (he enforces it — cited a student auto-zeroed at 19 days last year).</li>
+<li>Deliverables: <strong>report (graded) + presentation</strong>. Report has abstract, introduction, methodology, results; include logs/links to data sources.</li>
+<li>&quot;Code is required&quot; and must be <strong>manual/step-by-step</strong> — no RL library shortcuts.</li>
+<li>Report length left vague (&quot;maybe ~3 pages&quot; floated, not fixed) — confirm on Moodle.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># Tabular Q-learning update (slide &quot;Estimated Q-value terms&quot;), verified from slides:
+#   Q(S,A) = Q(S,A) + α ( R + γ·max_a Q(S&#x27;,a) − Q(S,A) )
+#            ^current   ^lr  ^reward  ^discounted best next   ^current estimate
+#                                     └────── TD target ──────┘
+#   └──────────────────── TD error grounds Q in actual data ──────────────────┘
+# In-class simplification: α = 1  -&gt;  Q(S,A) = R + γ·max_a Q(S&#x27;,a)
+
+# DQN target (what the TARGET network computes; Q-network is trained toward it):
+#   y = r                       if s&#x27; terminal
+#   y = r + γ·max_a&#x27; Q_target(s&#x27;, a&#x27;)   otherwise
+#   loss = (Q_online(s,a) − y)^2 ; copy Q_online -&gt; Q_target every T steps
+
+# Policy-gradient (REINFORCE-style) loss the lecturer described:
+#   L = − Σ_t  log π(a_t | s_t) · G_t      # G_t = discounted return of the sample</code></pre>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li>Connects to <strong>RL CA1 (battery storage / DQN)</strong> — the lecturer walked your team through the framing in the Q&amp;A: <strong>states</strong> = battery level, energy price, time of day, consumption rate; <strong>reward</strong> = money saved and/or battery-health preservation (penalise deep discharge / high-current charging). Your core deliverable is the <strong>DQN</strong>, which the slides map end-to-end (replay + target net) — build to <em>this</em> workflow, not PPO. PPO is bonus/secondary.</li>
+<li><strong>Risk flag — dataset/scope question he raised, unanswered:</strong> does the <strong>battery type change across your dataset</strong> (lithium vs lead, different chemistries)? If you train across mixed chemistries you need enough data per type; if single-chemistry, say so and justify. Decide and document this before the report, or it becomes a viva question you can&#x27;t answer.</li>
+<li><strong>Risk flag — &quot;merge two datasets&quot;:</strong> he confirmed you intend to combine an Australian solar/household-use set with an energy-price set. That join (alignment on timestamp/granularity, missing prices) is real data-engineering work — budget for it; it&#x27;s exactly the kind of methodology detail the report&#x27;s marks reward.</li>
+<li>Connects to <strong>W4 (DQN intro)</strong> — W4 introduced state→Q-per-action and frame-stacking; W6 completes the loop with the <strong>two-network + experience-replay</strong> mechanics and the explicit loss. Your W4 homework (≥5 DQN papers, PyTorch vs TF, study the loss) feeds directly into the CA methodology section.</li>
+<li>Connects to <strong>Dissertation</strong> — only loosely (different domain), but the <strong>agreement-vs-accuracy</strong> discipline transfers: in the CA, a high training reward ≠ a correct/robust policy, just as inter-judge agreement ≠ accuracy. Treat reward-curve &quot;convergence&quot; with the same skepticism you treat κ.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li><strong>Deadline conflict — confirm immediately.</strong> CLAUDE.md/blockers still say RL CA1 = <strong>5 July</strong>; the lecturer said <strong>7 July (extended)</strong> but hedged &quot;I might be mistaken.&quot; Two days matter given the <strong>07-04 DL / 07-08 ARM / 07-10 RS</strong> pile-up. Confirm the exact date on Moodle and update <code>assessments.md</code>.</li>
+<li><strong>Idea-approval email — overdue.</strong> Idea approval was due Week 3 (already passed). Has the battery-storage topic + team been formally approved by the lecturer by email yet? If not, this is the critical path, not the code.</li>
+<li><strong>Report length / variant count</strong> — exact page count unconfirmed (&quot;~3 pages?&quot;); CA requires <strong>≥2 model/hyperparameter variants</strong>. For DQN, decide your two variants now (e.g. γ sweep, network width, replay size, or target-update frequency T).</li>
+<li><strong>Battery chemistry scope</strong> (above) — single vs mixed, decided and justified.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: Write the tabular Q-learning update rule.</li>
+<p>A: <code>Q(S,A) ← Q(S,A) + α(R + γ·max_a Q(S&#x27;,a) − Q(S,A))</code>. The bracket is the TD error; the target <code>R + γ·max Q(S&#x27;,a)</code> is grounded in actual data.</p>
+<li>Q: Why does DQN need a <em>second</em> (target) network?</li>
+<p>A: To stop the network chasing a moving target. The target net is a frozen copy that supplies the Bellman target; Q-net weights are copied to it every T steps for stability.</p>
+<li>Q: Why experience replay?</li>
+<p>A: Sequential transitions are correlated, which breaks NN training assumptions. Sampling random batches from stored <code>(s,a,r,s&#x27;)</code> tuples decorrelates the data.</p>
+<li>Q: Deterministic vs stochastic policy?</li>
+<p>A: Deterministic = one action has P=1 (rest 0). Stochastic = a probability distribution over actions per state.</p>
+<li>Q: How do policy gradients differ from DQN?</li>
+<p>A: PG learns the policy directly — net outputs action probabilities and you sample — instead of learning Q-values and taking argmax. Loss = −Σ log π(a|s)·G.</p>
+<li>Q: Two reasons for the discount factor γ, and the caveat?</li>
+<p>A: (1) Prefer fewer-step paths to the same reward; (2) make math/returns finite &amp; prioritise early reward. Caveat: a longer path with higher <em>total</em> return can still be optimal — discounting biases, it doesn&#x27;t decide.</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Slides: <code>msc-coursework/inputs/course-materials/reinforcement-learning/reinforcement-learning-week-6-dqn-discounting-policies-ppo.pdf</code> (93 slides; formulas verified from slides 8, 27, 38, 81); transcript pasted into Cowork 2026-06-18</li>
+<li>Prior RL notes: <code>msc-coursework/outputs/class-notes/RL-W4-DeepQNetworksAndPolicyIntro.md</code></li>
+<li>Assessments / deadlines: <code>msc-coursework/inputs/assessments.md</code></li>
+<li>CA1 working files: <code>msc-coursework/outputs/rl-ca1/</code></li>
+<li>Reflective journal: <code>msc-coursework/inputs/reflective-journal.md</code></li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] <strong>Confirm RL CA1 deadline on Moodle (5 vs 7 July)</strong> and edit <code>msc-coursework/inputs/assessments.md</code> to match — this is the editable exception file.</li>
+<li>[ ] <strong>Verify the topic + team are approved by email</strong> by the lecturer; if not, send the approval email today (idea-approval window already passed).</li>
+<li>[ ] Lock your <strong>two DQN variants</strong> (e.g. γ, network width, replay size, or target-update T) so the &quot;≥2 variants&quot; requirement is designed-in, not bolted on.</li>
+<li>[ ] Decide &amp; document <strong>battery-chemistry scope</strong> (single vs mixed) and the <strong>dataset-merge</strong> plan (timestamp alignment, missing prices) before drafting methodology.</li>
+<li>[ ] Read the skipped ~60 slides at home, focusing on the PPO section, in case you use PPO as the secondary method.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 01:06 IST - 19 Jun 2026</span></footer></div></body></html>

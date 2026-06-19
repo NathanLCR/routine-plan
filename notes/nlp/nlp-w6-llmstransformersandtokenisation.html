@@ -1,0 +1,170 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NLP — Week 6: LLMs, Transformers &amp; Tokenisation (+ CA1 Task 2 walkthrough)</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>19.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 01:06 IST - 19 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>NLP — Week 6: LLMs, Transformers &amp; Tokenisation (+ CA1 Task 2 walkthrough)</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Natural Language Processing · msc-coursework/outputs/class-notes/NLP-W6-LLMsTransformersAndTokenisation.md</p></div></section><section class="summary-panel"><span class="pill">NLP</span><span class="pill">Week 6</span><span class="pill">msc-coursework/outputs/class-notes/NLP-W6-LLMsTransformersAndTokenisation.md</span><p class="meta">Modified 2026-06-19T00:54:38+01:00</p></section><h1>NLP — Week 6: LLMs, Transformers &amp; Tokenisation (+ CA1 Task 2 walkthrough)</h1>
+<h2>Focus</h2>
+<p>Two-part lecture. First half: the lecturer walked through exactly how he wants <strong>CA1 Task 2</strong> done — run the data through AI Studio auto-modelling, read the binary-classifier metrics correctly, pick 3 algorithms × 3 representations (≥9 runs), then improve on the AI Studio benchmark in Colab. Second half: the start of the LLM block — attention, transformers, GPT-2 architecture, transfer learning and tokenisation — building toward coding a GPT <em>from scratch</em> over the coming weeks. Sharpest warning: AI Studio reports <strong>training error</strong>; Colab reports <strong>generalised (test) error</strong>, so your Colab numbers are solving a harder problem — don&#x27;t panic if they&#x27;re lower, justify them (&quot;every model is wrong, some are useful&quot;).</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>AI Studio auto-modelling benchmark</strong> — paste the 9 binary-classifier results into a single benchmark sheet (numeric format). Binary only; multi-class (e.g. MIMIC) can&#x27;t use it.</li>
+<li><strong>Drop KNN</strong> — performs poorly on big/high-dimensional NLP data; exclude from the grid.</li>
+<li><strong>Classification report = the confusion matrix</strong> — the reported precision/recall/F1 are for the chosen <em>positive/most-important</em> class; you must interpret, not just paste.</li>
+<li><strong>AUC ≥ 0.8</strong> — the lecturer&#x27;s rough &quot;good enough&quot; bar for the binary classifier.</li>
+<li><strong>Representation matters as much as algorithm</strong> — BoW/TF-IDF (top 1000) is the baseline; PCA-reduced and <strong>embeddings (BERT/GloVe)</strong> are the upgrades that capture <em>meaning</em>.</li>
+<li><strong>Transformer</strong> — architecture from <em>Attention Is All You Need</em> (Vaswani et al., 2017); dispenses with recurrence/convolution, relies on <strong>self-attention</strong>, parallelisable.</li>
+<li><strong>Attention</strong> — decoder gets access to <em>all</em> encoder hidden states (a weighted combination), removing the RNN encoder→decoder bottleneck.</li>
+<li><strong>Encoder vs decoder</strong> — BERT/DistilBERT/RoBERTa = encoder (strong for classification); GPT = decoder (next-token generation). Encoders have historically beaten decoders on classification.</li>
+<li><strong>Transfer learning for text</strong> — ULMFiT (2018) brought to NLP what was already standard in vision: pretrain LM → domain-adapt → fine-tune task head.</li>
+<li><strong>Token</strong> — a <em>string</em>, not necessarily a word; falls back to sub-word/character; punctuation are tokens too. Token → ID → embedding.</li>
+<li><strong>BPE (byte-pair encoding)</strong> — the tokenisation algorithm behind OpenAI&#x27;s <code>tiktoken</code> (written in Rust, ~6× faster than the Hugging Face tokeniser).</li>
+<li><strong>GeLU</strong> — Gaussian Error Linear Unit; smooth gating, replaces ReLU in the transformer feed-forward block.</li>
+<li><strong>Perplexity</strong> — evaluation metric for the LM (will be poor on the tiny training text — expected).</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>CA1 Task 2 — the workflow the lecturer wants:</strong></p>
+<ul>
+<li>Run BLOG GENDER through AI Studio auto-modelling → paste the per-model metrics into the benchmark sheet (format cells numeric). 9 algorithms, KNN excluded.</li>
+<li>Evaluate like a proper binary classifier: look at <strong>balance</strong> between positive-recall and negative-recall, the <strong>F-measure</strong>, <strong>precision of the positive (most-important) class</strong>, and <strong>AUC (≥0.8)</strong>. For BLOG GENDER both classes matter (unlike churn/fraud where one class is privileged) — so sensitivity ≈ specificity in importance.</li>
+<li>Pick the <strong>3 best-balanced models</strong> and <em>justify</em> the choice. Always include the <strong>feed-forward neural network</strong> (deep learning underpins NLP); pick 2 others from different families with a defensible reason.</li>
+<li>Interpret the scikit-learn report against the confusion matrix: the reported precision/recall is for the class you declared positive; <strong>accuracy still reflects the other class</strong> (e.g. Naive Bayes tanking on the M class drags accuracy down). Show you understand which numbers map to which class.</li>
+</ul>
+<p><strong>CA1 Task 2 — representations (the second axis of the grid):</strong></p>
+<ul>
+<li>Rep 1 = <strong>BoW/TF-IDF, top 1000 features</strong> — AI Studio&#x27;s default, your standard benchmark. <em>Keep one TF-IDF rep for SHAP</em> (carried over from W5).</li>
+<li>Rep 2 = higher-dimensional features <strong>reduced with PCA</strong> — test the effect.</li>
+<li>Rep 3 = <strong>BERT or GloVe embeddings</strong> — expect <em>better</em> results because semantics are encoded (&quot;man eats dog&quot; ≠ &quot;dog eats man&quot;, which BoW can&#x27;t tell apart); a good pattern-detector should then pull signal out more easily.</li>
+<li>3 algorithms × 3 representations = <strong>≥9 runs</strong>; optionally add an <strong>RNN</strong> as a 10th to compare sequence modelling.</li>
+<li>In Colab you split train/test → you measure <strong>generalised error</strong> (harder than AI Studio&#x27;s training error) and you get to do real <strong>hyperparameter tuning + cross-validation</strong>. Aim: beat the AI Studio benchmark.</li>
+<li><strong>DistilBERT is the natural next step</strong> after the RNN — an encoder model, strong for classification. Flagged as the obvious progression beyond CA1.</li>
+</ul>
+<p><strong>CA1 — CRISP-DM report structure (what to present):</strong></p>
+<ul>
+<li>Data understanding: word cloud per class, frequency bar charts (top terms), class-balance check, text-length per class.</li>
+<li>Data prep: describe each representation method and how it works.</li>
+<li>Modelling: brief description of each algorithm; <strong>cross-validation + hyperparameter tuning</strong> (show the grid-search optimal params, e.g. for random forest, and use them as the Colab starting point).</li>
+<li>Evaluation: the metrics, <em>how they&#x27;re calculated</em>, and the results tables (AI Studio benchmark table + your Colab results).</li>
+</ul>
+<p><strong>CA marks framing (lecturer, unprompted):</strong></p>
+<ul>
+<li>CA1 is a small slice of a 5-credit module. The difference between 70 and 80 is ~0.5 toward the degree. <strong>The applied research project is what matters</strong> — put the energy there.</li>
+<li>DBS holds <strong>no IP</strong> on your work → treat CAs as portfolio pieces for GitHub. Interviews weigh soft skills and <em>who you are</em> as much as marks. Don&#x27;t panic over one weaker module.</li>
+</ul>
+<p><strong>LLM block — what the module will build:</strong></p>
+<ul>
+<li>Working text: <strong>&quot;Build a Large Language Model from Scratch&quot; (Raschka)</strong> — in the DBS library + eSource. Code repo is on GitHub (zipped notebooks), uses <strong>PyTorch</strong> (Appendix A is the just-enough-PyTorch primer; CPU is fine until the final instruction-tuning task needs GPU).</li>
+<li>Plan: build a <strong>GPT-2-style architecture from the ground up</strong> → train it on the short story <em>The Verdict</em> (Edith Wharton) → it&#x27;ll generate poorly (tiny data, expected) → <strong>load OpenAI&#x27;s pretrained GPT-2 weights</strong> → fine-tune for (a) <strong>spam/ham classification</strong> and (b) <strong>instruction-following / QA</strong>.</li>
+<li>Today&#x27;s coding = notebook 1: read the PDF, tokenise, build input/output tensors for training.</li>
+</ul>
+<p><strong>Transformers — the lineage:</strong></p>
+<ul>
+<li>RNN limits: vanishing/exploding gradients cap depth at ~4–5 layers; inherently sequential → can&#x27;t parallelise.</li>
+<li>Attention fixed the encoder→decoder bottleneck by exposing all encoder hidden states to the decoder (weighted by relevance). Self-attention then removed recurrence entirely → trains much faster, parallelises.</li>
+<li>Beyond text: <strong>Vision Transformers (ViT)</strong> for images, time-series, structured diagnosis. A current research student is comparing CNN vs ViT vs <strong>JEPA</strong> (LeCun) as a &quot;beyond transformers&quot; direction.</li>
+<li>Karpathy&#x27;s <em>&quot;Unreasonable Effectiveness of RNNs&quot;</em> blog recommended; he&#x27;s now doing similar work on transformers.</li>
+</ul>
+<p><strong>Tokenisation &amp; embeddings (today&#x27;s code focus):</strong></p>
+<ul>
+<li><code>tiktoken</code> uses BPE. A token is whatever string compresses well, not a linguistic word — which is why transformers generalise beyond language.</li>
+<li>Pipeline: tokenise → dedupe → assign integer IDs → embed each ID as a vector. Self-attention compares the <em>embeddings</em>.</li>
+<li><strong>GPT-2 vocab = 50,257 tokens</strong> (the lecturer alternated 50,247/50,257 verbally — 50,257 is correct; see Open Questions). Embedding dim 768 for GPT-2 small; <strong>GPT-3 = 12,288 dim, 175B params</strong>.</li>
+<li>Data prep = sliding window: input tensor and output tensor are the same span <strong>shifted by one token</strong> (next-token prediction); batches are windowed with a stride so pairs don&#x27;t overlap too heavily. Train <strong>1–2 epochs</strong>.</li>
+</ul>
+<p><strong>GPT-2 size table (lecturer):</strong></p>
+<ul>
+<li>small <strong>124M</strong> — 12 heads, 12 transformer blocks, 768 dim → used for spam/ham.</li>
+<li>medium <strong>355M</strong> — 16 heads, 24 blocks, 1024 dim → used for instruction tuning.</li>
+<li>large <strong>774M</strong>; XL <strong>1558M</strong> (1600 dim). Llama architecture is near-identical — small tweaks only.</li>
+</ul>
+<p><strong>Training data scale &amp; provenance:</strong></p>
+<ul>
+<li>GPT-3 ≈ <strong>499B tokens</strong> (lecturer&#x27;s figure); Llama 1 = 1.4T, Llama 2 = 2T, Llama 3 = 15T.</li>
+<li>Vendors <strong>stopped publishing training data</strong> (lawsuits). Early GPT = BookCorpus (~7,000 unpublished books); BERT = <strong>masked language modelling</strong> on BookCorpus + English Wikipedia.</li>
+<li>GPT-3 paper (2020) <em>Language Models are Few-Shot Learners</em> — few-shot via in-prompt demos, no supervised fine-tuning. Microsoft <strong>Phi-3 (2024)</strong> — <strong>data quality over size</strong> for small models.</li>
+</ul>
+<p><strong>Hugging Face &amp; access patterns:</strong></p>
+<ul>
+<li>Model hub (~<strong>2.7M models</strong> as of Mar 2026), datasets, tokenisers; <code>pipeline</code> for sentiment/summarisation/QA. Load pretrained models into RAM for scoring → lets a business ship a small custom LM.</li>
+<li>Three ways to use an LLM: hosted (Claude/ChatGPT/Grok), <strong>local custom</strong> (Hugging Face), or <strong>API</strong> (LangChain — the chatbot exercise will wire a Neo4j knowledge graph + an LLM API).</li>
+</ul>
+<p><strong>Limits / cautions (lecturer):</strong></p>
+<ul>
+<li>Low-resource languages: few pretrained models, <strong>data availability is the bottleneck</strong> → big research opportunity (cited the Amharic sentiment student).</li>
+<li><strong>Bias</strong> = garbage in, garbage out (trained on open internet). <strong>Black-box</strong> explainability is a hard blocker in regulated domains (finance, healthcare).</li>
+<li>On the &quot;why can&#x27;t anyone just build Claude?&quot; question: the <em>concept</em> is reproducible; the engineering (numerical stability, huge-matrix ops, avoiding vanishing/exploding gradients at scale) is not casual work. &quot;It is just computation&quot; — powerful tool, can be misused, doesn&#x27;t replace human creativity/EQ. You can&#x27;t trust its output; critical interpretation is the skill.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># 1) Scaled dot-product self-attention (the heart of the transformer)
+#    Attention(Q,K,V) = softmax( Q K^T / sqrt(d_k) ) V
+#    Q,K,V are linear projections of the token embeddings; the softmax weights
+#    are exactly the &quot;weighted combination of all hidden states&quot; idea.
+
+# 2) Next-token data prep — sliding window (what notebook 1 builds)
+import tiktoken
+enc = tiktoken.get_encoding(&quot;gpt2&quot;)          # BPE, vocab = 50,257
+ids = enc.encode(&quot;the heart of the city ...&quot;)
+ctx = 4                                       # context window
+inputs  = [ids[i:i+ctx]     for i in range(0, len(ids)-ctx, ctx)]  # strided
+targets = [ids[i+1:i+ctx+1] for i in range(0, len(ids)-ctx, ctx)]  # shifted +1
+
+# 3) Turning the GPT into a classifier = swap the head, then fine-tune it
+#    out_head: Linear(768 -&gt; 50_257)  becomes  Linear(768 -&gt; n_classes)
+#    (spam/ham =&gt; n_classes = 2); train the new last layer on labelled text.</code></pre>
+<p>CA1 metric reminder — read these <em>off the confusion matrix</em>, don&#x27;t trust accuracy alone: <code>precision = TP/(TP+FP)</code>, <code>recall/sensitivity = TP/(TP+FN)</code>, <code>specificity = TN/(TN+FP)</code>, <code>F1 = 2·P·R/(P+R)</code>, target <code>AUC ≥ 0.8</code>.</p>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li><strong>Dissertation</strong> — the low-resource-language section <em>is</em> the thesis context. Fewer PT-BR pretrained models + data-availability bottleneck = the documented field gap (no human-annotated PT-BR RAG faithfulness dataset). Frame it as a field gap, not a personal limitation.</li>
+<li><strong>Dissertation (risk flag — BPE on PT-BR)</strong> — <code>tiktoken</code>/GPT-2 BPE is trained predominantly on English, so PT-BR fragments into more sub-word tokens (higher fertility) → cost and possibly judge-behaviour effects. Worth a sentence in the methods/limitations once judges are specified; don&#x27;t assert a magnitude without measuring it.</li>
+<li><strong>Dissertation (LLM-as-judge)</strong> — the lecturer&#x27;s &quot;you can&#x27;t trust it; it&#x27;s a black box; bias in = bias out&quot; is the same caution your <strong>agreement ≠ accuracy</strong> thesis formalises: a decoder-LLM judge can be self-consistent (high agreement) yet wrong/biased. Encoder-vs-decoder framing is relevant to how you characterise the judges.</li>
+<li><strong>DL (W8)</strong> — identical transfer-learning recipe (pretrained backbone → custom head → fine-tune) and the RNN→attention bridge. NLP&#x27;s GPT head-swap mirrors DL&#x27;s &quot;custom head on a backbone&quot; CA1 workflow.</li>
+<li><strong>NLP (W5)</strong> — direct continuation: W5 introduced RNNs + the CA1 grid; W6 adds the embedding representations, DistilBERT as next step, and the metric-interpretation discipline.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li><strong>NLP CA1 due date is still TBC</strong> (&quot;end of reading week&quot;) — confirm on Moodle <em>before</em> the 07-04→07-10 crunch (DL 07-04, RL 07-05, ARM proposal 07-08, RS 07-10). This is the time-sensitive one.</li>
+<li><strong>Which gender is the &quot;positive/most-important&quot; class</strong> for BLOG GENDER? Declare it explicitly so the reported precision/recall/F1 are unambiguous (lecturer made this the core interpretation point).</li>
+<li><strong>Attention paper citation</strong> — before citing in any CA/ARM work, use the <strong>published venue (NeurIPS 2017)</strong>, not the arXiv preprint, and verify the citation count (lecturer said &quot;~275,000&quot; — confirm the real figure rather than quoting his number).</li>
+<li>Add an <strong>RNN and/or DistilBERT</strong> run to the CA1 grid, or keep it at the 9 required runs? Trade-off: marginal marks vs. time in the crunch window — lean toward the 9 + one RNN only if time allows.</li>
+<li>GPT-3 token count: lecturer said 499B — figures in the literature vary (~300–500B); don&#x27;t quote a hard number without a source.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: Why does AI Studio&#x27;s score look better than your Colab score on the same model?</li>
+<p>A: AI Studio reports training error; Colab (train/test split) reports generalised error — a harder problem.</p>
+<li>Q: Which algorithm should always be in the CA1 grid for text, and why?</li>
+<p>A: The feed-forward neural network — deep learning underpins modern NLP; justify the other two by family.</p>
+<li>Q: What is a &quot;token&quot; in an LLM, and how is it different from an NLTK token?</li>
+<p>A: A token is a string/sub-word chosen by BPE (not necessarily a word; punctuation counts); NLTK tokens are roughly whitespace-delimited words.</p>
+<li>Q: How does attention remove the RNN bottleneck?</li>
+<p>A: The decoder accesses all encoder hidden states as a weighted (relevance-based) combination, instead of one compressed final state.</p>
+<li>Q: Encoder vs decoder — which for classification?</li>
+<p>A: Encoder (BERT/DistilBERT/RoBERTa); GPT is a decoder (next-token generation). Encoders historically beat decoders on classification.</p>
+<li>Q: How do you turn a GPT into a classifier?</li>
+<p>A: Replace the final layer (768 → vocab 50,257) with (768 → n_classes) and fine-tune that head on labelled text.</p>
+<li>Q: GPT-2 small vs medium config?</li>
+<p>A: small 124M (12 heads/12 blocks/768 dim); medium 355M (16 heads/24 blocks/1024 dim).</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Transcript pasted into Cowork 2026-06-19 (lecture delivered Thu 2026-06-18). No slide PDF provided.</li>
+<li>Working text: Raschka, <em>Build a Large Language Model from Scratch</em> (DBS library + eSource); GitHub code repo (zipped notebooks), PyTorch.</li>
+<li><em>Attention Is All You Need</em> — Vaswani et al., NeurIPS 2017 (cite published venue, not arXiv preprint).</li>
+<li>GPT-3: Brown et al. 2020, <em>Language Models are Few-Shot Learners</em>; Microsoft <em>Phi-3</em> 2024.</li>
+<li>Karpathy, <em>The Unreasonable Effectiveness of Recurrent Neural Networks</em> (blog).</li>
+<li>Assessment context: <code>msc-coursework/inputs/assessments.md</code> (NLP CA1 block); prior note <code>NLP-W5-VisualizingTextAndRNNIntro.md</code>.</li>
+<li>Dissertation context: <code>memory/dissertation/status.md</code>.</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Confirm the NLP CA1 due date on Moodle (TBC = &quot;end of reading week&quot;) and update <code>assessments.md</code>.</li>
+<li>[ ] Declare the positive/most-important gender class for BLOG GENDER, then build the AI Studio benchmark sheet (9 models, KNN excluded) as Rep 1 (TF-IDF top-1000).</li>
+<li>[ ] Stand up the 3×3 grid in Colab: {feed-forward NN + 2 justified algorithms} × {TF-IDF-1000, PCA-reduced, BERT/GloVe}; keep one TF-IDF rep for SHAP; CV + hyperparameter tuning; report per-class P/R/F1 + AUC + confusion matrix (not accuracy).</li>
+<li>[ ] Decide whether to add one RNN run (time-permitting) and note DistilBERT as the &quot;future work&quot; line.</li>
+<li>[ ] Pull the Raschka GitHub repo + notebook 1 and run the tokenisation/sliding-window prep on CPU before next week&#x27;s attention lecture.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 01:06 IST - 19 Jun 2026</span></footer></div></body></html>
