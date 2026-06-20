@@ -1,0 +1,127 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RS — Week 6 (Class 1, Mon): Text-Analytics Preprocessing for Content-Based RecSys</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>20.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 09:15 IST - 20 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>RS — Week 6 (Class 1, Mon): Text-Analytics Preprocessing for Content-Based RecSys</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Recommender Systems · msc-coursework/outputs/class-notes/RS-W6-TextAnalyticsPreprocessingForContentBased.md</p></div></section><section class="summary-panel"><span class="pill">RS</span><span class="pill">Week 6</span><span class="pill">msc-coursework/outputs/class-notes/RS-W6-TextAnalyticsPreprocessingForContentBased.md</span><p class="meta">Modified 2026-06-20T00:40:54+01:00</p></section><h1>RS — Week 6 (Class 1, Mon): Text-Analytics Preprocessing for Content-Based RecSys</h1>
+<h2>Focus</h2>
+<p>Nitya&#x27;s class. A walkthrough of the <strong>NLP preprocessing pipeline</strong> (the <code>simple-nprs</code>-style Python notebook on Moodle) as the groundwork for content-based recommenders — because content-based methods recommend by <em>deciphering text</em>, and you can&#x27;t compute similarity on raw text. Covered: tokenization → frequency distribution → word cloud → stop-word removal → lexicon normalization (stemming vs lemmatization) → POS tagging. Sharpest point: <strong>preprocessing is the part students skip and lose marks on.</strong> &quot;Many students do text-analytics projects but miss the basic preprocessing steps.&quot; There is no fixed sequence — these are a <em>toolbox</em>, and you pick steps per use case (customer reviews ≠ legal docs ≠ a novel).</p>
+<p>Context flag from Nitya: the content-based slides (vector space model, term-document matrix) had <strong>not actually been covered</strong> by the substitute — the class only reached the Netflix/Spotify/Amazon examples. So this class backfilled NLP fundamentals before the real content-based material (delivered in Class 2).</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Text analytics / NLP</strong> — deciphering unstructured text into something analysable. Underpins LLMs, review mining, legal discovery, healthcare transcription, customer-support triage. Structured data is easy (missing values, dupes, joins); text needs deliberate, use-case-specific preprocessing.</li>
+<li><strong>NLTK</strong> — Natural Language Toolkit; free open-source Python package for natural-language algorithms (tokenizing, POS tagging, stemming, NER, sentiment, topic segmentation).</li>
+<li><strong>Tokenization</strong> — the preliminary step: break text into chunks (sentences, words, phrases, n-grams) and assign each a token. <em>Sentence tokenizer</em> (Punkt) splits into sentences; <em>word tokenizer</em> splits into words. Choice of granularity depends on the use case.</li>
+<li><strong>Frequency distribution (<code>FreqDist</code>)</strong> — counts how often each token occurs; <code>.most_common(n)</code> returns the top-n. Surfaces unique-word count vs total outcomes.</li>
+<li><strong>Word cloud</strong> — visual of token frequency (bigger = more frequent). Useful for spotting a document&#x27;s central theme/top terms, but <strong>decorative — don&#x27;t over-invest</strong>; back it with real algorithms, do 2–3-step analysis.</li>
+<li><strong>Stop words</strong> — high-frequency, low-information filler (&quot;is, am, are, this, and, the, they&quot;). Treated as <strong>noise</strong>; removed before further analysis. NLTK ships a per-language stop-word list in its corpus (you don&#x27;t build it). NOT punctuation, NOT &quot;words ending in a question mark.&quot;</li>
+<li><strong>Lexicon normalization</strong> — reducing morphological variants to a common form. Two flavours: <strong>stemming</strong> and <strong>lemmatization</strong>.</li>
+<li><strong>Stemming (Porter)</strong> — chops derivational <em>affixes</em> to a root. Fast, crude, can produce non-words. &quot;connection/connected/connecting → connect&quot; (good), but &quot;city → citi&quot;, &quot;awesome → awesom&quot;, &quot;blue → blu&quot;, &quot;fly → fli&quot; (bad).</li>
+<li><strong>Lemmatization (WordNet)</strong> — maps to the dictionary <strong>base word (lemma)</strong> using vocabulary + morphology. Slower, linguistically correct. &quot;fly → fly&quot;, ideally &quot;better/best → good&quot;. Generally preferred over stemming; stemming only when resources/compute are tight.</li>
+<li><strong>POS tagging</strong> — assigns part-of-speech tags (noun, verb, adjective…) via NLTK&#x27;s averaged-perceptron tagger. Tag set: <code>NNP</code> proper noun, <code>VBD</code> past-tense verb, <code>VBN</code> past participle, <code>IN</code> preposition, <code>CD</code> cardinal number, etc. Needs the <code>averaged_perceptron_tagger</code> download. One of <em>many</em> tagging schemes (Netflix has whole teams tagging genre/actors/location — a niche specialization).</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<p><strong>Why this matters for RecSys:</strong> content-based recommenders work on the <em>actual content</em> (text of items: news, descriptions, reviews). To compute similarity you first convert text → tokens → cleaned/normalized terms → vectors. Every preprocessing decision here feeds the term-document matrix and TF-IDF used in Class 2.</p>
+<p><strong>Pipeline order shown (a toolbox, NOT a mandatory sequence):</strong></p>
+<ol>
+<li><strong>Sentence tokenize</strong> — split paragraph into sentences (Punkt).</li>
+<li><strong>Word tokenize</strong> — split into words.</li>
+<li><strong>FreqDist</strong> — count word frequencies; inspect <code>.most_common(5)</code>; plot distribution (matplotlib).</li>
+<li><strong>Word cloud</strong> — quick visual of dominant terms.</li>
+<li><strong>Stop-word removal</strong> — filter the token list against <code>stopwords.words(&#x27;english&#x27;)</code>.</li>
+<li><strong>Lexicon normalization</strong> — stemming and/or lemmatization.</li>
+<li><strong>POS tagging</strong> — tag the surviving tokens.</li>
+</ol>
+<p><strong>The lowercase gotcha (the teaching moment):</strong> when filtering stop words, <code>&quot;The&quot;</code> survived because the stop-word list is all-lowercase and <code>&quot;The&quot; != &quot;the&quot;</code>. Fix: lowercase the token <em>before</em> the membership test —</p>
+<pre><code>if w.lower() not in stop_words:
+    filtered.append(w.lower())</code></pre>
+<p>This is the kind of silent bug that quietly corrupts a content-based pipeline (a stop word leaking into the term-document matrix inflates similarity on a meaningless term).</p>
+<p><strong>Stemming vs lemmatization — when each fails/wins:</strong></p>
+<ul>
+<li>On the demo sentence, stemming mangled <code>city→citi</code>, <code>awesome→awesom</code>, <code>pinkish-blue→...blu</code> — meaningless, so stemming was the <em>wrong</em> tool there.</li>
+<li>But stemming isn&#x27;t universally bad — it&#x27;s faster and fine when compute is constrained and exactness doesn&#x27;t matter.</li>
+<li>Lemmatization gave <code>flying→fly</code> (correct) vs stemming <code>fly→fli</code> (wrong). For &quot;better/best → good&quot; you need a <em>richer</em> lemmatizer; the lightweight WordNet default may return the word unchanged (less cognitive load = shallower mapping).</li>
+<li>Both operate on <strong>words</strong> (post-tokenization), confirmed in Q&amp;A — not on whole sentences.</li>
+</ul>
+<p><strong>Use-case-driven preprocessing (the recurring warning):</strong></p>
+<ul>
+<li>No universal recipe — customer-support data, reviews (Yelp/Airbnb/Twitter), legal docs, clinical notes, novels each need a <em>different</em> subset of steps.</li>
+<li>Language matters: English is simple (no gendered objects); French/Spanish/Hindi/Mandarin add gendered nouns and richer morphology — students who pick a language they don&#x27;t speak get <strong>stuck at preprocessing</strong>.</li>
+<li>Advice for final projects: pick <strong>complete, easy-to-work-with data</strong> (reviews, tweets) over domains needing expert knowledge (legal, healthcare) unless someone on the team has that background.</li>
+</ul>
+<p><strong>Group exercise set:</strong> pick any online text (Wikipedia, tweets, reviews), then run the full chain — sentence + word tokenize → stop-word filter → stemming → lemmatization → POS tagging → inspect the word cloud and interpret. Goal: be able to apply preprocessing to <em>any</em> text before touching sentiment/classification.</p>
+<hr>
+<h2>Math / Code</h2>
+<pre><code>import nltk
+nltk.download(&#x27;punkt&#x27;); nltk.download(&#x27;stopwords&#x27;)
+nltk.download(&#x27;wordnet&#x27;); nltk.download(&#x27;averaged_perceptron_tagger&#x27;)
+
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.probability import FreqDist
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+
+text = &quot;Hello Mr. Smith, how are you doing today? The weather is great, and the city is awesome.&quot;
+
+sents  = sent_tokenize(text)          # 1. sentences
+tokens = word_tokenize(text)          # 2. words
+fdist  = FreqDist(tokens); fdist.most_common(5)   # 3. frequencies
+
+stop = set(stopwords.words(&#x27;english&#x27;))            # 5. stop-word removal
+filtered = [w.lower() for w in tokens if w.lower() not in stop]   # NOTE: lowercase BEFORE the test
+
+ps, lem = PorterStemmer(), WordNetLemmatizer()    # 6. lexicon normalization
+stemmed     = [ps.stem(w)      for w in filtered]   # fast, crude  (fly-&gt;fli)
+lemmatized  = [lem.lemmatize(w) for w in filtered]  # correct base (fly-&gt;fly)
+
+nltk.pos_tag(word_tokenize(&quot;Albert Einstein was born in Germany in 1879.&quot;))   # 7. POS
+# -&gt; [(&#x27;Albert&#x27;,&#x27;NNP&#x27;),(&#x27;Einstein&#x27;,&#x27;NNP&#x27;),(&#x27;was&#x27;,&#x27;VBD&#x27;),(&#x27;born&#x27;,&#x27;VBN&#x27;),
+#     (&#x27;in&#x27;,&#x27;IN&#x27;),(&#x27;Germany&#x27;,&#x27;NNP&#x27;),(&#x27;in&#x27;,&#x27;IN&#x27;),(&#x27;1879&#x27;,&#x27;CD&#x27;),(&#x27;.&#x27;,&#x27;.&#x27;)]</code></pre>
+<p>POS tags worth memorising: <code>NNP</code> proper noun · <code>VBD</code> past-tense verb · <code>VBN</code> past participle · <code>IN</code> preposition · <code>CD</code> cardinal number.</p>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li><strong>Feeds RS-W6 Class 2 (Content-Based Recommenders)</strong> directly: tokenization + stop-word removal + normalization produce the cleaned terms that become the <strong>term-document matrix → TF → TF-IDF → cosine similarity</strong>. This class is the &quot;how do we get from text to a vector&quot; half; Class 2 is the &quot;how do we recommend from those vectors&quot; half.</li>
+<li><strong>RS CA1 (group, 60%, due 2026-07-10, presentation 07-13):</strong> requires 2+ recommender types. A <strong>content-based</strong> type built on this NLP pipeline is a natural second type alongside the popularity/ARM models already covered. The &quot;justify every preprocessing step&quot; discipline maps onto the report&#x27;s methodology section.</li>
+<li><strong>Heavy overlap with NLP module</strong> — this is the same toolkit as <code>NLP-W2-TextVectorisation</code> and <code>NLP-W5</code> (word cloud per class, stop-word-removed frequency charts). Nathan can reuse NLP CA1 preprocessing code here; the modules converge on the same TF-IDF/BoW foundation. Lecturer explicitly assumed Terry&#x27;s NLP class was covering this in parallel.</li>
+<li><strong>RS CA2 (XAI/ethics, Week 14):</strong> lemmatization/stemming choices and stop-word lists are interpretability/bias surfaces — a stop-word list or aggressive stemming can silently drop signal or encode language bias. Worth flagging there.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>The substitute lecturer never covered the <strong>vector space model / term-document matrix</strong> slides — Nitya flagged this as &quot;problematic.&quot; Confirm which content-based slides remain outstanding on Moodle (Class 2 with the male lecturer backfilled most of it, but check for gaps).</li>
+<li>Did Nathan&#x27;s breakout group actually complete and submit the preprocessing exercise? (Many students were unresponsive; session ended with most having left.) Check if anything was due.</li>
+<li>Which text dataset will the RS CA1 content-based type use? Pick &quot;complete, easy&quot; data (reviews/tweets) per the lecturer&#x27;s advice — decide before building.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: Why is preprocessing the step students lose marks on?</li>
+<p>A: It&#x27;s use-case-specific and easy to skip; a content-based/text project with sloppy tokenization, stop-word, or normalization steps produces a corrupted term-document matrix and meaningless similarities.</p>
+<li>Q: Tokenization — what and what granularities?</li>
+<p>A: Breaking text into chunks and assigning tokens; granularity = sentences, words, phrases, or n-grams (1-gram, bigram…), chosen by use case.</p>
+<li>Q: What are stop words and where does the list come from?</li>
+<p>A: High-frequency, low-information filler (&quot;the, is, and&quot;); treated as noise and removed. NLTK ships a per-language list in its corpus — you don&#x27;t build it.</p>
+<li>Q: The lowercase gotcha?</li>
+<p>A: Stop-word list is lowercase, so &quot;The&quot; != &quot;the&quot; and survives filtering. Fix: <code>w.lower()</code> before the membership test.</p>
+<li>Q: Stemming vs lemmatization?</li>
+<p>A: Stemming chops affixes to a root — fast, crude, can make non-words (fly→fli, city→citi). Lemmatization maps to the dictionary base word using vocabulary+morphology — slower, correct (fly→fly, better→good). Prefer lemmatization; stem only when compute is tight. Both operate on words.</p>
+<li>Q: POS tags — NNP, VBD, VBN, IN, CD?</li>
+<p>A: Proper noun, past-tense verb, past participle, preposition, cardinal number.</p>
+<li>Q: Is the preprocessing pipeline a fixed sequence?</li>
+<p>A: No — it&#x27;s a toolbox; pick a subset per use case (reviews ≠ legal ≠ a novel; English ≠ gendered/morphologically rich languages).</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Notebook (Moodle, NLP preprocessing — matches): <code>msc-coursework/inputs/course-materials/recommender-systems/recommender-systems-week-3-simple-nprs.ipynb</code></li>
+<li>Parallel NLP notes: <code>outputs/class-notes/NLP-W2-TextVectorisation.md</code>, <code>outputs/class-notes/NLP-W5-VisualizingTextAndRNNIntro.md</code></li>
+<li>Continues in: <code>outputs/class-notes/RS-W6-ContentBasedRecommenders.md</code></li>
+<li>Transcript pasted into Cowork 2026-06-20.</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Confirm on Moodle which content-based slides (vector space model / term-document matrix) were skipped by the substitute and whether Class 2 fully covered them.</li>
+<li>[ ] Decide the RS CA1 content-based dataset (reviews/tweets — &quot;complete &amp; easy&quot; per lecturer).</li>
+<li>[ ] Reuse NLP CA1 preprocessing code (tokenize → stop-words → TF-IDF) for the RS content-based type — single shared pipeline across both modules.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 09:15 IST - 20 Jun 2026</span></footer></div></body></html>

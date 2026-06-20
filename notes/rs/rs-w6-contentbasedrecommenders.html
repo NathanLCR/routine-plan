@@ -1,0 +1,166 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RS — Week 6 (Class 2): Content-Based Recommenders — TF-IDF, Cosine Similarity, Diversity</title><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--bg:#e8d4a4;--paper:#edd9a8;--border:#c8785a;--teal:#3a8080;--teal-dk:#285c5c;--yellow:#c89010;--yellow-l:#e0b030;--red:#b82010;--green:#3a5c20;--ink:#18100a;--ink-mid:#3a2810;--ink-fnt:#7a5c38;--ink-gh:#a88a60;--stamp:#c85020;--r-md:4px;--r-lg:8px;--shadow-card:3px 3px 0 var(--ink-mid);--shadow-outer:0 6px 32px rgba(24,16,10,.22)}*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.62}a{color:inherit}.linen{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:.07;mix-blend-mode:multiply}.frame{margin:10px;min-height:calc(100vh - 20px);border:6px solid var(--border);border-radius:var(--r-lg);padding:22px 28px 28px;box-shadow:var(--shadow-outer)}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--border);padding-bottom:14px;margin-bottom:14px}.script{font-family:'Pacifico',cursive;color:var(--red)}.greet{text-align:center}.letters{display:flex;gap:1px}.letters span{font-family:'Oswald',Impact,sans-serif;font-size:34px;font-weight:700;-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);line-height:1}.postmark{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:64px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);transform:rotate(-8deg);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.08em}.postmark b{font-family:'Oswald';font-size:7px}.postmark i{width:80%;height:1px;background:var(--stamp);margin:2px 0}.regen,.mono,.meta,.smallcaps{font-family:'DM Mono';font-size:8px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.card,.summary-panel,.content,.sidebox{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:var(--shadow-card);background:transparent;padding:16px;margin:14px 0}.hero{border:2px solid var(--ink);border-radius:var(--r-md);box-shadow:4px 4px 0 var(--ink-mid);overflow:hidden;margin-bottom:14px}.hero-head{background:var(--teal);padding:10px 18px;color:white;display:flex;justify-content:space-between;gap:12px;align-items:center}.hero-head h1{font-family:'Oswald';font-size:clamp(26px,4vw,42px);line-height:1;margin:0;letter-spacing:.03em}.hero-body{background:#c8901018;padding:14px 18px}.hero-body p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;margin:0}.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.kicker,.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #18100a35;background:#18100a06;font-family:'DM Mono';font-size:9px;color:var(--ink-fnt);letter-spacing:.08em;text-transform:uppercase}.button{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:8px 11px;border:1.5px solid var(--teal);background:#3a808018;color:var(--teal-dk);font-family:'Oswald';font-size:11px;letter-spacing:.08em;text-transform:uppercase;box-shadow:2px 2px 0 var(--ink-mid);text-decoration:none}h1,h2,h3{font-family:'Oswald',Impact,sans-serif;line-height:1.1}h2{font-size:24px;margin:28px 0 12px;color:var(--teal-dk)}h3{font-size:16px;margin:22px 0 8px;color:var(--red);text-transform:uppercase}p{margin:0 0 14px}ul,ol{padding-left:22px}li{margin:8px 0}hr{border:0;border-top:2px solid var(--border);margin:22px 0}code{background:#18100a10;border:1px solid #18100a25;padding:1px 5px;font-family:'DM Mono'}pre{background:#18100a0d;border:1.5px solid var(--ink-mid);overflow:auto;padding:14px;box-shadow:2px 2px 0 var(--ink-mid)}pre code{background:none;border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note-card{display:flex;flex-direction:column;gap:9px;min-height:210px;border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05}.note-card__meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.note-card h3{font-size:19px;color:var(--ink);margin:2px 0;text-transform:none}.note-card p{color:var(--ink-mid);flex:1}.article{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:14px;align-items:start}.toc{display:flex;flex-direction:column;gap:8px;margin-top:12px}.toc a{border:1px solid #18100a25;padding:7px;background:#18100a05;font-family:'DM Mono';font-size:10px}.content h1{font-size:clamp(30px,4vw,46px);margin:0 0 16px}.summary{color:var(--ink-mid)}input{width:100%;padding:12px 13px;border:2px solid var(--ink);background:#edd9a8;color:var(--ink);font-size:14px;margin:10px 0 14px;font-family:'DM Sans'}footer{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:8px;margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border-left:2px solid #18100a25;padding-left:12px}.stat b{display:block;font-family:'Oswald';font-size:31px;color:var(--red)}.module-nav{display:flex;gap:8px;flex-wrap:wrap}.module-card{border:2px solid var(--ink);box-shadow:var(--shadow-card);padding:14px;background:#18100a05;display:flex;flex-direction:column;gap:8px}.module-top{display:flex;justify-content:space-between}.code{font-family:'Oswald';font-size:22px}.count{font-family:'DM Mono';font-size:9px;color:var(--ink-fnt)}@media(max-width:820px){.frame{padding:14px}.mast{align-items:flex-start}.letters span{font-size:25px}.article{grid-template-columns:1fr}.grid,.stats{grid-template-columns:1fr}footer{display:block}.hero-head{align-items:flex-start}.hero-head h1{font-size:26px}.card,.summary-panel,.content,.sidebox{padding:14px}}
+</style></head><body><svg class="linen" aria-hidden="true"><filter id="linen"><feTurbulence type="fractalNoise" baseFrequency="0.85 0.45" numOctaves="6" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#linen)" fill="black"/></svg><div class="frame"><header class="mast"><div class="greet"><div class="script" style="font-size:13px">Study</div><div class="letters"><span style="color:var(--teal)">N</span><span style="color:var(--yellow)">O</span><span style="color:var(--red)">T</span><span style="color:var(--green)">E</span><span style="color:var(--teal)">S</span></div></div><div style="text-align:right"><div class="postmark"><b>DBS MSc AI</b><i></i>20.06.26<i></i><b>DUBLIN IE</b></div><div class="regen">generated 09:15 IST - 20 Jun 2026</div></div></header><div class="crumbs"><a class="kicker" href="../../index.html">Dashboard</a><a class="kicker" href="../index.html">Study Notes</a></div><section class="hero"><div class="hero-head"><h1>RS — Week 6 (Class 2): Content-Based Recommenders — TF-IDF, Cosine Similarity, Diversity</h1><span class="mono">generated note page</span></div><div class="hero-body"><p>Recommender Systems · msc-coursework/outputs/class-notes/RS-W6-ContentBasedRecommenders.md</p></div></section><section class="summary-panel"><span class="pill">RS</span><span class="pill">Week 6</span><span class="pill">msc-coursework/outputs/class-notes/RS-W6-ContentBasedRecommenders.md</span><p class="meta">Modified 2026-06-20T00:40:54+01:00</p></section><h1>RS — Week 6 (Class 2): Content-Based Recommenders — TF-IDF, Cosine Similarity, Diversity</h1>
+<h2>Focus</h2>
+<p>Male lecturer&#x27;s class. Two halves: (1) finish the <strong>ARM paper-reading activity</strong> (two papers, healthcare/suicide + ARM review — the learning outcome was <em>how to read and code a paper</em>, not the ARM content itself); (2) the real material — <strong>content-based recommendations</strong>: vector space model → term-document matrix → TF → normalization → IDF → <strong>TF-IDF</strong> → <strong>cosine similarity</strong> → <strong>Shimazu diversity algorithm</strong> → evaluation (overfitting, cross-validation, precision/recall/F1). Then a <strong>pen-and-paper tutorial</strong> (cosine + Shimazu + IDF worked by hand) the class did live. Sharpest point: <strong>cosine similarity is a fully interpretable model — you can decompose it to an equation and do it on paper</strong> — which is exactly why it&#x27;s safe to defend in a thesis and why it pairs well with the XAI requirement.</p>
+<hr>
+<h2>Key Concepts</h2>
+<ul>
+<li><strong>Content-based recommendation</strong> — recommends using the <em>actual content</em> of items (text/keywords/descriptions) via similarity, not user history. Needs content; uses similarity (and diversity) to rank.</li>
+<li><strong>Personalized vs non-personalized</strong> — personalized = per-individual from their characteristics/preferences; non-personalized = general group behaviour (popularity, trending), ignores individual history. Class focused on <strong>non-personalized</strong> (easier, fewer data needs).</li>
+<li><strong>Three non-personalized families</strong> — (a) aggregate opinions (all users&#x27; prefs, e.g. Netflix); (b) product-association recommenders (item-item relations, e.g. Amazon); (c) description-based (NLP on item text, e.g. chatbots).</li>
+<li><strong>Vector space model</strong> — represent each item/document as a vector; dimensions = terms (keywords/features); entries = how often each term appears. Find nearest documents by angle.</li>
+<li><strong>Term-document matrix</strong> — rows = terms (features you extract), columns = documents; cell = term frequency in that document. Feature extraction quality makes or breaks the recommender.</li>
+<li><strong>TF (term frequency)</strong> — raw count of a term in a document.</li>
+<li><strong>Normalization</strong> — scale counts (→ 0–1) so long documents and high-count terms don&#x27;t <strong>dominate</strong>; converts absolute differences to <em>relative</em> ones, gives recommendation fairness.</li>
+<li><strong>IDF (inverse document frequency)</strong> — <code>log(N / df)</code>: down-weights terms appearing in <em>many</em> documents (they don&#x27;t discriminate). A term in <em>all</em> documents → IDF = 0 → dropped.</li>
+<li><strong>TF-IDF</strong> — normalized TF × IDF. Net effect: kills (1) over-long documents [normalization] and (2) ubiquitous useless terms [IDF]. The resulting weighted table is what you recommend from.</li>
+<li><strong>Binary representation</strong> — instead of counts, 1/0 for present/absent. Used for <strong>short docs (tweets)</strong> and to cut computation. TF-IDF still zeroes out the all-documents terms.</li>
+<li><strong>Cosine similarity</strong> — <code>cos θ = (A·B) / (|A||B|)</code>. Angle between two document vectors; 0–1. The day&#x27;s main similarity metric.</li>
+<li><strong>Diversity</strong> — recommending <em>only</em> the most-similar item is often useless (bought a water bottle → don&#x27;t recommend another bottle). Balance similarity with deliberately <em>dissimilar</em> picks.</li>
+<li><strong>Shimazu algorithm</strong> — picks 3 recommendations: <strong>C1 = most similar</strong>, <strong>C2 = most dissimilar</strong>, <strong>C3 = most dissimilar to both C1 and C2</strong> (balances similarity + diversity).</li>
+<li><strong>Overfitting</strong> — model memorizes training data, fails on new content. Mitigate: train/test split (80/20, 70/30), <strong>k-fold CV</strong> (k=3 typical; too many folds on small data → low accuracy), leave-one-out.</li>
+<li><strong>Precision / recall / F1</strong> — evaluation beyond accuracy. Use when classes are <strong>imbalanced</strong> (fraud at ~1% → 98% accuracy is terrible) or when false-positives vs false-negatives have asymmetric cost (medical = avoid mistakes; actionable decisions → recall). F1 balances precision &amp; recall.</li>
+</ul>
+<hr>
+<h2>Notes (live capture)</h2>
+<h3>Part 1 — ARM paper-reading activity (process, not content)</h3>
+<ul>
+<li>Two papers, in groups (split A/B): a short <strong>diabetes/suicide-rate</strong> study (oversampling to balance, removed features like anxiety/depression, type-1 diabetics more at risk) and an <strong>ARM review/survey paper</strong>.</li>
+<li>Method drilled: <strong>read → underline/highlight → quote with the reference → write paragraph answers coding directly from the paper</strong> (quotes to avoid plagiarism). Each sub-group summarizes its paper for those who didn&#x27;t read it, then answers questions as the &quot;experts.&quot; Whole team must know both papers.</li>
+<li>Learning outcome (stated): <em>how to read, analyze, and discuss a paper</em> — see how others extract detail, how papers discuss equations/criteria/rule-counts (the ARM review narrowed to 263 rules and analyzed them).</li>
+<li>Recurring exam-style callbacks pulled from the review paper:</li>
+<li><strong>Most common application of Apriori/ARM = social media (Twitter)</strong> — there&#x27;s a graph showing ~80% of use cases.</li>
+<li><strong>Main advantage of ARM = interpretability</strong> (vs neural nets / traditional ML). &quot;Interpretability = you can decompose it into an equation, do it on pen and paper, know exactly how the decision was made.&quot; → If you use &quot;explainable AI&quot; in research, you must <em>define</em> interpretability.</li>
+<li>Report submitted on Moodle (~4pm deadline, slight extension given). Names + team members on it; one submission per team.</li>
+</ul>
+<h3>Part 2 — Content-based recommendations</h3>
+<p><strong>Where it sits / when to use it:</strong></p>
+<ul>
+<li>Traditional applications: <strong>news articles, web pages, movies, books</strong>. Doesn&#x27;t need a user profile — recommends items <em>similar to what you mentioned</em>.</li>
+<li><strong>Advantages:</strong> easy to implement (little data on the person); <strong>handles new items</strong> (cold start — a new item can still be recommended); can recommend <strong>niche items</strong> (the <em>opposite</em> of ARM, which kills niche items via the support threshold).</li>
+<li><strong>Disadvantages:</strong> limited by <strong>feature-extraction quality</strong> (bad similarity features → bad recommender); doesn&#x27;t distinguish high/low-quality items — <strong>no ranking/quality distinction</strong>.</li>
+<li>Real systems (Netflix/Amazon) <strong>combine</strong> content-based + ARM + collaborative — not one type.</li>
+</ul>
+<p><strong>TF-IDF build (the pipeline to reproduce):</strong></p>
+<ol>
+<li>Build term-document matrix (raw TF counts).</li>
+<li><strong>Normalize</strong> TF (0–1) — kills domination by long docs / high-count terms; relative not absolute.</li>
+<li>Compute <strong>IDF = log(N/df)</strong> per term — a term in all docs → 0 (useless for discrimination).</li>
+<li><strong>TF-IDF = normalized TF × IDF</strong> → new weighted table; recommend from <em>this</em>.</li>
+<li>(Short docs) use <strong>binary</strong> TF (1/0) to reduce computation; TF-IDF still zeroes ubiquitous terms.</li>
+</ol>
+<p><strong>Cosine similarity — interpretation guide (memorise):</strong></p>
+<ul>
+<li><code>cos θ = 1</code> → angle 0° → identical/very similar (same direction).</li>
+<li><code>cos θ ≈ 0.5–1</code> → moderately similar.</li>
+<li><code>cos θ = 0</code> → 90° → completely dissimilar/orthogonal.</li>
+<li><code>&lt; 0</code> → opposite. Compute similarity for <em>every document pair</em>; new document → find nearest (or, with Shimazu, nearest + farthest + balance).</li>
+</ul>
+<p><strong>Diversity &amp; Shimazu:</strong> similarity-only recommendations are often weak (another water bottle). Shimazu returns <strong>C1 most similar, C2 most dissimilar, C3 most dissimilar to both</strong> → similarity + diversity balance. Movies tolerate high similarity (similar-but-different stories); shopping often wants diversity.</p>
+<p><strong>Evaluation:</strong></p>
+<ul>
+<li><strong>Overfitting</strong> → 80/20 or 70/30 split; <strong>k-fold CV (k=3 typical)</strong>; leave-one-out. Don&#x27;t trust a single grid-search result — repeat and average (averaged accuracy is usually lower but honest).</li>
+<li><strong>Beyond accuracy:</strong> precision, recall, F1. Imbalanced data (fraud ~1% → 98% accuracy worthless) and asymmetric error costs (medical → minimize mistakes; actionable → recall) demand these. F1 balances the two. (Same lesson as NLP CA1: per-class P/R/F1 + confusion matrix, not accuracy.)</li>
+</ul>
+<h3>Part 3 — Worked tutorial (done live, pen-and-paper)</h3>
+<p><strong>Cosine worked example (verified):</strong> D1 = [3,0,2,5], |D1| = √38 ≈ 6.16. With a second doc giving dot product <strong>31</strong> and |D2| = √30, <code>cos = 31/(√38·√30) = 0.92</code> → <strong>similar</strong> (close to 1). ✓ (recomputed)</p>
+<p><strong>Tutorial Q1 (D1 vs D3):</strong> terms = {machine learning, algorithm, data, model}. Class result: dot product <strong>10</strong>, magnitudes <strong>√30</strong> and <strong>√18</strong>, <code>cos = 10/(√30·√18) ≈ 0.43</code> → weak/low similarity. ✓ (recomputed; the live &quot;√17 vs √18&quot; debate resolves to √18 → 0.43).</p>
+<p><strong>Tutorial Q2 (Shimazu):</strong> given a similarity table, C1 = highest cosine (A), C2 = lowest (C), C3 = the item most dissimilar to <em>both</em> A and C (most total &quot;units away&quot; from 0.77 and 0.95). Pick by summing distances to C1 and C2 and taking the max.</p>
+<p><strong>Tutorial Q3 (IDF, 5 docs, binary):</strong> <code>IDF = log10(N/df)</code>, N = 5:</p>
+<ul>
+<li>AI in 4/5 → log10(5/4) = <strong>0.097</strong> (≈0.09)</li>
+<li>Robot in 2/5 → log10(5/2) = <strong>0.398</strong> (≈0.39)</li>
+<li>Ethics in 3/5 → log10(5/3) = <strong>0.222</strong> ← <em>(the class live-called this &quot;0.39 same as robot&quot; — that&#x27;s a slip; the correct value is 0.22)</em></li>
+<li>a term in 5/5 → log10(1) = <strong>0</strong> → dropped (least informative; most generic).</li>
+<p>Then rebuild the table as binary-TF × IDF (1→IDF value, 0→0) and run cosine of D1 vs each other doc. Class answers: D1·D2 = 0 (D1 had a 0 where D2 was nonzero on the only shared dimension → numerator 0), D1·D3 = 1 (most similar), D1·D4 = D1·D5 = 0.66. → most similar = D3.</p>
+</ul>
+<p><strong>Recommended paper (read in own time):</strong> a machine-learning recommender combining <strong>cosine similarity + KNN</strong> (KNN generalizes cosine — tunable distance: Manhattan, etc.) to recommend a <em>size + concentration</em> in a real industrial deployment, using RF / SVM / linear regression for prediction and similarity for recommendation. Search the title keywords on Google Scholar. Also suggested: find a <strong>review paper on cosine similarity</strong> — easy to digest, great for defending a thesis.</p>
+<ul>
+<li>Side note (journal quality): a student claimed they&#x27;d been told to avoid <strong>MDPI</strong> papers. Lecturer pushed back — MDPI is fine (just pricier to publish in); judge a journal by <strong>impact factor</strong>, not publisher. Don&#x27;t blanket-skip MDPI.</li>
+</ul>
+<hr>
+<h2>Math / Code</h2>
+<pre><code># --- TF-IDF ---
+# TF_norm(t,d) = count(t,d) / sum_k count(k,d)        # normalize: kill long-doc / high-count domination
+# IDF(t)       = log10( N / df(t) )                    # df = #docs containing t; in-all-docs -&gt; 0
+# TFIDF(t,d)   = TF_norm(t,d) * IDF(t)                 # recommend from this weighted table
+# Binary TF: 1 if present else 0  (short docs / less compute) — TFIDF still zeroes ubiquitous terms
+
+# --- Cosine similarity ---
+import numpy as np
+def cosine(a, b):
+    a, b = np.array(a), np.array(b)
+    return float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b)))
+# interpret: 1 identical · ~0.5–1 moderate · 0 orthogonal/dissimilar · &lt;0 opposite
+
+# Verified class example:
+cosine([3,0,2,5], d2_with_dot31_mag_sqrt30)   # -&gt; 0.92  (similar)
+# Tutorial Q1: dot=10, |D1|=sqrt30, |D3|=sqrt18 -&gt; 10/(sqrt30*sqrt18) = 0.43 (weak)
+
+# --- Shimazu (diversity) ---
+# C1 = argmax cosine(query, c)                 # most similar
+# C2 = argmin cosine(query, c)                 # most dissimilar
+# C3 = argmax_c [ d(c,C1) + d(c,C2) ]          # most dissimilar to BOTH</code></pre>
+<p>IDF (N=5) reference: df=4→0.09, df=3→0.22, df=2→0.39, df=5→0 (dropped).</p>
+<hr>
+<h2>Connections</h2>
+<ul>
+<li><strong>Builds on RS-W6 Class 1 (Text-Analytics Preprocessing):</strong> that class produced the cleaned tokens; this class turns them into the <strong>term-document matrix → TF-IDF → cosine</strong> and recommends. Read the two notes as one unit.</li>
+<li><strong>RS CA1 (group, 60%, due 2026-07-10, presentation 07-13):</strong> content-based is a clean second recommender type (alongside ARM/popularity). It directly satisfies CA1&#x27;s required pieces — <strong>cold-start</strong> handling (content-based recommends new items, unlike ARM), <strong>metrics</strong> (cosine + P/R/F1), and <strong>baseline+improved</strong> (binary TF baseline → normalized TF-IDF improved; or cosine baseline → KNN with tuned distance as the improvement, per the recommended paper). The GenAI-integration section can use LLM feature extraction / tagging to build the term-document matrix.</li>
+<li><strong>RS CA2 (XAI/ethics, Week 14):</strong> the lecturer&#x27;s whole pitch — cosine similarity is <strong>fully interpretable</strong> (decomposable to an equation, doable on paper, you know exactly why a rule fired) — is the textbook XAI example. This is the model to foreground for the XAI report. Interpretability <em>must be defined</em> if used in research.</li>
+<li><strong>NLP CA1:</strong> same evaluation discipline — per-class precision/recall/F1 + confusion matrix, NOT accuracy (imbalanced data); same TF-IDF/BoW foundation. SHAP interpretability over BoW ties to today&#x27;s &quot;interpretable model&quot; theme. Reuse the same preprocessing + metric code across both.</li>
+<li><strong>ARM (RS-W5 / dissertation):</strong> today reframed the W5 ARM material via the review paper — interpretability is ARM&#x27;s headline advantage, and content-based is its <strong>complement</strong> (handles the niche/new items ARM&#x27;s support threshold kills). For the dissertation: &quot;interpretability = decompose to an equation, verify by hand&quot; is the same standard Nathan&#x27;s judging-method chapter should meet.</li>
+<li><strong>Paper-reading method</strong> (Part 1) = the ARM module&#x27;s literature-review skill in miniature: underline → quote-with-reference → paragraph-code from the source. Reusable for the ARM proposal (due ~2026-07-08) and dissertation Ch2.</li>
+</ul>
+<hr>
+<h2>Open Questions</h2>
+<ul>
+<li>IDF live-arithmetic slip: the class said Ethics (3/5) ≈ 0.39 &quot;same as robot&quot; — correct is <strong>log10(5/3)=0.22</strong>. Confirm the official tutorial answer key on Moodle so the CA uses right numbers.</li>
+<li>Tutorial Q1 magnitude was debated (√17 vs √18 → 0.44 vs 0.43). Confirm the source matrix from the Moodle tutorial PDF; the documents 1–5 keyword matrix isn&#x27;t in the transcript, so the full IDF/cosine table can&#x27;t be reproduced here without it.</li>
+<li>Title of the recommended <strong>cosine-similarity + KNN industrial paper</strong> wasn&#x27;t captured cleanly — grab the exact keywords from Moodle/the slide.</li>
+<li>Did the team submit the ARM-activity report (due ~4pm)? Confirm.</li>
+<li>Nitya (the other lecturer) will likely re-run the cosine/Shimazu tutorial <strong>in Python</strong> next — watch Moodle for that notebook.</li>
+</ul>
+<hr>
+<h2>Flashcards (SR)</h2>
+<ul>
+<li>Q: Personalized vs non-personalized content-based?</li>
+<p>A: Personalized = per-individual from their preferences; non-personalized = group behaviour (popularity/trending), ignores individual history. Class focused on non-personalized.</p>
+<li>Q: Cosine similarity formula and interpretation?</li>
+<p>A: cos θ = (A·B)/(|A||B|), range 0–1. 1 = identical (0°); ~0.5–1 moderate; 0 = orthogonal/dissimilar (90°); &lt;0 opposite.</p>
+<li>Q: What does normalization fix in TF, and IDF?</li>
+<p>A: Normalization scales counts to 0–1 so long docs / high-count terms don&#x27;t dominate (relative not absolute). IDF = log(N/df) down-weights terms in many docs; a term in <em>all</em> docs → IDF 0 → dropped.</p>
+<li>Q: TF-IDF net effect?</li>
+<p>A: Removes (1) over-long-document bias [normalization] and (2) ubiquitous non-discriminating terms [IDF]; the weighted table is what you recommend from.</p>
+<li>Q: Shimazu algorithm — the three picks?</li>
+<p>A: C1 = most similar, C2 = most dissimilar, C3 = most dissimilar to both C1 and C2. Balances similarity and diversity.</p>
+<li>Q: Content-based advantages vs disadvantages?</li>
+<p>A: + easy to implement, handles new items (cold start), recommends niche items (opposite of ARM). − depends on feature-extraction quality, no high/low-quality ranking.</p>
+<li>Q: When use precision/recall/F1 over accuracy?</li>
+<p>A: Imbalanced classes (fraud ~1% → 98% accuracy worthless) and asymmetric error costs (medical → avoid mistakes; actionable → recall). F1 balances the two.</p>
+<li>Q: Why is cosine similarity good to defend in a thesis (interpretability)?</li>
+<p>A: Fully interpretable — decompose to an equation, compute on paper, know exactly why each recommendation arose. Must define &quot;interpretability&quot; if you use the term.</p>
+<li>Q: Verified cosine example?</li>
+<p>A: D1=[3,0,2,5], |D1|=√38, dot=31, |D2|=√30 → 31/(√38·√30)=0.92 (similar).</p>
+<li>Q: IDF values for N=5 docs (df 4/3/2/5)?</li>
+<p>A: log10(5/4)=0.09, log10(5/3)=0.22, log10(5/2)=0.39, log10(5/5)=0 (dropped).</p>
+</ul>
+<hr>
+<h2>References</h2>
+<ul>
+<li>Tutorial PDF + content-based slides (Moodle) — confirm exact filenames; the documents 1–5 keyword matrix lives there.</li>
+<li>Recommended paper: cosine similarity + KNN industrial recommender (RF/SVM/linear regression for prediction) — search title keywords on Google Scholar.</li>
+<li>Previous: <code>outputs/class-notes/RS-W6-TextAnalyticsPreprocessingForContentBased.md</code>, <code>outputs/class-notes/RS-W5-AssociationRuleMining.md</code></li>
+<li>Assessments: <code>msc-coursework/inputs/assessments.md</code> (RS CA1 due 2026-07-10, presentation 07-13; CA2 XAI/ethics Week 14)</li>
+<li>Transcript pasted into Cowork 2026-06-20.</li>
+</ul>
+<hr>
+<h2>Next Steps</h2>
+<ul>
+<li>[ ] Pull the tutorial PDF (documents 1–5 matrix) from Moodle and re-do Q1–Q3 fully in Python to confirm the IDF/cosine answer key (the live IDF for Ethics was wrong — 0.22 not 0.39).</li>
+<li>[ ] Grab the exact title of the cosine+KNN industrial paper and skim it — it&#x27;s a direct template for RS CA1 (similarity for recommendation + ML for prediction, with real metrics).</li>
+<li>[ ] For RS CA1: lock content-based as recommender-type #2 — baseline (binary TF cosine) → improved (normalized TF-IDF, or KNN with tuned distance). Map it onto cold-start + GenAI-integration requirements explicitly.</li>
+<li>[ ] For RS CA2 (XAI): foreground cosine similarity as the interpretable model; write the &quot;decompose-to-equation&quot; interpretability definition.</li>
+<li>[ ] Confirm the ARM-activity report was submitted by the team.</li>
+</ul><footer><span class="script">nathan-os</span><span class="mono">Generated from local class notes - 09:15 IST - 20 Jun 2026</span></footer></div></body></html>
